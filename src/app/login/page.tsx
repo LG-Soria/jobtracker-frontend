@@ -1,6 +1,6 @@
 'use client';
 
-import { type FormEvent, useEffect, useMemo, useState } from 'react';
+import { Suspense, type FormEvent, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ApiError } from '../../lib/apiClient';
 import { Button } from '../../components/ui/button';
@@ -12,6 +12,14 @@ const DEMO_EMAIL = 'demo@jobtracker.com';
 const DEMO_PASSWORD = 'Demo1234!';
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<SuspenseFallback />}>
+      <LoginPageContent />
+    </Suspense>
+  );
+}
+
+function LoginPageContent() {
   const { login, isAuthenticated, isLoadingSession } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -167,6 +175,17 @@ export default function LoginPage() {
             llevamos de regreso a esta pantalla.
           </p>
         </form>
+      </div>
+    </main>
+  );
+}
+
+function SuspenseFallback() {
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+      <div className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <p className="text-base font-semibold text-slate-800">Cargando login...</p>
+        <p className="text-sm text-slate-600">Preparando los parametros de la URL.</p>
       </div>
     </main>
   );
