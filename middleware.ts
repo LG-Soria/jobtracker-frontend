@@ -11,11 +11,7 @@ function isPublicPath(pathname: string) {
 
 function isProtectedPath(pathname: string) {
   if (isPublicPath(pathname)) return false;
-  if (PROTECTED_PREFIXES.some((path) => pathname === path || pathname.startsWith(`${path}/`))) {
-    return true;
-  }
-  // Treat any other app route (non-asset, non-API) as private by default.
-  return true;
+  return PROTECTED_PREFIXES.some((path) => pathname === path || pathname.startsWith(`${path}/`));
 }
 
 export function middleware(req: NextRequest) {
@@ -32,9 +28,7 @@ export function middleware(req: NextRequest) {
   if (isProtectedPath(pathname) && !hasAuthCookie) {
     const loginUrl = new URL('/login', req.url);
     const redirectTarget = `${pathname}${search}`;
-    if (redirectTarget !== '/') {
-      loginUrl.searchParams.set('redirectTo', redirectTarget);
-    }
+    loginUrl.searchParams.set('redirectTo', redirectTarget);
     return NextResponse.redirect(loginUrl);
   }
 
@@ -42,8 +36,7 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // Skip assets and API routes; run only on relevant app paths.
   matcher: [
-    '/((?!api|_next/static|_next/image|_next/data|favicon.ico|static|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp|avif|css|js|map)$).*)',
+    '/((?!api|_next|favicon.ico|static|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp|avif|css|js|map)$).*)',
   ],
 };
