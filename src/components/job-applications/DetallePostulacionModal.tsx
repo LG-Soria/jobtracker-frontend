@@ -1,16 +1,16 @@
-﻿'use client';
+'use client';
 
 /**
  * DetallePostulacionModal
  * -----------------------
  * Componente Client (Next App Router) que renderiza un overlay full-screen
- * mostrando el detalle de una postulaciï¿½n + ediciï¿½n inline + actualizaciï¿½n de estado
- * con confirmaciï¿½n + historial auditable.
+ * mostrando el detalle de una postulaci�n + edici�n inline + actualizaci�n de estado
+ * con confirmaci�n + historial auditable.
  *
  * Puntos importantes:
  * - Se apoya en `applicationId` (viene desde la ruta /dashboard/applications/[id]).
- * - Hace 2 cargas asï¿½ncronas: detalle y historial.
- * - Usa `isMountedRef` para evitar setState cuando el componente ya se desmontï¿½.
+ * - Hace 2 cargas as�ncronas: detalle y historial.
+ * - Usa `isMountedRef` para evitar setState cuando el componente ya se desmont�.
  * - Implementa guardas de cambios sin guardar (close, back, unload).
  */
 
@@ -20,7 +20,6 @@ import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 
 import {
-  getJobApplication,
   type UpdateJobApplicationPayload,
   updateJobApplication,
   updateJobApplicationStatus,
@@ -40,42 +39,33 @@ import { DetailItem } from '../../features/job-applications/detail/components/De
 import { HistorySection } from '../../features/job-applications/detail/components/ApplicationHistorySection';
 import { StatusUpdater } from '../../features/job-applications/detail/components/ApplicationStatusUpdater';
 import { formatApplicationDate } from '../../features/job-applications/detail/utils/formatters';
+import { useApplicationDetail } from '../../features/job-applications/detail/hooks/useApplicationDetail';
 import { useApplicationHistory } from '../../features/job-applications/detail/hooks/useApplicationHistory';
 import { useToast } from '../../features/job-applications/detail/hooks/useToast';
 
 type DetallePostulacionModalProps = {
-  /** ID de la postulaciï¿½n a cargar (debe ser un UUID/string vï¿½lido). */
+  /** ID de la postulaci�n a cargar (debe ser un UUID/string v�lido). */
   applicationId: string;
 };
 
 export function DetallePostulacionModal({ applicationId }: DetallePostulacionModalProps) {
   const router = useRouter();
 
-  // ----------------------
-  // Estado principal (detalle)
-  // ----------------------
-  const [application, setApplication] = useState<JobApplication | null>(null);
-
   /**
-   * Estado ï¿½pendienteï¿½ del select de estado.
+   * Estado �pendiente� del select de estado.
    * No se persiste al backend hasta presionar Confirmar.
    */
   const [pendingStatus, setPendingStatus] = useState<JobStatus | null>(null);
 
-  // ----------------------
-  // Estado de carga / error del detalle
-  // ----------------------
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   // ----------------------
-  // Estado de actualizaciï¿½n del status (confirmaciï¿½n)
+  // Estado de actualizaci�n del status (confirmaci�n)
   // ----------------------
   const [updating, setUpdating] = useState(false);
   const [updateError, setUpdateError] = useState<string | null>(null);
 
   // ----------------------
-  // Estado del formulario editable (ediciï¿½n inline)
+  // Estado del formulario editable (edici�n inline)
   // ----------------------
   const [formValues, setFormValues] = useState({
     company: '',
@@ -89,12 +79,12 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   const [saveError, setSaveError] = useState<string | null>(null);
 
   // ----------------------
-  // Toast simple (sin librerï¿½a)
+  // Toast simple (sin librer�a)
   // ----------------------
   const { toastMessage, showToast, clearToast } = useToast();
 
   /**
-   * Flag para evitar setState despuï¿½s de un unmount.
+   * Flag para evitar setState despu�s de un unmount.
    * - Se inicializa en true.
    * - En el cleanup se setea false.
    * Importante: si el modal se vuelve a montar en el futuro, el useRef se recrea,
@@ -103,10 +93,32 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   const isMountedRef = useRef(true);
 
   /**
-   * Flag para evitar el prompt de ï¿½cambios sin guardarï¿½ cuando el cierre se disparï¿½
+   * Flag para evitar el prompt de �cambios sin guardar� cuando el cierre se dispar�
    * desde un flujo controlado (por ejemplo, handleClose que hace router.back()).
    */
   const skipUnsavedPromptRef = useRef(false);
+
+  const resetDetailState = useCallback(() => {
+    setUpdateError(null);
+    setPendingStatus(null);
+  }, []);
+
+  const syncPendingStatus = useCallback((data: JobApplication) => {
+    setPendingStatus(data.status);
+  }, []);
+
+  const {
+    application,
+    setApplication,
+    loading,
+    error,
+    refetch: refetchApplication,
+  } = useApplicationDetail({
+    applicationId,
+    isMountedRef,
+    onBeforeFetch: resetDetailState,
+    onSuccess: syncPendingStatus,
+  });
 
   const {
     history,
@@ -115,69 +127,9 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
     refetch: refetchHistory,
   } = useApplicationHistory({ applicationId, isMountedRef });
 
-  // ----------------------
-  // Helpers de toast
-  // ----------------------
 
   // ----------------------
-  // Fetch del detalle
-  // ----------------------
-  const fetchApplication = useCallback(async () => {
-    // Se resetea el estado para mostrar skeleton y evitar data vieja.
-    setLoading(true);
-    setError(null);
-    setUpdateError(null);
-    setApplication(null);
-    setPendingStatus(null);
-
-    // Guard clause: evita pegarle al backend con undefined/empty.
-    if (!applicationId) {
-      console.log('No application ID provided');
-      setError('ID de postulacion no proporcionado');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      // Segundo guard (redundante). Se puede dejar uno solo.
-      if (!applicationId) return;
-
-      const data = await getJobApplication(applicationId);
-
-      // Evita setState si el componente ya se desmontï¿½.
-      if (!isMountedRef.current) return;
-
-      setApplication(data);
-      setPendingStatus(data.status);
-    } catch (err) {
-      if (!isMountedRef.current) return;
-      const message = err instanceof Error ? err.message : 'Error al cargar la postulacion';
-      setError(message);
-      setApplication(null);
-    } finally {
-      if (isMountedRef.current) {
-        setLoading(false);
-      }
-    }
-  }, [applicationId]);
-
-
-  /**
-   * Efecto de carga inicial (detalle).
-   * Se dispara en mount y cuando cambia applicationId.
-   *
-   * Importante:
-   * - Esta bien que dependa de fetchApplication porque es useCallback
-   *   (se recrea solo cuando cambia applicationId).
-   * - Si se viera una tormenta de requests, la causa tipica seria que applicationId
-   *   cambia repetidamente o que el componente se monta/desmonta en loop.
-   */
-  useEffect(() => {
-    fetchApplication();
-  }, [fetchApplication]);
-
-  // ----------------------
-  // Sincronizaciï¿½n application -> formValues
+  // Sincronizaci�n application -> formValues
   // ----------------------
   useEffect(() => {
     if (!application) return;
@@ -195,7 +147,7 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   }, [application]);
 
   // ----------------------
-  // Detecciï¿½n de ï¿½dirty stateï¿½ (cambios sin guardar)
+  // Detecci�n de �dirty state� (cambios sin guardar)
   // ----------------------
   const hasFormChanges =
     application !== null &&
@@ -209,10 +161,10 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
     application !== null && pendingStatus !== null && pendingStatus !== application.status;
 
   const hasUnsavedChanges = hasFormChanges || hasPendingStatusChange;
-  const unsavedPromptMessage = 'Tenes cambios sin guardar. ï¿½Salir sin guardar?';
+  const unsavedPromptMessage = 'Tenes cambios sin guardar. �Salir sin guardar?';
 
   /**
-   * Confirmaciï¿½n centralizada para salir si hay cambios sin guardar.
+   * Confirmaci�n centralizada para salir si hay cambios sin guardar.
    */
   const confirmExitIfDirty = useCallback(() => {
     if (!hasUnsavedChanges) return true;
@@ -221,8 +173,8 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
 
   /**
    * Cierre controlado del modal.
-   * - Si hay cambios sin guardar, pide confirmaciï¿½n.
-   * - Usa router.back() para respetar el patrï¿½n route-modal.
+   * - Si hay cambios sin guardar, pide confirmaci�n.
+   * - Usa router.back() para respetar el patr�n route-modal.
    */
   const handleClose = useCallback(() => {
     if (!confirmExitIfDirty()) return;
@@ -231,7 +183,7 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   }, [confirmExitIfDirty, router]);
 
   /**
-   * Hook para interceptar navegaciï¿½n ï¿½atrï¿½sï¿½ del navegador.
+   * Hook para interceptar navegaci�n �atr�s� del navegador.
    * Se usa popstate porque el modal se cierra con router.back().
    *
    * Nota:
@@ -259,7 +211,7 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   }, [hasUnsavedChanges, unsavedPromptMessage]);
 
   /**
-   * Protecciï¿½n al cerrar pestaï¿½a / refresh del browser.
+   * Protecci�n al cerrar pesta�a / refresh del browser.
    * Esto es independiente del route-modal.
    */
   useEffect(() => {
@@ -310,7 +262,7 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   };
 
   // ----------------------
-  // Handlers de ediciï¿½n inline
+  // Handlers de edici�n inline
   // ----------------------
   const handleFieldChange = (field: keyof typeof formValues, value: string) => {
     setFormValues((prev) => ({ ...prev, [field]: value }));
@@ -344,7 +296,7 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
    * Guardado inline de cambios en campos.
    * - Construye un payload PATCH minimal (solo cambia lo que difiere).
    * - Valida requeridos: company, position, source.
-   * - Espera confirmaciï¿½n backend (no optimistic).
+   * - Espera confirmaci�n backend (no optimistic).
    */
   const handleSaveChanges = async () => {
     if (!application || !hasFormChanges || saving) return;
@@ -365,13 +317,13 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
     if (formValues.position !== application.position) payload.position = position;
     if (formValues.source !== application.source) payload.source = source;
 
-    // Notas: se normaliza a null si queda vacï¿½o.
+    // Notas: se normaliza a null si queda vac�o.
     if (formValues.notes !== (application.notes ?? '')) {
       const cleanedNotes = formValues.notes.trim();
       payload.notes = cleanedNotes === '' ? null : formValues.notes;
     }
 
-    // URL: se normaliza a null si queda vacï¿½o.
+    // URL: se normaliza a null si queda vac�o.
     if (formValues.jobUrl !== (application.jobUrl ?? '')) {
       payload.jobUrl = jobUrl === '' ? null : jobUrl;
     }
@@ -407,7 +359,7 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   /**
    * Confirmar cambio de estado.
    * - No persiste hasta confirmar.
-   * - Refresca historial al ï¿½xito.
+   * - Refresca historial al �xito.
    */
   const handleConfirmStatus = async () => {
     if (!application || !pendingStatus || pendingStatus === application.status) return;
@@ -499,7 +451,7 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
                 <p className="text-sm text-red-800">{error}</p>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={fetchApplication}>
+                <Button variant="outline" onClick={refetchApplication}>
                   Reintentar
                 </Button>
               </div>
