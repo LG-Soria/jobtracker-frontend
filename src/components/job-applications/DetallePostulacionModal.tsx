@@ -4,11 +4,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type React from 'react';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
-import { getJobApplication } from '../../services/jobApplicationsApi';
-import { getJobStatusLabel, type JobApplication } from '../../types/jobApplication';
+import { getJobApplication, updateJobApplicationStatus } from '../../services/jobApplicationsApi';
+import { getJobStatusLabel, type JobApplication, JobStatus } from '../../types/jobApplication';
 import { Skeleton } from '../ui/skeleton';
 import { Button } from '../ui/button';
 import { format } from 'date-fns';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 type DetallePostulacionModalProps = {
   applicationId: string;
@@ -17,22 +18,46 @@ type DetallePostulacionModalProps = {
 export function DetallePostulacionModal({ applicationId }: DetallePostulacionModalProps) {
   const router = useRouter();
   const [application, setApplication] = useState<JobApplication | null>(null);
+  const [pendingStatus, setPendingStatus] = useState<JobStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [updating, setUpdating] = useState(false);
+  const [updateError, setUpdateError] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isMountedRef = useRef(true);
 
   const handleClose = useCallback(() => {
     router.back();
   }, [router]);
 
+  const clearToast = () => {
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+      toastTimeoutRef.current = null;
+    }
+  };
+
+  const showToast = (message: string) => {
+    clearToast();
+    setToastMessage(message);
+    toastTimeoutRef.current = setTimeout(() => {
+      setToastMessage(null);
+    }, 3000);
+  };
+
   const fetchApplication = useCallback(async () => {
     setLoading(true);
     setError(null);
+    setUpdateError(null);
+    setApplication(null);
+    setPendingStatus(null);
 
     try {
       const data = await getJobApplication(applicationId);
       if (!isMountedRef.current) return;
       setApplication(data);
+      setPendingStatus(data.status);
     } catch (err) {
       if (!isMountedRef.current) return;
       const message = err instanceof Error ? err.message : 'Error al cargar la postulacion';
@@ -52,6 +77,7 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   useEffect(() => {
     return () => {
       isMountedRef.current = false;
+      clearToast();
     };
   }, []);
 
@@ -69,6 +95,32 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       handleClose();
+    }
+  };
+
+  const handleCancelStatus = () => {
+    setPendingStatus(application?.status ?? null);
+    setUpdateError(null);
+  };
+
+  const handleConfirmStatus = async () => {
+    if (!application || !pendingStatus || pendingStatus === application.status) return;
+    setUpdating(true);
+    setUpdateError(null);
+    try {
+      const updated = await updateJobApplicationStatus(application.id, pendingStatus);
+      if (!isMountedRef.current) return;
+      setApplication(updated);
+      setPendingStatus(updated.status);
+      showToast('Estado actualizado');
+    } catch (err) {
+      if (!isMountedRef.current) return;
+      const message = err instanceof Error ? err.message : 'No se pudo actualizar el estado';
+      setUpdateError(message);
+    } finally {
+      if (isMountedRef.current) {
+        setUpdating(false);
+      }
     }
   };
 
@@ -143,7 +195,18 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
                   <DetailItem label="Empresa" value={application.company} />
                   <DetailItem label="Fuente" value={application.source} />
                   <DetailItem label="Fecha" value={formattedDate ?? application.applicationDate} />
-                  <DetailItem label="Estado" value={getJobStatusLabel(application.status)} />
+                  <StatusUpdater
+                    value={pendingStatus ?? application.status}
+                    current={application.status}
+                    updating={updating}
+                    onChange={(value) => {
+                      setPendingStatus(value);
+                      setUpdateError(null);
+                    }}
+                    onCancel={handleCancelStatus}
+                    onConfirm={handleConfirmStatus}
+                    error={updateError}
+                  />
                   <DetailItem
                     label="URL"
                     value={
@@ -177,6 +240,13 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
           ) : null}
         </main>
       </div>
+      {toastMessage && (
+        <div className="pointer-events-none fixed bottom-6 right-6 z-50">
+          <div className="rounded-lg bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-2xl">
+            {toastMessage}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -190,13 +260,72 @@ function DetailItem({ label, value }: { label: string; value: React.ReactNode })
   );
 }
 
+type StatusUpdaterProps = {
+  value: JobStatus;
+  current: JobStatus;
+  updating: boolean;
+  onChange: (value: JobStatus) => void;
+  onConfirm: () => void;
+  onCancel: () => void;
+  error: string | null;
+};
+
+function StatusUpdater({
+  value,
+  current,
+  updating,
+  onChange,
+  onConfirm,
+  onCancel,
+  error,
+}: StatusUpdaterProps) {
+  const isDirty = value !== current;
+
+  return (
+    <div className="space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm">
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Estado</p>
+          <p className="text-xs text-slate-500">Cambiar estado con confirmacion</p>
+        </div>
+        {updating && <span className="text-xs font-semibold uppercase text-slate-500">Guardando...</span>}
+      </div>
+      <Select
+        value={value}
+        onValueChange={(val) => onChange(val as JobStatus)}
+        disabled={updating}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Selecciona estado" />
+        </SelectTrigger>
+        <SelectContent>
+          {Object.values(JobStatus).map((status) => (
+            <SelectItem key={status} value={status}>
+              {getJobStatusLabel(status)}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      {error && <p className="text-xs text-red-600">{error}</p>}
+      <div className="flex flex-wrap gap-2">
+        <Button size="sm" disabled={!isDirty || updating} onClick={onConfirm}>
+          Confirmar cambio
+        </Button>
+        <Button size="sm" variant="outline" disabled={!isDirty || updating} onClick={onCancel}>
+          Cancelar
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 function DetalleSkeleton() {
   return (
     <div className="space-y-5">
       <section className="rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-4">
         <Skeleton className="h-4 w-24" />
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          {[0, 1, 2, 3, 4, 5].map((idx) => (
+          {[0, 1, 2, 3, 4].map((idx) => (
             <div
               key={idx}
               className="space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm"
@@ -205,6 +334,14 @@ function DetalleSkeleton() {
               <Skeleton className="h-4 w-36" />
             </div>
           ))}
+          <div className="space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm">
+            <Skeleton className="h-3 w-20" />
+            <Skeleton className="h-10 w-full" />
+            <div className="flex gap-2">
+              <Skeleton className="h-8 w-28" />
+              <Skeleton className="h-8 w-24" />
+            </div>
+          </div>
         </div>
       </section>
 
