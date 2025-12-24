@@ -24,6 +24,10 @@ export type PaginatedJobApplicationsResponse = {
   meta: PaginationMeta;
 };
 
+export type SalaryCurrency = 'ARS' | 'USD' | 'EUR';
+export type SalaryPeriod = 'Mensual' | 'Anual' | 'Hora';
+export type SalaryType = 'Bruto' | 'Neto';
+
 export type CreateJobApplicationPayload = {
   company: string;
   position: string;
@@ -32,6 +36,11 @@ export type CreateJobApplicationPayload = {
   status: JobStatus;
   notes?: string;
   jobUrl?: string;
+  salaryMin?: number;
+  salaryMax?: number;
+  salaryCurrency?: SalaryCurrency;
+  salaryPeriod?: SalaryPeriod;
+  salaryType?: SalaryType;
 };
 
 export async function getJobApplications(

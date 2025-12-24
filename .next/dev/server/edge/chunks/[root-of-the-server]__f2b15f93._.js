@@ -37,11 +37,7 @@ function isPublicPath(pathname) {
 }
 function isProtectedPath(pathname) {
     if (isPublicPath(pathname)) return false;
-    if (PROTECTED_PREFIXES.some((path)=>pathname === path || pathname.startsWith(`${path}/`))) {
-        return true;
-    }
-    // Treat any other app route (non-asset, non-API) as private by default.
-    return true;
+    return PROTECTED_PREFIXES.some((path)=>pathname === path || pathname.startsWith(`${path}/`));
 }
 function middleware(req) {
     const { pathname, search } = req.nextUrl;
@@ -55,17 +51,14 @@ function middleware(req) {
     if (isProtectedPath(pathname) && !hasAuthCookie) {
         const loginUrl = new URL('/login', req.url);
         const redirectTarget = `${pathname}${search}`;
-        if (redirectTarget !== '/') {
-            loginUrl.searchParams.set('redirectTo', redirectTarget);
-        }
+        loginUrl.searchParams.set('redirectTo', redirectTarget);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$web$2f$exports$2f$index$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["NextResponse"].redirect(loginUrl);
     }
     return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$esm$2f$server$2f$web$2f$exports$2f$index$2e$js__$5b$middleware$2d$edge$5d$__$28$ecmascript$29$__["NextResponse"].next();
 }
 const config = {
-    // Skip assets and API routes; run only on relevant app paths.
     matcher: [
-        '/((?!api|_next/static|_next/image|_next/data|favicon.ico|static|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp|avif|css|js|map)$).*)'
+        '/((?!api|_next|favicon.ico|static|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp|avif|css|js|map)$).*)'
     ]
 };
 }),

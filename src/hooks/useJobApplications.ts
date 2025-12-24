@@ -14,6 +14,12 @@ import {
 } from '../services/jobApplicationsApi';
 import { JobApplication, JobStatus } from '../types/jobApplication';
 
+export type FormSuccessState = {
+  message: string;
+  company: string;
+  position?: string;
+} | null;
+
 type DateRangePreset = 'all' | '7d' | '30d';
 type ViewMode = 'byDay' | 'all';
 
@@ -31,7 +37,7 @@ export function useJobApplications() {
   const [metricsLoading, setMetricsLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [formSuccess, setFormSuccess] = useState<string | null>(null);
+  const [formSuccess, setFormSuccess] = useState<FormSuccessState>(null);
   const [listSuccess, setListSuccess] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<JobStatus | 'all'>('all');
   const [dateRange, setDateRange] = useState<DateRangePreset>('all');
@@ -226,15 +232,19 @@ export function useJobApplications() {
       setLoading(true);
       setError(null);
       setFormSuccess(null);
-      setListSuccess(null);
-      try {
-        await createJobApplication(payload);
-        setFormSuccess('Postulacion registrada. Seguimos midiendo tu progreso!');
-        setPage(1);
-        await load({ page: 1 });
-      } catch (err) {
-        setError(toMessage(err, 'No pudimos guardar la postulacion. Intenta otra vez.'));
-        throw err;
+    setListSuccess(null);
+    try {
+      await createJobApplication(payload);
+      setFormSuccess({
+        message: 'Postulacion registrada. Seguimos midiendo tu progreso!',
+        company: payload.company.trim(),
+        position: payload.position.trim() || undefined,
+      });
+      setPage(1);
+      await load({ page: 1 });
+    } catch (err) {
+      setError(toMessage(err, 'No pudimos guardar la postulacion. Intenta otra vez.'));
+      throw err;
       } finally {
         setLoading(false);
       }

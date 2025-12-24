@@ -1,6 +1,6 @@
 'use client';
 
-import { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { cn } from '../../lib/utils';
@@ -15,6 +15,7 @@ type SuggestionInputProps = {
   placeholder?: string;
   required?: boolean;
   persistKey?: string;
+  inputRef?: RefObject<HTMLInputElement>;
 };
 
 export function SuggestionInput({
@@ -26,9 +27,11 @@ export function SuggestionInput({
   placeholder,
   required = false,
   persistKey,
+  inputRef: inputRefProp,
 }: SuggestionInputProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const internalInputRef = useRef<HTMLInputElement>(null);
+  const inputRef = inputRefProp ?? internalInputRef;
   const [open, setOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
   const [removedOptions, setRemovedOptions] = useState<string[]>([]);

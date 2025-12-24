@@ -38,7 +38,7 @@ __turbopack_context__.s([
     "setUnauthorizedHandler",
     ()=>setUnauthorizedHandler
 ]);
-const API_URL = ("TURBOPACK compile-time value", "http://localhost:3000") || 'http://localhost:3000';
+const API_URL = ("TURBOPACK compile-time value", "https://api-jt.soriavps.cloud") || 'http://localhost:3000';
 let unauthorizedHandler = null;
 function setUnauthorizedHandler(handler) {
     unauthorizedHandler = handler;

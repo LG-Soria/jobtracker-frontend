@@ -175,9 +175,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 ;
 ;
 ;
-function SuggestionInput({ label, value, onChange, options, name, placeholder, required = false, persistKey }) {
+function SuggestionInput({ label, value, onChange, options, name, placeholder, required = false, persistKey, inputRef: inputRefProp }) {
     const containerRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
-    const inputRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const internalInputRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const inputRef = inputRefProp ?? internalInputRef;
     const [open, setOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [highlightedIndex, setHighlightedIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [removedOptions, setRemovedOptions] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
@@ -314,7 +315,7 @@ function SuggestionInput({ label, value, onChange, options, name, placeholder, r
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                lineNumber: 160,
+                lineNumber: 163,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -342,7 +343,7 @@ function SuggestionInput({ label, value, onChange, options, name, placeholder, r
                         autoComplete: "off"
                     }, void 0, false, {
                         fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                        lineNumber: 165,
+                        lineNumber: 168,
                         columnNumber: 9
                     }, this),
                     open && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -363,7 +364,7 @@ function SuggestionInput({ label, value, onChange, options, name, placeholder, r
                                                     children: opt
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                                                    lineNumber: 204,
+                                                    lineNumber: 207,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -371,13 +372,13 @@ function SuggestionInput({ label, value, onChange, options, name, placeholder, r
                                                     children: "Seleccionar"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                                                    lineNumber: 205,
+                                                    lineNumber: 208,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                                            lineNumber: 198,
+                                            lineNumber: 201,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -393,18 +394,18 @@ function SuggestionInput({ label, value, onChange, options, name, placeholder, r
                                                 className: "h-4 w-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                                                lineNumber: 217,
+                                                lineNumber: 220,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                                            lineNumber: 207,
+                                            lineNumber: 210,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, opt, true, {
                                     fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                                    lineNumber: 190,
+                                    lineNumber: 193,
                                     columnNumber: 15
                                 }, this)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -420,7 +421,7 @@ function SuggestionInput({ label, value, onChange, options, name, placeholder, r
                                             children: "Agregar nuevo"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                                            lineNumber: 232,
+                                            lineNumber: 235,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -428,36 +429,36 @@ function SuggestionInput({ label, value, onChange, options, name, placeholder, r
                                             children: "Segui escribiendo"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                                            lineNumber: 233,
+                                            lineNumber: 236,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                                    lineNumber: 223,
+                                    lineNumber: 226,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                                lineNumber: 222,
+                                lineNumber: 225,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                        lineNumber: 188,
+                        lineNumber: 191,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-                lineNumber: 164,
+                lineNumber: 167,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/job-applications/SuggestionInput.tsx",
-        lineNumber: 159,
+        lineNumber: 162,
         columnNumber: 5
     }, this);
 }
@@ -789,6 +790,7 @@ __turbopack_context__.s([
     ()=>FormularioPostulacion
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/styled-jsx/style.js [app-ssr] (ecmascript)");
 // Specification: Form to create a new job application.
 // Renders required fields, performs minimal validation, and submits via provided callback.
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
@@ -802,9 +804,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$s
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$popover$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/popover.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$calendar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/calendar.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$calendar$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Calendar$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/calendar.js [app-ssr] (ecmascript) <export default as Calendar>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/x.js [app-ssr] (ecmascript) <export default as X>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/node_modules/date-fns/format.js [app-ssr] (ecmascript) <locals>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$parseISO$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/date-fns/parseISO.js [app-ssr] (ecmascript)");
 'use client';
+;
 ;
 ;
 ;
@@ -828,12 +832,30 @@ const initialState = ()=>({
         notes: '',
         jobUrl: ''
     });
+const DEFAULT_SALARY_CURRENCY = 'ARS';
+const DEFAULT_SALARY_PERIOD = 'Mensual';
 function FormularioPostulacion({ onSubmit, loading = false, error = null, success = null, suggestions = {
     positions: [],
     sources: []
 } }) {
     const [form, setForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(initialState());
     const [localError, setLocalError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [isSuccessDismissed, setIsSuccessDismissed] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [includeSalaryRange, setIncludeSalaryRange] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [salaryInputs, setSalaryInputs] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
+        min: '',
+        max: ''
+    });
+    const [showSalaryBlock, setShowSalaryBlock] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [salaryAnimatingOut, setSalaryAnimatingOut] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const hideTimeoutRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const [salaryContainerHeight, setSalaryContainerHeight] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
+    const salaryContentRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const firstInputRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const formatNumber = (value)=>{
+        if (value === undefined || Number.isNaN(value)) return '';
+        return new Intl.NumberFormat('es-AR').format(value);
+    };
     const handleSubmit = async (e)=>{
         e.preventDefault();
         setLocalError(null);
@@ -841,13 +863,52 @@ function FormularioPostulacion({ onSubmit, loading = false, error = null, succes
             setLocalError('Completa los campos obligatorios');
             return;
         }
+        if (includeSalaryRange) {
+            const { salaryMin, salaryMax } = form;
+            if (salaryMin !== undefined && salaryMin < 0) {
+                setLocalError('El salario minimo no puede ser negativo');
+                return;
+            }
+            if (salaryMax !== undefined && salaryMax < 0) {
+                setLocalError('El salario maximo no puede ser negativo');
+                return;
+            }
+            if (salaryMin !== undefined && salaryMax !== undefined && salaryMax < salaryMin) {
+                setLocalError('El salario maximo debe ser mayor o igual al minimo');
+                return;
+            }
+        }
         try {
             await onSubmit({
                 ...form,
                 notes: form.notes || undefined,
-                jobUrl: form.jobUrl || undefined
+                jobUrl: form.jobUrl || undefined,
+                ...includeSalaryRange ? {} : {
+                    salaryMin: undefined,
+                    salaryMax: undefined,
+                    salaryCurrency: undefined,
+                    salaryPeriod: undefined,
+                    salaryType: undefined
+                }
             });
             setForm(initialState());
+            setSalaryInputs({
+                min: '',
+                max: ''
+            });
+            if (hideTimeoutRef.current) {
+                clearTimeout(hideTimeoutRef.current);
+                hideTimeoutRef.current = null;
+            }
+            if (showSalaryBlock) {
+                setSalaryAnimatingOut(true);
+                hideTimeoutRef.current = setTimeout(()=>{
+                    setShowSalaryBlock(false);
+                    setSalaryAnimatingOut(false);
+                }, 220);
+            }
+            setIncludeSalaryRange(false);
+            firstInputRef.current?.focus();
         } catch (err) {
             const message = err instanceof Error ? err.message : 'Error al crear postulacion';
             setLocalError(message);
@@ -864,6 +925,21 @@ function FormularioPostulacion({ onSubmit, loading = false, error = null, succes
                     [field]: e.target.value
                 }));
         };
+    const handleNumberChange = (field)=>(e)=>{
+            const raw = e.target.value;
+            const digitsOnly = raw.replace(/[^\d]/g, '');
+            const numeric = digitsOnly ? Number(digitsOnly) : undefined;
+            const formatted = digitsOnly ? formatNumber(numeric) : '';
+            const key = field === 'salaryMin' ? 'min' : 'max';
+            setSalaryInputs((prev)=>({
+                    ...prev,
+                    [key]: formatted
+                }));
+            setForm((prev)=>({
+                    ...prev,
+                    [field]: numeric
+                }));
+        };
     const handleValueChange = (field)=>(value)=>{
             setForm((prev)=>({
                     ...prev,
@@ -872,314 +948,842 @@ function FormularioPostulacion({ onSubmit, loading = false, error = null, succes
         };
     const selectedDate = form.applicationDate ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$parseISO$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["parseISO"])(form.applicationDate) : undefined;
     const [dateOpen, setDateOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-        onSubmit: handleSubmit,
-        onKeyDown: handleKeyDown,
-        className: "space-y-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm",
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (success) {
+            setIsSuccessDismissed(false);
+        }
+    }, [
+        success
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        return ()=>{
+            if (hideTimeoutRef.current) {
+                clearTimeout(hideTimeoutRef.current);
+            }
+        };
+    }, []);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if (!showSalaryBlock) {
+            setSalaryContainerHeight(0);
+            return;
+        }
+        const measure = ()=>{
+            if (salaryContentRef.current) {
+                const nextHeight = salaryContentRef.current.scrollHeight;
+                setSalaryContainerHeight(nextHeight);
+                if (salaryAnimatingOut) {
+                    requestAnimationFrame(()=>setSalaryContainerHeight(0));
+                }
+            }
+        };
+        measure();
+    }, [
+        showSalaryBlock,
+        salaryAnimatingOut,
+        salaryInputs.min,
+        salaryInputs.max,
+        form.salaryCurrency,
+        form.salaryPeriod,
+        form.salaryType
+    ]);
+    const toggleSalaryRange = ()=>{
+        if (hideTimeoutRef.current) {
+            clearTimeout(hideTimeoutRef.current);
+            hideTimeoutRef.current = null;
+        }
+        const next = !includeSalaryRange;
+        setIncludeSalaryRange(next);
+        setForm((current)=>{
+            if (next) {
+                setSalaryAnimatingOut(false);
+                setShowSalaryBlock(true);
+                const updated = {
+                    ...current,
+                    salaryCurrency: current.salaryCurrency ?? DEFAULT_SALARY_CURRENCY,
+                    salaryPeriod: current.salaryPeriod ?? DEFAULT_SALARY_PERIOD
+                };
+                setSalaryInputs({
+                    min: formatNumber(updated.salaryMin),
+                    max: formatNumber(updated.salaryMax)
+                });
+                return updated;
+            }
+            setSalaryAnimatingOut(true);
+            setShowSalaryBlock(true);
+            setSalaryInputs({
+                min: '',
+                max: ''
+            });
+            hideTimeoutRef.current = setTimeout(()=>{
+                setShowSalaryBlock(false);
+                setSalaryAnimatingOut(false);
+            }, 220);
+            return {
+                ...current,
+                salaryMin: undefined,
+                salaryMax: undefined,
+                salaryCurrency: undefined,
+                salaryPeriod: undefined,
+                salaryType: undefined
+            };
+        });
+    };
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "space-y-1",
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                onSubmit: handleSubmit,
+                onKeyDown: handleKeyDown,
+                className: "jsx-2d4348a492f0b055" + " " + "space-y-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                        className: "text-lg font-semibold text-slate-900",
-                        children: "Registrar nueva postulacion"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                        lineNumber: 109,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-sm text-slate-600",
-                        children: "Suma tu siguiente paso y mantene tu progreso visible."
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                        lineNumber: 110,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                lineNumber: 108,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "grid gap-4 md:grid-cols-2",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$job$2d$applications$2f$SuggestionInput$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SuggestionInput"], {
-                        label: "Puesto",
-                        value: form.position,
-                        onChange: handleValueChange('position'),
-                        options: suggestions.positions,
-                        persistKey: "suggestions-positions-removed",
-                        required: true
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                        lineNumber: 114,
-                        columnNumber: 9
-                    }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "space-y-1",
+                        className: "jsx-2d4348a492f0b055" + " " + "space-y-1",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
-                                children: "Empresa *"
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                className: "jsx-2d4348a492f0b055" + " " + "text-lg font-semibold text-slate-900",
+                                children: "Registrar nueva postulacion"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                lineNumber: 123,
-                                columnNumber: 11
+                                lineNumber: 271,
+                                columnNumber: 9
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
-                                type: "text",
-                                value: form.company,
-                                onChange: handleChange('company'),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "jsx-2d4348a492f0b055" + " " + "text-sm text-slate-600",
+                                children: "Suma tu siguiente paso y mantene tu progreso visible."
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                lineNumber: 272,
+                                columnNumber: 9
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                        lineNumber: 270,
+                        columnNumber: 7
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "jsx-2d4348a492f0b055" + " " + "grid gap-4 md:grid-cols-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$job$2d$applications$2f$SuggestionInput$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SuggestionInput"], {
+                                label: "Puesto",
+                                value: form.position,
+                                onChange: handleValueChange('position'),
+                                options: suggestions.positions,
+                                persistKey: "suggestions-positions-removed",
+                                required: true,
+                                inputRef: firstInputRef
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                lineNumber: 276,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-2d4348a492f0b055" + " " + "space-y-1",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                        children: "Empresa *"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                        lineNumber: 286,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
+                                        type: "text",
+                                        value: form.company,
+                                        onChange: handleChange('company'),
+                                        required: true
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                        lineNumber: 287,
+                                        columnNumber: 11
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                lineNumber: 285,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$job$2d$applications$2f$SuggestionInput$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SuggestionInput"], {
+                                label: "Fuente",
+                                value: form.source,
+                                onChange: handleValueChange('source'),
+                                options: suggestions.sources,
+                                persistKey: "suggestions-sources-removed",
                                 required: true
                             }, void 0, false, {
                                 fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                lineNumber: 124,
-                                columnNumber: 11
+                                lineNumber: 294,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-2d4348a492f0b055" + " " + "space-y-1",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                        children: "Fecha de postulacion *"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                        lineNumber: 303,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$popover$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Popover"], {
+                                        open: dateOpen,
+                                        onOpenChange: setDateOpen,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$popover$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PopoverTrigger"], {
+                                                asChild: true,
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
+                                                    variant: "outline",
+                                                    className: "w-full justify-start text-left font-normal",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$calendar$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Calendar$3e$__["Calendar"], {
+                                                            className: "mr-2 h-4 w-4"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                            lineNumber: 310,
+                                                            columnNumber: 17
+                                                        }, this),
+                                                        selectedDate ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])(selectedDate, 'dd/MM/yyyy') : 'Elegir una fecha'
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 306,
+                                                    columnNumber: 15
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                lineNumber: 305,
+                                                columnNumber: 13
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$popover$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PopoverContent"], {
+                                                className: "w-auto p-0",
+                                                align: "start",
+                                                side: "bottom",
+                                                sideOffset: 8,
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$calendar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Calendar"], {
+                                                    mode: "single",
+                                                    selected: selectedDate,
+                                                    onSelect: (date)=>{
+                                                        if (!date) return;
+                                                        const value = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])(date, 'yyyy-MM-dd');
+                                                        handleValueChange('applicationDate')(value);
+                                                        setDateOpen(false);
+                                                    },
+                                                    initialFocus: true
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 315,
+                                                    columnNumber: 15
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                lineNumber: 314,
+                                                columnNumber: 13
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                        lineNumber: 304,
+                                        columnNumber: 11
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                lineNumber: 302,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-2d4348a492f0b055" + " " + "space-y-1",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                        children: "Estado *"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                        lineNumber: 330,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
+                                        value: form.status,
+                                        onValueChange: (value)=>handleValueChange('status')(value),
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectValue"], {
+                                                    placeholder: "Selecciona estado"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 336,
+                                                    columnNumber: 15
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                lineNumber: 335,
+                                                columnNumber: 13
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                children: Object.values(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["JobStatus"]).map((status)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                        value: status,
+                                                        children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getJobStatusLabel"])(status)
+                                                    }, status, false, {
+                                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                        lineNumber: 340,
+                                                        columnNumber: 17
+                                                    }, this))
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                lineNumber: 338,
+                                                columnNumber: 13
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                        lineNumber: 331,
+                                        columnNumber: 11
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                lineNumber: 329,
+                                columnNumber: 9
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-2d4348a492f0b055" + " " + "space-y-1",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                        children: "URL de la oferta"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                        lineNumber: 349,
+                                        columnNumber: 11
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
+                                        type: "url",
+                                        value: form.jobUrl,
+                                        onChange: handleChange('jobUrl'),
+                                        placeholder: "https://..."
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                        lineNumber: 350,
+                                        columnNumber: 11
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                lineNumber: 348,
+                                columnNumber: 9
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                        lineNumber: 122,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$job$2d$applications$2f$SuggestionInput$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SuggestionInput"], {
-                        label: "Fuente",
-                        value: form.source,
-                        onChange: handleValueChange('source'),
-                        options: suggestions.sources,
-                        persistKey: "suggestions-sources-removed",
-                        required: true
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                        lineNumber: 131,
-                        columnNumber: 9
+                        lineNumber: 275,
+                        columnNumber: 7
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "space-y-1",
+                        className: "jsx-2d4348a492f0b055" + " " + "space-y-1",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
-                                children: "Fecha de postulacion *"
+                                children: "Notas"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                lineNumber: 140,
-                                columnNumber: 11
+                                lineNumber: 360,
+                                columnNumber: 9
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$popover$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Popover"], {
-                                open: dateOpen,
-                                onOpenChange: setDateOpen,
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$popover$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PopoverTrigger"], {
-                                        asChild: true,
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
-                                            variant: "outline",
-                                            className: "w-full justify-start text-left font-normal",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
+                                value: form.notes,
+                                onChange: handleChange('notes'),
+                                rows: 3,
+                                placeholder: "Detalles, proximos pasos o recordatorios"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                lineNumber: 361,
+                                columnNumber: 9
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                        lineNumber: 359,
+                        columnNumber: 7
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            height: showSalaryBlock ? salaryContainerHeight : 0
+                        },
+                        className: "jsx-2d4348a492f0b055" + " " + "overflow-hidden transition-[height] duration-200 ease-out",
+                        children: showSalaryBlock && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            ref: salaryContentRef,
+                            style: {
+                                animation: `${salaryAnimatingOut ? 'fadeSlideOut' : 'fadeSlideIn'} 220ms ease-out`
+                            },
+                            className: "jsx-2d4348a492f0b055" + " " + "space-y-4 rounded-lg border border-slate-200 bg-slate-50 p-4",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "jsx-2d4348a492f0b055" + " " + "flex items-center justify-between gap-2",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "jsx-2d4348a492f0b055" + " " + "space-y-0.5",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                className: "jsx-2d4348a492f0b055" + " " + "text-sm font-semibold text-slate-900",
+                                                children: "Rango salarial"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                lineNumber: 383,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                className: "jsx-2d4348a492f0b055" + " " + "text-xs text-slate-600",
+                                                children: "Completa solo si lo tenes disponible."
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                lineNumber: 384,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                        lineNumber: 382,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                    lineNumber: 381,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "jsx-2d4348a492f0b055" + " " + "grid gap-4 md:grid-cols-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "jsx-2d4348a492f0b055" + " " + "space-y-1",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$calendar$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Calendar$3e$__["Calendar"], {
-                                                    className: "mr-2 h-4 w-4"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                    children: "Salario minimo"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                                    lineNumber: 147,
+                                                    lineNumber: 389,
                                                     columnNumber: 17
                                                 }, this),
-                                                selectedDate ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])(selectedDate, 'dd/MM/yyyy') : 'Elegir una fecha'
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
+                                                    type: "text",
+                                                    inputMode: "numeric",
+                                                    value: salaryInputs.min,
+                                                    onChange: handleNumberChange('salaryMin'),
+                                                    placeholder: "0"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 390,
+                                                    columnNumber: 17
+                                                }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                            lineNumber: 143,
+                                            lineNumber: 388,
                                             columnNumber: 15
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                        lineNumber: 142,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$popover$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PopoverContent"], {
-                                        className: "w-auto p-0",
-                                        align: "start",
-                                        side: "bottom",
-                                        sideOffset: 8,
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$calendar$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Calendar"], {
-                                            mode: "single",
-                                            selected: selectedDate,
-                                            onSelect: (date)=>{
-                                                if (!date) return;
-                                                const value = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])(date, 'yyyy-MM-dd');
-                                                handleValueChange('applicationDate')(value);
-                                                setDateOpen(false);
-                                            },
-                                            initialFocus: true
-                                        }, void 0, false, {
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "jsx-2d4348a492f0b055" + " " + "space-y-1",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                    children: "Salario maximo"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 399,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
+                                                    type: "text",
+                                                    inputMode: "numeric",
+                                                    value: salaryInputs.max,
+                                                    onChange: handleNumberChange('salaryMax'),
+                                                    placeholder: "0"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 400,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                            lineNumber: 152,
+                                            lineNumber: 398,
                                             columnNumber: 15
                                         }, this)
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                        lineNumber: 151,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                lineNumber: 141,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                    lineNumber: 387,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "jsx-2d4348a492f0b055" + " " + "flex flex-wrap items-end gap-3",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "jsx-2d4348a492f0b055" + " " + "space-y-1",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                    children: "Moneda"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 411,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
+                                                    value: form.salaryCurrency ?? DEFAULT_SALARY_CURRENCY,
+                                                    onValueChange: (value)=>handleValueChange('salaryCurrency')(value),
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                            className: "w-24",
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectValue"], {
+                                                                placeholder: "Selecciona moneda"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                                lineNumber: 417,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                            lineNumber: 416,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                    value: "ARS",
+                                                                    children: "ARS"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                                    lineNumber: 420,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                    value: "USD",
+                                                                    children: "USD"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                                    lineNumber: 421,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                    value: "EUR",
+                                                                    children: "EUR"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                                    lineNumber: 422,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                            lineNumber: 419,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 412,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                            lineNumber: 410,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "jsx-2d4348a492f0b055" + " " + "space-y-1",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                    children: "Periodo"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 427,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
+                                                    value: form.salaryPeriod ?? DEFAULT_SALARY_PERIOD,
+                                                    onValueChange: (value)=>handleValueChange('salaryPeriod')(value),
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                            className: "w-32",
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectValue"], {
+                                                                placeholder: "Selecciona periodo"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                                lineNumber: 433,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                            lineNumber: 432,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                    value: "Mensual",
+                                                                    children: "Mensual"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                                    lineNumber: 436,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                    value: "Anual",
+                                                                    children: "Anual"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                                    lineNumber: 437,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                    value: "Hora",
+                                                                    children: "Hora"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                                    lineNumber: 438,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                            lineNumber: 435,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 428,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                            lineNumber: 426,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "jsx-2d4348a492f0b055" + " " + "space-y-1",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                    children: "Tipo (opcional)"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 443,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
+                                                    value: form.salaryType ?? undefined,
+                                                    onValueChange: (value)=>handleValueChange('salaryType')(value),
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                            className: "w-28",
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectValue"], {
+                                                                placeholder: "Selec. tipo"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                                lineNumber: 449,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                            lineNumber: 448,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                    value: "Bruto",
+                                                                    children: "Bruto"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                                    lineNumber: 452,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                    value: "Neto",
+                                                                    children: "Neto"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                                    lineNumber: 453,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                            lineNumber: 451,
+                                                            columnNumber: 19
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                    lineNumber: 444,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                            lineNumber: 442,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                    lineNumber: 409,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                            lineNumber: 374,
+                            columnNumber: 11
+                        }, this)
+                    }, void 0, false, {
                         fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                        lineNumber: 139,
+                        lineNumber: 369,
+                        columnNumber: 7
+                    }, this),
+                    (localError || error) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "jsx-2d4348a492f0b055" + " " + "rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700",
+                        children: localError || error
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                        lineNumber: 463,
                         columnNumber: 9
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "space-y-1",
+                    success && !localError && !error && !isSuccessDismissed && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "jsx-2d4348a492f0b055" + " " + "relative rounded-lg border border-green-200 bg-green-50 px-3 py-3 text-sm text-green-800",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
-                                children: "Estado *"
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                lineNumber: 167,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
-                                value: form.status,
-                                onValueChange: (value)=>handleValueChange('status')(value),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-2d4348a492f0b055" + " " + "space-y-1 pr-6",
                                 children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectTrigger"], {
-                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectValue"], {
-                                            placeholder: "Selecciona estado"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                            lineNumber: 173,
-                                            columnNumber: 15
-                                        }, this)
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "jsx-2d4348a492f0b055" + " " + "font-medium text-green-900",
+                                        children: success.message
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                        lineNumber: 172,
+                                        lineNumber: 470,
                                         columnNumber: 13
                                     }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
-                                        children: Object.values(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["JobStatus"]).map((status)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
-                                                value: status,
-                                                children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getJobStatusLabel"])(status)
-                                            }, status, false, {
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: "jsx-2d4348a492f0b055" + " " + "text-xs text-green-800",
+                                        children: [
+                                            "Ultima empresa: ",
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "jsx-2d4348a492f0b055" + " " + "font-semibold",
+                                                children: success.company
+                                            }, void 0, false, {
                                                 fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                                lineNumber: 177,
-                                                columnNumber: 17
-                                            }, this))
-                                    }, void 0, false, {
+                                                lineNumber: 472,
+                                                columnNumber: 31
+                                            }, this),
+                                            success.position ? ` - Puesto: ${success.position}` : ''
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                        lineNumber: 175,
+                                        lineNumber: 471,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                lineNumber: 168,
+                                lineNumber: 469,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                type: "button",
+                                onClick: ()=>setIsSuccessDismissed(true),
+                                "aria-label": "Cerrar mensaje de exito",
+                                className: "jsx-2d4348a492f0b055" + " " + "absolute right-2 top-2 inline-flex h-6 w-6 items-center justify-center rounded-md text-slate-400 transition hover:bg-white hover:text-slate-600",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {
+                                    className: "h-4 w-4"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                    lineNumber: 482,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                lineNumber: 476,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                        lineNumber: 166,
+                        lineNumber: 468,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "space-y-1",
+                        className: "jsx-2d4348a492f0b055" + " " + "flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-end",
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
-                                children: "URL de la oferta"
-                            }, void 0, false, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "jsx-2d4348a492f0b055" + " " + "flex items-center gap-3",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "jsx-2d4348a492f0b055" + " " + "text-sm font-medium text-slate-700",
+                                        children: "Agregar rango salarial"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                        lineNumber: 489,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        role: "switch",
+                                        "aria-checked": includeSalaryRange,
+                                        onClick: toggleSalaryRange,
+                                        className: "jsx-2d4348a492f0b055" + " " + `relative h-6 w-11 flex-shrink-0 rounded-full transition ${includeSalaryRange ? 'bg-slate-900' : 'bg-slate-200'}`,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                style: {
+                                                    transform: includeSalaryRange ? 'translateX(1.25rem)' : 'translateX(0)'
+                                                },
+                                                className: "jsx-2d4348a492f0b055" + " " + "absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                lineNumber: 499,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "jsx-2d4348a492f0b055" + " " + "sr-only",
+                                                children: "Toggle salary range"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                                lineNumber: 505,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
+                                        lineNumber: 490,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                lineNumber: 186,
+                                lineNumber: 488,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
-                                type: "url",
-                                value: form.jobUrl,
-                                onChange: handleChange('jobUrl'),
-                                placeholder: "https://..."
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
+                                type: "submit",
+                                disabled: loading,
+                                children: loading ? 'Guardando...' : 'Registrar postulacion'
                             }, void 0, false, {
                                 fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                                lineNumber: 187,
+                                lineNumber: 508,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                        lineNumber: 185,
+                        lineNumber: 487,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                lineNumber: 113,
+                lineNumber: 265,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "space-y-1",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
-                        children: "Notas"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                        lineNumber: 197,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
-                        value: form.notes,
-                        onChange: handleChange('notes'),
-                        rows: 3,
-                        placeholder: "Detalles, próximos pasos o recordatorios"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                        lineNumber: 198,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                lineNumber: 196,
-                columnNumber: 7
-            }, this),
-            (localError || error) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700",
-                children: localError || error
-            }, void 0, false, {
-                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                lineNumber: 207,
-                columnNumber: 9
-            }, this),
-            success && !localError && !error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700",
-                children: success
-            }, void 0, false, {
-                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                lineNumber: 212,
-                columnNumber: 9
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex justify-end",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
-                    type: "submit",
-                    disabled: loading,
-                    children: loading ? 'Guardando...' : 'Registrar postulacion'
-                }, void 0, false, {
-                    fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                    lineNumber: 218,
-                    columnNumber: 9
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-                lineNumber: 217,
-                columnNumber: 7
-            }, this)
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                id: "2d4348a492f0b055",
+                children: "@keyframes fadeSlideIn{0%{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes fadeSlideOut{0%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(8px)}}"
+            }, void 0, false, void 0, this)
         ]
-    }, void 0, true, {
-        fileName: "[project]/src/components/job-applications/FormularioPostulacion.tsx",
-        lineNumber: 103,
-        columnNumber: 5
-    }, this);
+    }, void 0, true);
 }
 }),
 "[project]/src/utils/dateOnly.ts [app-ssr] (ecmascript)", ((__turbopack_context__) => {
@@ -1569,10 +2173,12 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 // Specification: Table listing job applications with basic filters and actions.
 // Renders list grouped by fecha seleccionada, with status change, delete action, and friendly states.
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/types/jobApplication.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$dateOnly$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/utils/dateOnly.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$job$2d$applications$2f$Skeletons$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/job-applications/Skeletons.tsx [app-ssr] (ecmascript)");
 'use client';
+;
 ;
 ;
 ;
@@ -1601,6 +2207,21 @@ const dateRangeOptions = [
     }
 ];
 function ListadoPostulaciones({ applications, loading = false, error = null, filters, pagination, search, onChangeStatus, onDelete, onRetry, success = null }) {
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
+    const isInteractiveTarget = (target)=>{
+        if (!(target instanceof HTMLElement)) return false;
+        return Boolean(target.closest('select') || target.closest('button') || target.closest('a') || target.closest('[data-row-ignore]'));
+    };
+    const navigateToDetail = (event, id)=>{
+        if (isInteractiveTarget(event.target)) return;
+        if ('key' in event) {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+        }
+        router.push(`/dashboard/applications/${id}`, {
+            scroll: false
+        });
+    };
     const sorted = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>[
             ...applications
         ].sort((a, b)=>{
@@ -1695,7 +2316,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                         children: "Postulaciones en curso"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                        lineNumber: 163,
+                                        lineNumber: 189,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1703,13 +2324,13 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                         children: "Seguimiento de tus oportunidades y proximos pasos"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                        lineNumber: 164,
+                                        lineNumber: 190,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                lineNumber: 162,
+                                lineNumber: 188,
                                 columnNumber: 11
                             }, this),
                             byDayView && selectedDate && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1724,7 +2345,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                         children: "←"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                        lineNumber: 168,
+                                        lineNumber: 194,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1732,7 +2353,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$dateOnly$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDateOnlyUTC"])(selectedDate)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                        lineNumber: 177,
+                                        lineNumber: 203,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1744,19 +2365,19 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                         children: "→"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                        lineNumber: 178,
+                                        lineNumber: 204,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                lineNumber: 167,
+                                lineNumber: 193,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                        lineNumber: 161,
+                        lineNumber: 187,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1770,7 +2391,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                 className: "w-64 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                lineNumber: 191,
+                                lineNumber: 217,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1783,7 +2404,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                         children: "Ver por dia"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                        lineNumber: 199,
+                                        lineNumber: 225,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1793,13 +2414,13 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                         children: "Todas las publicaciones"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                        lineNumber: 210,
+                                        lineNumber: 236,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                lineNumber: 198,
+                                lineNumber: 224,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -1811,12 +2432,12 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                         children: opt === 'all' ? 'Todos los estados' : (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getJobStatusLabel"])(opt)
                                     }, opt, false, {
                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                        lineNumber: 228,
+                                        lineNumber: 254,
                                         columnNumber: 15
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                lineNumber: 222,
+                                lineNumber: 248,
                                 columnNumber: 11
                             }, this),
                             !byDayView && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -1828,24 +2449,24 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                         children: opt.label
                                     }, opt.value, false, {
                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                        lineNumber: 240,
+                                        lineNumber: 266,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                lineNumber: 234,
+                                lineNumber: 260,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                        lineNumber: 190,
+                        lineNumber: 216,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                lineNumber: 160,
+                lineNumber: 186,
                 columnNumber: 7
             }, this),
             success && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1853,7 +2474,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                 children: success
             }, void 0, false, {
                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                lineNumber: 250,
+                lineNumber: 276,
                 columnNumber: 9
             }, this),
             error ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ErrorCallout, {
@@ -1861,19 +2482,19 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                 onRetry: onRetry
             }, void 0, false, {
                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                lineNumber: 255,
+                lineNumber: 281,
                 columnNumber: 16
             }, this) : null,
             showInitialSkeleton ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$job$2d$applications$2f$Skeletons$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ApplicationsTableSkeleton"], {}, void 0, false, {
                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                lineNumber: 258,
+                lineNumber: 284,
                 columnNumber: 9
             }, this) : showEmptyState ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(EmptyState, {
                 title: emptyState.title,
                 description: emptyState.description
             }, void 0, false, {
                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                lineNumber: 260,
+                lineNumber: 286,
                 columnNumber: 9
             }, this) : hasResults ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                 children: [
@@ -1890,7 +2511,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                lineNumber: 264,
+                                lineNumber: 290,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1903,7 +2524,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                 children: "Por pagina"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                lineNumber: 269,
+                                                lineNumber: 295,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -1919,18 +2540,18 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                         children: value
                                                     }, value, false, {
                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                        lineNumber: 277,
+                                                        lineNumber: 303,
                                                         columnNumber: 21
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                lineNumber: 270,
+                                                lineNumber: 296,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                        lineNumber: 268,
+                                        lineNumber: 294,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1944,7 +2565,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                 children: "Anterior"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                lineNumber: 284,
+                                                lineNumber: 310,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1957,7 +2578,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                lineNumber: 292,
+                                                lineNumber: 318,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1968,25 +2589,25 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                 children: "Siguiente"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                lineNumber: 295,
+                                                lineNumber: 321,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                        lineNumber: 283,
+                                        lineNumber: 309,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                lineNumber: 267,
+                                lineNumber: 293,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                        lineNumber: 263,
+                        lineNumber: 289,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1996,7 +2617,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                             children: [
                                 showRefetchOverlay ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TableLoadingOverlay, {}, void 0, false, {
                                     fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                    lineNumber: 309,
+                                    lineNumber: 335,
                                     columnNumber: 37
                                 }, this) : null,
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
@@ -2012,7 +2633,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                         children: "Empresa"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                        lineNumber: 313,
+                                                        lineNumber: 339,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2020,7 +2641,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                         children: "Puesto"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                        lineNumber: 314,
+                                                        lineNumber: 340,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2028,7 +2649,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                         children: "Estado"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                        lineNumber: 315,
+                                                        lineNumber: 341,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2036,7 +2657,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                         children: "Fuente"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                        lineNumber: 316,
+                                                        lineNumber: 342,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -2044,25 +2665,25 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                         children: "Acciones"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                        lineNumber: 317,
+                                                        lineNumber: 343,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                         className: "w-12 px-3 py-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                        lineNumber: 318,
+                                                        lineNumber: 344,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                lineNumber: 312,
+                                                lineNumber: 338,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                            lineNumber: 311,
+                                            lineNumber: 337,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -2077,23 +2698,28 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$dateOnly$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDateOnlyUTC"])(selectedDate)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                lineNumber: 325,
+                                                                lineNumber: 351,
                                                                 columnNumber: 25
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                            lineNumber: 324,
+                                                            lineNumber: 350,
                                                             columnNumber: 23
                                                         }, this),
                                                         appsForSelectedDate.map((app)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
-                                                                className: "border-b border-slate-100 text-slate-800",
+                                                                className: "border-b border-slate-100 text-slate-800 transition hover:bg-slate-50 focus-within:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200 cursor-pointer",
+                                                                onClick: (event)=>navigateToDetail(event, app.id),
+                                                                onKeyDown: (event)=>navigateToDetail(event, app.id),
+                                                                role: "button",
+                                                                tabIndex: 0,
+                                                                "aria-label": `Ver detalle de ${app.company} - ${app.position}`,
                                                                 children: [
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                                         className: "px-3 py-2",
                                                                         children: app.company
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                        lineNumber: 334,
+                                                                        lineNumber: 368,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2101,7 +2727,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                         children: app.position
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                        lineNumber: 335,
+                                                                        lineNumber: 369,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2109,7 +2735,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getJobStatusLabel"])(app.status)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                        lineNumber: 336,
+                                                                        lineNumber: 370,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2117,7 +2743,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                         children: app.source
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                        lineNumber: 337,
+                                                                        lineNumber: 371,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2127,22 +2753,23 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                             value: app.status,
                                                                             onChange: (e)=>handleStatusChange(app.id, e.target.value),
                                                                             disabled: loading,
+                                                                            "data-row-ignore": true,
                                                                             children: Object.values(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["JobStatus"]).map((status)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                                                                     value: status,
                                                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getJobStatusLabel"])(status)
                                                                                 }, status, false, {
                                                                                     fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                    lineNumber: 346,
+                                                                                    lineNumber: 381,
                                                                                     columnNumber: 33
                                                                                 }, this))
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                            lineNumber: 339,
+                                                                            lineNumber: 373,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                        lineNumber: 338,
+                                                                        lineNumber: 372,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2153,6 +2780,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                             disabled: loading,
                                                                             type: "button",
                                                                             "aria-label": "Eliminar postulacion",
+                                                                            "data-row-ignore": true,
                                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
                                                                                 xmlns: "http://www.w3.org/2000/svg",
                                                                                 className: "h-4 w-4",
@@ -2168,57 +2796,57 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                                         d: "M3 6h18"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                        lineNumber: 371,
+                                                                                        lineNumber: 407,
                                                                                         columnNumber: 33
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                                                         d: "M8 6V4h8v2"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                        lineNumber: 372,
+                                                                                        lineNumber: 408,
                                                                                         columnNumber: 33
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                                                         d: "M10 11v6"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                        lineNumber: 373,
+                                                                                        lineNumber: 409,
                                                                                         columnNumber: 33
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                                                         d: "M14 11v6"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                        lineNumber: 374,
+                                                                                        lineNumber: 410,
                                                                                         columnNumber: 33
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                                                         d: "M5 6l1 14h12l1-14"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                        lineNumber: 375,
+                                                                                        lineNumber: 411,
                                                                                         columnNumber: 33
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                lineNumber: 360,
+                                                                                lineNumber: 396,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                            lineNumber: 353,
+                                                                            lineNumber: 388,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                        lineNumber: 352,
+                                                                        lineNumber: 387,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, app.id, true, {
                                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                lineNumber: 333,
+                                                                lineNumber: 359,
                                                                 columnNumber: 25
                                                             }, this))
                                                     ]
@@ -2232,23 +2860,28 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                     children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$dateOnly$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDateOnlyUTC"])(dateKey)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                    lineNumber: 387,
+                                                                    lineNumber: 423,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                lineNumber: 386,
+                                                                lineNumber: 422,
                                                                 columnNumber: 25
                                                             }, this),
                                                             (appsByDate.get(dateKey) ?? []).map((app)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
-                                                                    className: "border-b border-slate-100 text-slate-800",
+                                                                    className: "border-b border-slate-100 text-slate-800 transition hover:bg-slate-50 focus-within:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200 cursor-pointer",
+                                                                    onClick: (event)=>navigateToDetail(event, app.id),
+                                                                    onKeyDown: (event)=>navigateToDetail(event, app.id),
+                                                                    role: "button",
+                                                                    tabIndex: 0,
+                                                                    "aria-label": `Ver detalle de ${app.company} - ${app.position}`,
                                                                     children: [
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                                             className: "px-3 py-2",
                                                                             children: app.company
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                            lineNumber: 396,
+                                                                            lineNumber: 440,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2256,7 +2889,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                             children: app.position
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                            lineNumber: 397,
+                                                                            lineNumber: 441,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2264,7 +2897,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                             children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getJobStatusLabel"])(app.status)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                            lineNumber: 398,
+                                                                            lineNumber: 442,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2272,7 +2905,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                             children: app.source
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                            lineNumber: 399,
+                                                                            lineNumber: 443,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2282,22 +2915,23 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                                 value: app.status,
                                                                                 onChange: (e)=>handleStatusChange(app.id, e.target.value),
                                                                                 disabled: loading,
+                                                                                "data-row-ignore": true,
                                                                                 children: Object.values(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["JobStatus"]).map((status)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                                                                         value: status,
                                                                                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$types$2f$jobApplication$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["getJobStatusLabel"])(status)
                                                                                     }, status, false, {
                                                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                        lineNumber: 408,
+                                                                                        lineNumber: 453,
                                                                                         columnNumber: 35
                                                                                     }, this))
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                lineNumber: 401,
+                                                                                lineNumber: 445,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                            lineNumber: 400,
+                                                                            lineNumber: 444,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -2308,6 +2942,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                                 disabled: loading,
                                                                                 type: "button",
                                                                                 "aria-label": "Eliminar postulacion",
+                                                                                "data-row-ignore": true,
                                                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
                                                                                     xmlns: "http://www.w3.org/2000/svg",
                                                                                     className: "h-4 w-4",
@@ -2323,86 +2958,86 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
                                                                                             d: "M3 6h18"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                            lineNumber: 433,
+                                                                                            lineNumber: 479,
                                                                                             columnNumber: 35
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                                                             d: "M8 6V4h8v2"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                            lineNumber: 434,
+                                                                                            lineNumber: 480,
                                                                                             columnNumber: 35
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                                                             d: "M10 11v6"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                            lineNumber: 435,
+                                                                                            lineNumber: 481,
                                                                                             columnNumber: 35
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                                                             d: "M14 11v6"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                            lineNumber: 436,
+                                                                                            lineNumber: 482,
                                                                                             columnNumber: 35
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                                                             d: "M5 6l1 14h12l1-14"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                            lineNumber: 437,
+                                                                                            lineNumber: 483,
                                                                                             columnNumber: 35
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                    lineNumber: 422,
+                                                                                    lineNumber: 468,
                                                                                     columnNumber: 33
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                                lineNumber: 415,
+                                                                                lineNumber: 460,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                            lineNumber: 414,
+                                                                            lineNumber: 459,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, app.id, true, {
                                                                     fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                                    lineNumber: 395,
+                                                                    lineNumber: 431,
                                                                     columnNumber: 27
                                                                 }, this))
                                                         ]
                                                     }, dateKey, true, {
                                                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                                        lineNumber: 385,
+                                                        lineNumber: 421,
                                                         columnNumber: 23
                                                     }, this))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                            lineNumber: 321,
+                                            lineNumber: 347,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                                    lineNumber: 310,
+                                    lineNumber: 336,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                            lineNumber: 308,
+                            lineNumber: 334,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                        lineNumber: 307,
+                        lineNumber: 333,
                         columnNumber: 11
                     }, this)
                 ]
@@ -2410,7 +3045,7 @@ function ListadoPostulaciones({ applications, loading = false, error = null, fil
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-        lineNumber: 159,
+        lineNumber: 185,
         columnNumber: 5
     }, this);
 }
@@ -2422,7 +3057,7 @@ function ErrorCallout({ message, onRetry }) {
                 children: message
             }, void 0, false, {
                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                lineNumber: 458,
+                lineNumber: 504,
                 columnNumber: 7
             }, this),
             onRetry ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2432,13 +3067,13 @@ function ErrorCallout({ message, onRetry }) {
                 children: "Reintentar"
             }, void 0, false, {
                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                lineNumber: 460,
+                lineNumber: 506,
                 columnNumber: 9
             }, this) : null
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-        lineNumber: 457,
+        lineNumber: 503,
         columnNumber: 5
     }, this);
 }
@@ -2451,7 +3086,7 @@ function EmptyState({ title, description }) {
                 children: title
             }, void 0, false, {
                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                lineNumber: 475,
+                lineNumber: 521,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2459,13 +3094,13 @@ function EmptyState({ title, description }) {
                 children: description
             }, void 0, false, {
                 fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-                lineNumber: 476,
+                lineNumber: 522,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-        lineNumber: 474,
+        lineNumber: 520,
         columnNumber: 5
     }, this);
 }
@@ -2494,12 +3129,12 @@ function TableLoadingOverlay() {
             className: "absolute inset-x-0 top-0 h-1 animate-pulse bg-gradient-to-r from-transparent via-slate-200 to-transparent"
         }, void 0, false, {
             fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-            lineNumber: 513,
+            lineNumber: 559,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/job-applications/ListadoPostulaciones.tsx",
-        lineNumber: 512,
+        lineNumber: 558,
         columnNumber: 5
     }, this);
 }
@@ -2882,7 +3517,11 @@ function useJobApplications() {
         setListSuccess(null);
         try {
             await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$services$2f$jobApplicationsApi$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createJobApplication"])(payload);
-            setFormSuccess('Postulacion registrada. Seguimos midiendo tu progreso!');
+            setFormSuccess({
+                message: 'Postulacion registrada. Seguimos midiendo tu progreso!',
+                company: payload.company.trim(),
+                position: payload.position.trim() || undefined
+            });
             setPage(1);
             await load({
                 page: 1

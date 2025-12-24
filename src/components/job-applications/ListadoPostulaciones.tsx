@@ -4,6 +4,8 @@
 // Renders list grouped by fecha seleccionada, with status change, delete action, and friendly states.
 
 import { Fragment, useEffect, useMemo, useState } from 'react';
+import type { KeyboardEvent as ReactKeyboardEvent, MouseEvent as ReactMouseEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import { getJobStatusLabel, JobApplication, JobStatus } from '../../types/jobApplication';
 import { dateKeyUTC, formatDateOnlyUTC, parseDateOnlyUTC } from '../../utils/dateOnly';
 import { ApplicationsTableSkeleton } from './Skeletons';
@@ -71,6 +73,30 @@ export function ListadoPostulaciones({
   onRetry,
   success = null,
 }: ListadoPostulacionesProps) {
+  const router = useRouter();
+
+  const isInteractiveTarget = (target: EventTarget | null) => {
+    if (!(target instanceof HTMLElement)) return false;
+    return Boolean(
+      target.closest('select') ||
+        target.closest('button') ||
+        target.closest('a') ||
+        target.closest('[data-row-ignore]'),
+    );
+  };
+
+  const navigateToDetail = (
+    event: ReactMouseEvent<HTMLTableRowElement> | ReactKeyboardEvent<HTMLTableRowElement>,
+    id: string,
+  ) => {
+    if (isInteractiveTarget(event.target)) return;
+    if ('key' in event) {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+    }
+    router.push(`/dashboard/applications/${id}`, { scroll: false });
+  };
+
   const sorted = useMemo(
     () =>
       [...applications].sort((a, b) => {
@@ -330,7 +356,15 @@ export function ListadoPostulaciones({
                         </td>
                       </tr>
                       {appsForSelectedDate.map((app) => (
-                        <tr key={app.id} className="border-b border-slate-100 text-slate-800">
+                        <tr
+                          key={app.id}
+                          className="border-b border-slate-100 text-slate-800 transition hover:bg-slate-50 focus-within:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200 cursor-pointer"
+                          onClick={(event) => navigateToDetail(event, app.id)}
+                          onKeyDown={(event) => navigateToDetail(event, app.id)}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`Ver detalle de ${app.company} - ${app.position}`}
+                        >
                           <td className="px-3 py-2">{app.company}</td>
                           <td className="px-3 py-2">{app.position}</td>
                           <td className="px-3 py-2">{getJobStatusLabel(app.status)}</td>
@@ -341,6 +375,7 @@ export function ListadoPostulaciones({
                               value={app.status}
                               onChange={(e) => handleStatusChange(app.id, e.target.value)}
                               disabled={loading}
+                              data-row-ignore
                             >
                               {Object.values(JobStatus).map((status) => (
                                 <option key={status} value={status}>
@@ -356,6 +391,7 @@ export function ListadoPostulaciones({
                               disabled={loading}
                               type="button"
                               aria-label="Eliminar postulacion"
+                              data-row-ignore
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -392,7 +428,15 @@ export function ListadoPostulaciones({
                           </td>
                         </tr>
                         {(appsByDate.get(dateKey) ?? []).map((app) => (
-                          <tr key={app.id} className="border-b border-slate-100 text-slate-800">
+                          <tr
+                            key={app.id}
+                            className="border-b border-slate-100 text-slate-800 transition hover:bg-slate-50 focus-within:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200 cursor-pointer"
+                            onClick={(event) => navigateToDetail(event, app.id)}
+                            onKeyDown={(event) => navigateToDetail(event, app.id)}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Ver detalle de ${app.company} - ${app.position}`}
+                          >
                             <td className="px-3 py-2">{app.company}</td>
                             <td className="px-3 py-2">{app.position}</td>
                             <td className="px-3 py-2">{getJobStatusLabel(app.status)}</td>
@@ -403,6 +447,7 @@ export function ListadoPostulaciones({
                                 value={app.status}
                                 onChange={(e) => handleStatusChange(app.id, e.target.value)}
                                 disabled={loading}
+                                data-row-ignore
                               >
                                 {Object.values(JobStatus).map((status) => (
                                   <option key={status} value={status}>
@@ -418,6 +463,7 @@ export function ListadoPostulaciones({
                                 disabled={loading}
                                 type="button"
                                 aria-label="Eliminar postulacion"
+                                data-row-ignore
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
