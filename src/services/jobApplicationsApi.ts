@@ -66,6 +66,10 @@ export async function createJobApplication(
   });
 }
 
+export async function getJobApplication(id: string): Promise<JobApplication> {
+  return apiFetch<JobApplication>(`/job-applications/${id}`);
+}
+
 export async function updateJobApplicationStatus(
   id: string,
   status: JobStatus,

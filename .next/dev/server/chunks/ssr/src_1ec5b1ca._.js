@@ -3256,6 +3256,8 @@ __turbopack_context__.s([
     ()=>createJobApplication,
     "deleteJobApplication",
     ()=>deleteJobApplication,
+    "getJobApplication",
+    ()=>getJobApplication,
     "getJobApplications",
     ()=>getJobApplications,
     "updateJobApplicationStatus",
@@ -3278,6 +3280,9 @@ async function createJobApplication(payload) {
         method: 'POST',
         body: JSON.stringify(payload)
     });
+}
+async function getJobApplication(id) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$apiClient$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["apiFetch"])(`/job-applications/${id}`);
 }
 async function updateJobApplicationStatus(id, status) {
     return (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$apiClient$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["apiFetch"])(`/job-applications/${id}`, {
