@@ -1,35 +1,32 @@
-'use client';
+﻿'use client';
 
 /**
  * DetallePostulacionModal
  * -----------------------
  * Componente Client (Next App Router) que renderiza un overlay full-screen
- * mostrando el detalle de una postulaci�n + edici�n inline + actualizaci�n de estado
- * con confirmaci�n + historial auditable.
+ * mostrando el detalle de una postulaciï¿½n + ediciï¿½n inline + actualizaciï¿½n de estado
+ * con confirmaciï¿½n + historial auditable.
  *
  * Puntos importantes:
  * - Se apoya en `applicationId` (viene desde la ruta /dashboard/applications/[id]).
- * - Hace 2 cargas as�ncronas: detalle y historial.
- * - Usa `isMountedRef` para evitar setState cuando el componente ya se desmont�.
+ * - Hace 2 cargas asï¿½ncronas: detalle y historial.
+ * - Usa `isMountedRef` para evitar setState cuando el componente ya se desmontï¿½.
  * - Implementa guardas de cambios sin guardar (close, back, unload).
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type React from 'react';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 
-import {
-  type UpdateJobApplicationPayload,
-  updateJobApplication,
-  updateJobApplicationStatus,
-} from '../../services/jobApplicationsApi';
+import { updateJobApplicationStatus } from '../../services/jobApplicationsApi';
 
 import {
   type JobApplication,
   JobStatus,
 } from '../../types/jobApplication';
 
+import { useInlineApplicationEdit } from '../../hooks/useInlineApplicationEdit';
+import { useUnsavedChangesGuard } from '../../hooks/useUnsavedChangesGuard';
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 import { Textarea } from '../ui/textarea';
@@ -44,7 +41,7 @@ import { useApplicationHistory } from '../../features/job-applications/detail/ho
 import { useToast } from '../../features/job-applications/detail/hooks/useToast';
 
 type DetallePostulacionModalProps = {
-  /** ID de la postulaci�n a cargar (debe ser un UUID/string v�lido). */
+  /** ID de la postulaciï¿½n a cargar (debe ser un UUID/string vï¿½lido). */
   applicationId: string;
 };
 
@@ -52,39 +49,26 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   const router = useRouter();
 
   /**
-   * Estado �pendiente� del select de estado.
+   * Estado ï¿½pendienteï¿½ del select de estado.
    * No se persiste al backend hasta presionar Confirmar.
    */
   const [pendingStatus, setPendingStatus] = useState<JobStatus | null>(null);
 
 
   // ----------------------
-  // Estado de actualizaci�n del status (confirmaci�n)
+  // Estado de actualizaciï¿½n del status (confirmaciï¿½n)
   // ----------------------
   const [updating, setUpdating] = useState(false);
   const [updateError, setUpdateError] = useState<string | null>(null);
 
-  // ----------------------
-  // Estado del formulario editable (edici�n inline)
-  // ----------------------
-  const [formValues, setFormValues] = useState({
-    company: '',
-    position: '',
-    source: '',
-    jobUrl: '',
-    notes: '',
-  });
-
-  const [saving, setSaving] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
 
   // ----------------------
-  // Toast simple (sin librer�a)
+  // Toast simple (sin librerï¿½a)
   // ----------------------
   const { toastMessage, showToast, clearToast } = useToast();
 
   /**
-   * Flag para evitar setState despu�s de un unmount.
+   * Flag para evitar setState despuï¿½s de un unmount.
    * - Se inicializa en true.
    * - En el cleanup se setea false.
    * Importante: si el modal se vuelve a montar en el futuro, el useRef se recrea,
@@ -92,11 +76,6 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
    */
   const isMountedRef = useRef(true);
 
-  /**
-   * Flag para evitar el prompt de �cambios sin guardar� cuando el cierre se dispar�
-   * desde un flujo controlado (por ejemplo, handleClose que hace router.back()).
-   */
-  const skipUnsavedPromptRef = useRef(false);
 
   const resetDetailState = useCallback(() => {
     setUpdateError(null);
@@ -121,109 +100,42 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   });
 
   const {
+    formValues,
+    saving,
+    saveError,
+    hasFormChanges,
+    handleFieldChange,
+    handleDiscardChanges,
+    handleSaveChanges,
+  } = useInlineApplicationEdit({
+    application,
+    setApplication,
+    isMountedRef,
+    setPendingStatus,
+    showToast,
+  });
+
+  const {
     history,
     loading: historyLoading,
     error: historyError,
     refetch: refetchHistory,
   } = useApplicationHistory({ applicationId, isMountedRef });
-
-
-  // ----------------------
-  // Sincronizaci�n application -> formValues
-  // ----------------------
-  useEffect(() => {
-    if (!application) return;
-
-    // Se hidrata el formulario con los valores actuales del backend.
-    setFormValues({
-      company: application.company ?? '',
-      position: application.position ?? '',
-      source: application.source ?? '',
-      jobUrl: application.jobUrl ?? '',
-      notes: application.notes ?? '',
-    });
-
-    setSaveError(null);
-  }, [application]);
-
-  // ----------------------
-  // Detecci�n de �dirty state� (cambios sin guardar)
-  // ----------------------
-  const hasFormChanges =
-    application !== null &&
-    (formValues.company !== application.company ||
-      formValues.position !== application.position ||
-      formValues.source !== application.source ||
-      formValues.jobUrl !== (application.jobUrl ?? '') ||
-      formValues.notes !== (application.notes ?? ''));
-
   const hasPendingStatusChange =
     application !== null && pendingStatus !== null && pendingStatus !== application.status;
 
   const hasUnsavedChanges = hasFormChanges || hasPendingStatusChange;
-  const unsavedPromptMessage = 'Tenes cambios sin guardar. �Salir sin guardar?';
+  const unsavedPromptMessage = 'Tenes cambios sin guardar. ¿Salir sin guardar?';
 
-  /**
-   * Confirmaci�n centralizada para salir si hay cambios sin guardar.
-   */
-  const confirmExitIfDirty = useCallback(() => {
-    if (!hasUnsavedChanges) return true;
-    return window.confirm(unsavedPromptMessage);
-  }, [hasUnsavedChanges, unsavedPromptMessage]);
-
-  /**
-   * Cierre controlado del modal.
-   * - Si hay cambios sin guardar, pide confirmaci�n.
-   * - Usa router.back() para respetar el patr�n route-modal.
-   */
-  const handleClose = useCallback(() => {
-    if (!confirmExitIfDirty()) return;
-    skipUnsavedPromptRef.current = true;
+  const navigateBack = useCallback(() => {
     router.back();
-  }, [confirmExitIfDirty, router]);
+  }, [router]);
 
-  /**
-   * Hook para interceptar navegaci�n �atr�s� del navegador.
-   * Se usa popstate porque el modal se cierra con router.back().
-   *
-   * Nota:
-   * - En Next App Router, router.back() cambia history y dispara popstate.
-   * - Si el usuario cancela el confirm, se fuerza forward() para revertir.
-   */
-  useEffect(() => {
-    const onPopState = () => {
-      if (skipUnsavedPromptRef.current) {
-        skipUnsavedPromptRef.current = false;
-        return;
-      }
-
-      if (!hasUnsavedChanges) return;
-
-      const shouldExit = window.confirm(unsavedPromptMessage);
-      if (!shouldExit) {
-        skipUnsavedPromptRef.current = true;
-        window.history.forward();
-      }
-    };
-
-    window.addEventListener('popstate', onPopState);
-    return () => window.removeEventListener('popstate', onPopState);
-  }, [hasUnsavedChanges, unsavedPromptMessage]);
-
-  /**
-   * Protecci�n al cerrar pesta�a / refresh del browser.
-   * Esto es independiente del route-modal.
-   */
-  useEffect(() => {
-    const onBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (!hasUnsavedChanges) return;
-      event.preventDefault();
-      event.returnValue = '';
-    };
-
-    window.addEventListener('beforeunload', onBeforeUnload);
-    return () => window.removeEventListener('beforeunload', onBeforeUnload);
-  }, [hasUnsavedChanges]);
+  const { handleClose, handleBackdropClick } = useUnsavedChangesGuard({
+    hasUnsavedChanges,
+    promptMessage: unsavedPromptMessage,
+    onConfirmClose: navigateBack,
+  });
 
   /**
    * Cleanup general.
@@ -251,38 +163,6 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [handleClose]);
 
-  /**
-   * Click en backdrop (fuera del panel) para cerrar.
-   * Se compara target vs currentTarget para detectar click directo en el backdrop.
-   */
-  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) {
-      handleClose();
-    }
-  };
-
-  // ----------------------
-  // Handlers de edici�n inline
-  // ----------------------
-  const handleFieldChange = (field: keyof typeof formValues, value: string) => {
-    setFormValues((prev) => ({ ...prev, [field]: value }));
-    setSaveError(null);
-  };
-
-  /**
-   * Restaura el formulario a los valores actuales de `application`.
-   */
-  const handleDiscardChanges = () => {
-    if (!application) return;
-    setFormValues({
-      company: application.company ?? '',
-      position: application.position ?? '',
-      source: application.source ?? '',
-      jobUrl: application.jobUrl ?? '',
-      notes: application.notes ?? '',
-    });
-    setSaveError(null);
-  };
 
   /**
    * Revertir cambios de estado pendientes.
@@ -292,74 +172,11 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
     setUpdateError(null);
   };
 
-  /**
-   * Guardado inline de cambios en campos.
-   * - Construye un payload PATCH minimal (solo cambia lo que difiere).
-   * - Valida requeridos: company, position, source.
-   * - Espera confirmaci�n backend (no optimistic).
-   */
-  const handleSaveChanges = async () => {
-    if (!application || !hasFormChanges || saving) return;
-
-    const company = formValues.company.trim();
-    const position = formValues.position.trim();
-    const source = formValues.source.trim();
-    const jobUrl = formValues.jobUrl.trim();
-
-    if (!company || !position || !source) {
-      setSaveError('Completa empresa, puesto y fuente antes de guardar.');
-      return;
-    }
-
-    const payload: UpdateJobApplicationPayload = {};
-
-    if (formValues.company !== application.company) payload.company = company;
-    if (formValues.position !== application.position) payload.position = position;
-    if (formValues.source !== application.source) payload.source = source;
-
-    // Notas: se normaliza a null si queda vac�o.
-    if (formValues.notes !== (application.notes ?? '')) {
-      const cleanedNotes = formValues.notes.trim();
-      payload.notes = cleanedNotes === '' ? null : formValues.notes;
-    }
-
-    // URL: se normaliza a null si queda vac�o.
-    if (formValues.jobUrl !== (application.jobUrl ?? '')) {
-      payload.jobUrl = jobUrl === '' ? null : jobUrl;
-    }
-
-    // Si no hay cambios reales, se sincroniza el form y se termina.
-    if (Object.keys(payload).length === 0) {
-      handleDiscardChanges();
-      return;
-    }
-
-    setSaving(true);
-    setSaveError(null);
-
-    try {
-      const updated = await updateJobApplication(application.id, payload);
-      if (!isMountedRef.current) return;
-
-      setApplication(updated);
-      setPendingStatus(updated.status);
-      setSaveError(null);
-      showToast('Guardado');
-    } catch (err) {
-      if (!isMountedRef.current) return;
-      const message = err instanceof Error ? err.message : 'No se pudieron guardar los cambios';
-      setSaveError(message);
-    } finally {
-      if (isMountedRef.current) {
-        setSaving(false);
-      }
-    }
-  };
 
   /**
    * Confirmar cambio de estado.
    * - No persiste hasta confirmar.
-   * - Refresca historial al �xito.
+   * - Refresca historial al ï¿½xito.
    */
   const handleConfirmStatus = async () => {
     if (!application || !pendingStatus || pendingStatus === application.status) return;
