@@ -1,80 +1,152 @@
-'use client';
+﻿'use client';
+
+/**
+ * DetallePostulacionModal
+ * -----------------------
+ * Componente Client (Next App Router) que renderiza un overlay full-screen
+ * mostrando el detalle de una postulaciï¿½n + ediciï¿½n inline + actualizaciï¿½n de estado
+ * con confirmaciï¿½n + historial auditable.
+ *
+ * Puntos importantes:
+ * - Se apoya en `applicationId` (viene desde la ruta /dashboard/applications/[id]).
+ * - Hace 2 cargas asï¿½ncronas: detalle y historial.
+ * - Usa `isMountedRef` para evitar setState cuando el componente ya se desmontï¿½.
+ * - Implementa guardas de cambios sin guardar (close, back, unload).
+ */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type React from 'react';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
+
 import {
   getJobApplication,
-  getJobApplicationHistory,
+  type UpdateJobApplicationPayload,
+  updateJobApplication,
   updateJobApplicationStatus,
 } from '../../services/jobApplicationsApi';
+
 import {
-  getJobStatusLabel,
   type JobApplication,
   JobStatus,
 } from '../../types/jobApplication';
-import { type JobApplicationHistoryEntry } from '../../types/jobApplicationHistory';
-import { Skeleton } from '../ui/skeleton';
+
 import { Button } from '../ui/button';
-import { format } from 'date-fns';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Skeleton } from '../ui/skeleton';
+import { Textarea } from '../ui/textarea';
+import { DetalleSkeleton } from '../../features/job-applications/detail/components/skeletons/ApplicationDetailSkeleton';
+import { EditableField } from '../../features/job-applications/detail/components/EditableField';
+import { DetailItem } from '../../features/job-applications/detail/components/DetailItem';
+import { HistorySection } from '../../features/job-applications/detail/components/ApplicationHistorySection';
+import { StatusUpdater } from '../../features/job-applications/detail/components/ApplicationStatusUpdater';
+import { formatApplicationDate } from '../../features/job-applications/detail/utils/formatters';
+import { useApplicationHistory } from '../../features/job-applications/detail/hooks/useApplicationHistory';
+import { useToast } from '../../features/job-applications/detail/hooks/useToast';
 
 type DetallePostulacionModalProps = {
+  /** ID de la postulaciï¿½n a cargar (debe ser un UUID/string vï¿½lido). */
   applicationId: string;
 };
 
 export function DetallePostulacionModal({ applicationId }: DetallePostulacionModalProps) {
   const router = useRouter();
+
+  // ----------------------
+  // Estado principal (detalle)
+  // ----------------------
   const [application, setApplication] = useState<JobApplication | null>(null);
+
+  /**
+   * Estado ï¿½pendienteï¿½ del select de estado.
+   * No se persiste al backend hasta presionar Confirmar.
+   */
   const [pendingStatus, setPendingStatus] = useState<JobStatus | null>(null);
-  const [history, setHistory] = useState<JobApplicationHistoryEntry[]>([]);
-  const [historyLoading, setHistoryLoading] = useState(true);
-  const [historyError, setHistoryError] = useState<string | null>(null);
+
+  // ----------------------
+  // Estado de carga / error del detalle
+  // ----------------------
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // ----------------------
+  // Estado de actualizaciï¿½n del status (confirmaciï¿½n)
+  // ----------------------
   const [updating, setUpdating] = useState(false);
   const [updateError, setUpdateError] = useState<string | null>(null);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // ----------------------
+  // Estado del formulario editable (ediciï¿½n inline)
+  // ----------------------
+  const [formValues, setFormValues] = useState({
+    company: '',
+    position: '',
+    source: '',
+    jobUrl: '',
+    notes: '',
+  });
+
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
+  // ----------------------
+  // Toast simple (sin librerï¿½a)
+  // ----------------------
+  const { toastMessage, showToast, clearToast } = useToast();
+
+  /**
+   * Flag para evitar setState despuï¿½s de un unmount.
+   * - Se inicializa en true.
+   * - En el cleanup se setea false.
+   * Importante: si el modal se vuelve a montar en el futuro, el useRef se recrea,
+   * por lo que vuelve a empezar en true.
+   */
   const isMountedRef = useRef(true);
 
-  const handleClose = useCallback(() => {
-    router.back();
-  }, [router]);
+  /**
+   * Flag para evitar el prompt de ï¿½cambios sin guardarï¿½ cuando el cierre se disparï¿½
+   * desde un flujo controlado (por ejemplo, handleClose que hace router.back()).
+   */
+  const skipUnsavedPromptRef = useRef(false);
 
-  const clearToast = () => {
-    if (toastTimeoutRef.current) {
-      clearTimeout(toastTimeoutRef.current);
-      toastTimeoutRef.current = null;
-    }
-  };
+  const {
+    history,
+    loading: historyLoading,
+    error: historyError,
+    refetch: refetchHistory,
+  } = useApplicationHistory({ applicationId, isMountedRef });
 
-  const showToast = (message: string) => {
-    clearToast();
-    setToastMessage(message);
-    toastTimeoutRef.current = setTimeout(() => {
-      setToastMessage(null);
-    }, 3000);
-  };
+  // ----------------------
+  // Helpers de toast
+  // ----------------------
 
+  // ----------------------
+  // Fetch del detalle
+  // ----------------------
   const fetchApplication = useCallback(async () => {
+    // Se resetea el estado para mostrar skeleton y evitar data vieja.
     setLoading(true);
     setError(null);
     setUpdateError(null);
     setApplication(null);
     setPendingStatus(null);
 
+    // Guard clause: evita pegarle al backend con undefined/empty.
     if (!applicationId) {
- console.log('No application ID provided');
+      console.log('No application ID provided');
       setError('ID de postulacion no proporcionado');
       setLoading(false);
       return;
-}
+    }
+
     try {
+      // Segundo guard (redundante). Se puede dejar uno solo.
       if (!applicationId) return;
+
       const data = await getJobApplication(applicationId);
+
+      // Evita setState si el componente ya se desmontï¿½.
       if (!isMountedRef.current) return;
+
       setApplication(data);
       setPendingStatus(data.status);
     } catch (err) {
@@ -89,31 +161,123 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
     }
   }, [applicationId]);
 
-  const fetchHistory = useCallback(async () => {
-    setHistoryLoading(true);
-    setHistoryError(null);
-    setHistory([]);
-    try {
-      const data = await getJobApplicationHistory(applicationId);
-      if (!isMountedRef.current) return;
-      setHistory(data);
-    } catch (err) {
-      if (!isMountedRef.current) return;
-      const message = err instanceof Error ? err.message : 'Error al cargar historial';
-      setHistoryError(message);
-      setHistory([]);
-    } finally {
-      if (isMountedRef.current) {
-        setHistoryLoading(false);
-      }
-    }
-  }, [applicationId]);
 
+  /**
+   * Efecto de carga inicial (detalle).
+   * Se dispara en mount y cuando cambia applicationId.
+   *
+   * Importante:
+   * - Esta bien que dependa de fetchApplication porque es useCallback
+   *   (se recrea solo cuando cambia applicationId).
+   * - Si se viera una tormenta de requests, la causa tipica seria que applicationId
+   *   cambia repetidamente o que el componente se monta/desmonta en loop.
+   */
   useEffect(() => {
     fetchApplication();
-    fetchHistory();
-  }, [fetchApplication, fetchHistory]);
+  }, [fetchApplication]);
 
+  // ----------------------
+  // Sincronizaciï¿½n application -> formValues
+  // ----------------------
+  useEffect(() => {
+    if (!application) return;
+
+    // Se hidrata el formulario con los valores actuales del backend.
+    setFormValues({
+      company: application.company ?? '',
+      position: application.position ?? '',
+      source: application.source ?? '',
+      jobUrl: application.jobUrl ?? '',
+      notes: application.notes ?? '',
+    });
+
+    setSaveError(null);
+  }, [application]);
+
+  // ----------------------
+  // Detecciï¿½n de ï¿½dirty stateï¿½ (cambios sin guardar)
+  // ----------------------
+  const hasFormChanges =
+    application !== null &&
+    (formValues.company !== application.company ||
+      formValues.position !== application.position ||
+      formValues.source !== application.source ||
+      formValues.jobUrl !== (application.jobUrl ?? '') ||
+      formValues.notes !== (application.notes ?? ''));
+
+  const hasPendingStatusChange =
+    application !== null && pendingStatus !== null && pendingStatus !== application.status;
+
+  const hasUnsavedChanges = hasFormChanges || hasPendingStatusChange;
+  const unsavedPromptMessage = 'Tenes cambios sin guardar. ï¿½Salir sin guardar?';
+
+  /**
+   * Confirmaciï¿½n centralizada para salir si hay cambios sin guardar.
+   */
+  const confirmExitIfDirty = useCallback(() => {
+    if (!hasUnsavedChanges) return true;
+    return window.confirm(unsavedPromptMessage);
+  }, [hasUnsavedChanges, unsavedPromptMessage]);
+
+  /**
+   * Cierre controlado del modal.
+   * - Si hay cambios sin guardar, pide confirmaciï¿½n.
+   * - Usa router.back() para respetar el patrï¿½n route-modal.
+   */
+  const handleClose = useCallback(() => {
+    if (!confirmExitIfDirty()) return;
+    skipUnsavedPromptRef.current = true;
+    router.back();
+  }, [confirmExitIfDirty, router]);
+
+  /**
+   * Hook para interceptar navegaciï¿½n ï¿½atrï¿½sï¿½ del navegador.
+   * Se usa popstate porque el modal se cierra con router.back().
+   *
+   * Nota:
+   * - En Next App Router, router.back() cambia history y dispara popstate.
+   * - Si el usuario cancela el confirm, se fuerza forward() para revertir.
+   */
+  useEffect(() => {
+    const onPopState = () => {
+      if (skipUnsavedPromptRef.current) {
+        skipUnsavedPromptRef.current = false;
+        return;
+      }
+
+      if (!hasUnsavedChanges) return;
+
+      const shouldExit = window.confirm(unsavedPromptMessage);
+      if (!shouldExit) {
+        skipUnsavedPromptRef.current = true;
+        window.history.forward();
+      }
+    };
+
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [hasUnsavedChanges, unsavedPromptMessage]);
+
+  /**
+   * Protecciï¿½n al cerrar pestaï¿½a / refresh del browser.
+   * Esto es independiente del route-modal.
+   */
+  useEffect(() => {
+    const onBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!hasUnsavedChanges) return;
+      event.preventDefault();
+      event.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => window.removeEventListener('beforeunload', onBeforeUnload);
+  }, [hasUnsavedChanges]);
+
+  /**
+   * Cleanup general.
+   * - Marca isMountedRef = false para cortar setState.
+   * - Limpia timeouts del toast.
+   */
   useEffect(() => {
     return () => {
       isMountedRef.current = false;
@@ -121,6 +285,9 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
     };
   }, []);
 
+  /**
+   * Cierre con tecla ESC.
+   */
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -132,27 +299,132 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [handleClose]);
 
+  /**
+   * Click en backdrop (fuera del panel) para cerrar.
+   * Se compara target vs currentTarget para detectar click directo en el backdrop.
+   */
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       handleClose();
     }
   };
 
+  // ----------------------
+  // Handlers de ediciï¿½n inline
+  // ----------------------
+  const handleFieldChange = (field: keyof typeof formValues, value: string) => {
+    setFormValues((prev) => ({ ...prev, [field]: value }));
+    setSaveError(null);
+  };
+
+  /**
+   * Restaura el formulario a los valores actuales de `application`.
+   */
+  const handleDiscardChanges = () => {
+    if (!application) return;
+    setFormValues({
+      company: application.company ?? '',
+      position: application.position ?? '',
+      source: application.source ?? '',
+      jobUrl: application.jobUrl ?? '',
+      notes: application.notes ?? '',
+    });
+    setSaveError(null);
+  };
+
+  /**
+   * Revertir cambios de estado pendientes.
+   */
   const handleCancelStatus = () => {
     setPendingStatus(application?.status ?? null);
     setUpdateError(null);
   };
 
+  /**
+   * Guardado inline de cambios en campos.
+   * - Construye un payload PATCH minimal (solo cambia lo que difiere).
+   * - Valida requeridos: company, position, source.
+   * - Espera confirmaciï¿½n backend (no optimistic).
+   */
+  const handleSaveChanges = async () => {
+    if (!application || !hasFormChanges || saving) return;
+
+    const company = formValues.company.trim();
+    const position = formValues.position.trim();
+    const source = formValues.source.trim();
+    const jobUrl = formValues.jobUrl.trim();
+
+    if (!company || !position || !source) {
+      setSaveError('Completa empresa, puesto y fuente antes de guardar.');
+      return;
+    }
+
+    const payload: UpdateJobApplicationPayload = {};
+
+    if (formValues.company !== application.company) payload.company = company;
+    if (formValues.position !== application.position) payload.position = position;
+    if (formValues.source !== application.source) payload.source = source;
+
+    // Notas: se normaliza a null si queda vacï¿½o.
+    if (formValues.notes !== (application.notes ?? '')) {
+      const cleanedNotes = formValues.notes.trim();
+      payload.notes = cleanedNotes === '' ? null : formValues.notes;
+    }
+
+    // URL: se normaliza a null si queda vacï¿½o.
+    if (formValues.jobUrl !== (application.jobUrl ?? '')) {
+      payload.jobUrl = jobUrl === '' ? null : jobUrl;
+    }
+
+    // Si no hay cambios reales, se sincroniza el form y se termina.
+    if (Object.keys(payload).length === 0) {
+      handleDiscardChanges();
+      return;
+    }
+
+    setSaving(true);
+    setSaveError(null);
+
+    try {
+      const updated = await updateJobApplication(application.id, payload);
+      if (!isMountedRef.current) return;
+
+      setApplication(updated);
+      setPendingStatus(updated.status);
+      setSaveError(null);
+      showToast('Guardado');
+    } catch (err) {
+      if (!isMountedRef.current) return;
+      const message = err instanceof Error ? err.message : 'No se pudieron guardar los cambios';
+      setSaveError(message);
+    } finally {
+      if (isMountedRef.current) {
+        setSaving(false);
+      }
+    }
+  };
+
+  /**
+   * Confirmar cambio de estado.
+   * - No persiste hasta confirmar.
+   * - Refresca historial al ï¿½xito.
+   */
   const handleConfirmStatus = async () => {
     if (!application || !pendingStatus || pendingStatus === application.status) return;
+
     setUpdating(true);
     setUpdateError(null);
+
     try {
       const updated = await updateJobApplicationStatus(application.id, pendingStatus);
       if (!isMountedRef.current) return;
+
       setApplication(updated);
       setPendingStatus(updated.status);
-      fetchHistory();
+
+      // Refresca historial para mostrar el nuevo evento STATUS_CHANGED.
+      refetchHistory();
+
       showToast('Estado actualizado');
     } catch (err) {
       if (!isMountedRef.current) return;
@@ -165,11 +437,14 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
     }
   };
 
-  const formattedDate =
-    application?.applicationDate && !Number.isNaN(new Date(application.applicationDate).getTime())
-      ? format(new Date(application.applicationDate), 'dd/MM/yyyy')
-      : null;
+  // ----------------------
+  // Formateo de fecha
+  // ----------------------
+  const formattedDate = formatApplicationDate(application?.applicationDate);
 
+  // ----------------------
+  // Render
+  // ----------------------
   return (
     <div
       className="fixed inset-0 z-40 flex items-stretch justify-center bg-slate-900/60 px-3 py-6 backdrop-blur-sm sm:px-6"
@@ -184,6 +459,7 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
               Postulacion
             </p>
+
             {loading ? (
               <div className="space-y-2 pt-1">
                 <Skeleton className="h-7 w-48" />
@@ -196,12 +472,13 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
                 </h2>
                 <p className="text-sm text-slate-600">
                   {application
-                    ? `${application.company} • ${application.source}`
+                    ? `${application.company} - ${application.source}`
                     : 'Vista superpuesta sobre el dashboard'}
                 </p>
               </>
             )}
           </div>
+
           <button
             type="button"
             onClick={handleClose}
@@ -232,36 +509,58 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
               <section className="rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-4">
                 <p className="text-sm font-semibold text-slate-800">Resumen</p>
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <DetailItem label="Puesto" value={application.position} />
-                  <DetailItem label="Empresa" value={application.company} />
-                  <DetailItem label="Fuente" value={application.source} />
-                  <DetailItem label="Fecha" value={formattedDate ?? application.applicationDate} />
-                  <StatusUpdater
-                    value={pendingStatus ?? application.status}
-                    current={application.status}
-                    updating={updating}
-                    onChange={(value) => {
-                      setPendingStatus(value);
-                      setUpdateError(null);
-                    }}
-                    onCancel={handleCancelStatus}
-                    onConfirm={handleConfirmStatus}
-                    error={updateError}
+                  <EditableField
+                    label="Puesto"
+                    value={formValues.position}
+                    onChange={(value) => handleFieldChange('position', value)}
+                    disabled={saving}
                   />
-                  <DetailItem
+                  <EditableField
+                    label="Empresa"
+                    value={formValues.company}
+                    onChange={(value) => handleFieldChange('company', value)}
+                    disabled={saving}
+                  />
+                  <EditableField
+                    label="Fuente"
+                    value={formValues.source}
+                    onChange={(value) => handleFieldChange('source', value)}
+                    disabled={saving}
+                  />
+                  <DetailItem label="Fecha" value={formattedDate ?? application.applicationDate} />
+                  <div className="sm:col-span-2">
+                    <StatusUpdater
+                      value={pendingStatus ?? application.status}
+                      current={application.status}
+                      updating={updating}
+                      onChange={(value) => {
+                        setPendingStatus(value);
+                        setUpdateError(null);
+                      }}
+                      onCancel={handleCancelStatus}
+                      onConfirm={handleConfirmStatus}
+                      error={updateError}
+                    />
+                  </div>
+                  <EditableField
                     label="URL"
-                    value={
-                      application.jobUrl ? (
+                    type="url"
+                    value={formValues.jobUrl}
+                    onChange={(value) => handleFieldChange('jobUrl', value)}
+                    placeholder="https://ejemplo.com/oferta"
+                    disabled={saving}
+                    helper={
+                      formValues.jobUrl.trim() ? (
                         <a
-                          href={application.jobUrl}
+                          href={formValues.jobUrl.trim()}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-slate-900 underline underline-offset-4 hover:text-slate-700"
+                          className="text-xs text-slate-700 underline underline-offset-4 hover:text-slate-900"
                         >
-                          Ver oferta
+                          Abrir enlace
                         </a>
                       ) : (
-                        'Sin URL'
+                        <span className="text-xs text-slate-500">Sin URL</span>
                       )
                     }
                   />
@@ -271,23 +570,50 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
               <section className="rounded-xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-semibold text-slate-800">Notas</p>
-                  <span className="text-xs uppercase tracking-wide text-slate-500">Solo lectura</span>
+                  {saving ? (
+                    <span className="text-xs uppercase tracking-wide text-slate-500">Guardando...</span>
+                  ) : null}
                 </div>
-                <p className="mt-2 text-sm text-slate-700">
-                  {application.notes?.trim() || 'Sin notas registradas.'}
-                </p>
+                <Textarea
+                  className="mt-2"
+                  value={formValues.notes}
+                  onChange={(event) => handleFieldChange('notes', event.target.value)}
+                  placeholder="Agrega detalles o proximos pasos."
+                  disabled={saving}
+                  rows={4}
+                />
               </section>
+
+              {hasFormChanges ? (
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+                  <div className="flex flex-wrap gap-2">
+                    <Button size="sm" onClick={handleSaveChanges} disabled={saving}>
+                      {saving ? 'Guardando...' : 'Guardar'}
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={handleDiscardChanges} disabled={saving}>
+                      Descartar
+                    </Button>
+                  </div>
+                  <div className="flex flex-col gap-1 text-right sm:text-left">
+                    {saveError ? <span className="text-xs text-red-600">{saveError}</span> : null}
+                    {!saveError && saving ? (
+                      <span className="text-xs uppercase tracking-wide text-slate-500">Sincronizando</span>
+                    ) : null}
+                  </div>
+                </div>
+              ) : null}
 
               <HistorySection
                 history={history}
                 loading={historyLoading}
                 error={historyError}
-                onRetry={fetchHistory}
+                onRetry={refetchHistory}
               />
             </div>
           ) : null}
         </main>
       </div>
+
       {toastMessage && (
         <div className="pointer-events-none fixed bottom-6 right-6 z-50">
           <div className="rounded-lg bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-2xl">
@@ -295,216 +621,6 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
           </div>
         </div>
       )}
-    </div>
-  );
-}
-
-function DetailItem({ label, value }: { label: string; value: React.ReactNode }) {
-  return (
-    <div className="space-y-1 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm">
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
-      <div className="text-sm text-slate-900">{value}</div>
-    </div>
-  );
-}
-
-type StatusUpdaterProps = {
-  value: JobStatus;
-  current: JobStatus;
-  updating: boolean;
-  onChange: (value: JobStatus) => void;
-  onConfirm: () => void;
-  onCancel: () => void;
-  error: string | null;
-};
-
-function StatusUpdater({
-  value,
-  current,
-  updating,
-  onChange,
-  onConfirm,
-  onCancel,
-  error,
-}: StatusUpdaterProps) {
-  const isDirty = value !== current;
-
-  return (
-    <div className="space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm">
-      <div className="flex items-start justify-between gap-2">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Estado</p>
-          <p className="text-xs text-slate-500">Cambiar estado con confirmacion</p>
-        </div>
-        {updating && <span className="text-xs font-semibold uppercase text-slate-500">Guardando...</span>}
-      </div>
-      <Select
-        value={value}
-        onValueChange={(val) => onChange(val as JobStatus)}
-        disabled={updating}
-      >
-        <SelectTrigger>
-          <SelectValue placeholder="Selecciona estado" />
-        </SelectTrigger>
-        <SelectContent>
-          {Object.values(JobStatus).map((status) => (
-            <SelectItem key={status} value={status}>
-              {getJobStatusLabel(status)}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      {error && <p className="text-xs text-red-600">{error}</p>}
-      <div className="flex flex-wrap gap-2">
-        <Button size="sm" disabled={!isDirty || updating} onClick={onConfirm}>
-          Confirmar cambio
-        </Button>
-        <Button size="sm" variant="outline" disabled={!isDirty || updating} onClick={onCancel}>
-          Cancelar
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-type HistorySectionProps = {
-  history: JobApplicationHistoryEntry[];
-  loading: boolean;
-  error: string | null;
-  onRetry: () => void;
-};
-
-function HistorySection({ history, loading, error, onRetry }: HistorySectionProps) {
-  return (
-    <section className="rounded-xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
-      <div className="flex items-center justify-between">
-        <p className="text-sm font-semibold text-slate-800">Historial</p>
-        <span className="text-xs uppercase tracking-wide text-slate-500">Linea de tiempo</span>
-      </div>
-
-      {loading ? (
-        <HistorySkeleton />
-      ) : error ? (
-        <div className="mt-3 space-y-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
-          <div className="flex items-start justify-between gap-3">
-            <span className="font-semibold">No pudimos cargar el historial</span>
-            <Button size="sm" variant="outline" onClick={onRetry}>
-              Reintentar
-            </Button>
-          </div>
-          <p className="text-xs text-red-700">{error}</p>
-        </div>
-      ) : history.length === 0 ? (
-        <p className="mt-3 text-sm text-slate-600">Sin eventos registrados todavia.</p>
-      ) : (
-        <HistoryTimeline history={history} />
-      )}
-    </section>
-  );
-}
-
-function HistoryTimeline({ history }: { history: JobApplicationHistoryEntry[] }) {
-  return (
-    <ol className="mt-3 space-y-4">
-      {history.map((entry, index) => {
-        const { title, description } = describeHistoryEntry(entry);
-        const createdAt = new Date(entry.createdAt);
-        const readableDate = Number.isNaN(createdAt.getTime())
-          ? entry.createdAt
-          : format(createdAt, 'dd/MM/yyyy HH:mm');
-        const isLast = index === history.length - 1;
-
-        return (
-          <li key={entry.id} className="relative pl-8">
-            <span className="absolute left-3 top-1.5 inline-flex h-3 w-3 items-center justify-center">
-              <span className="h-3 w-3 rounded-full bg-slate-400 ring-2 ring-slate-200" />
-            </span>
-            {!isLast && (
-              <span
-                className="absolute left-[17px] top-4 h-full w-px bg-slate-200"
-                aria-hidden="true"
-              />
-            )}
-            <div className="space-y-1">
-              <p className="text-sm font-semibold text-slate-900">{title}</p>
-              {description ? <p className="text-xs text-slate-600">{description}</p> : null}
-              <p className="text-xs text-slate-500">{readableDate}</p>
-            </div>
-          </li>
-        );
-      })}
-    </ol>
-  );
-}
-
-function describeHistoryEntry(entry: JobApplicationHistoryEntry) {
-  if (entry.type === 'STATUS_CHANGED') {
-    const from = entry.meta.from ? getJobStatusLabel(entry.meta.from) : 'Sin estado previo';
-    const to = entry.meta.to ? getJobStatusLabel(entry.meta.to) : 'Sin estado';
-    return {
-      title: 'Cambio de estado',
-      description: `${from} -> ${to}`,
-    };
-  }
-
-  return {
-    title: 'Postulacion creada',
-    description: 'Se registro la postulacion en el sistema.',
-  };
-}
-
-function HistorySkeleton() {
-  return (
-    <div className="mt-3 space-y-3">
-      {[0, 1, 2].map((item) => (
-        <div key={item} className="space-y-2">
-          <Skeleton className="h-3 w-32" />
-          <Skeleton className="h-3 w-24" />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function DetalleSkeleton() {
-  return (
-    <div className="space-y-5">
-      <section className="rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-4">
-        <Skeleton className="h-4 w-24" />
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          {[0, 1, 2, 3, 4].map((idx) => (
-            <div
-              key={idx}
-              className="space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm"
-            >
-              <Skeleton className="h-3 w-20" />
-              <Skeleton className="h-4 w-36" />
-            </div>
-          ))}
-          <div className="space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm">
-            <Skeleton className="h-3 w-20" />
-            <Skeleton className="h-10 w-full" />
-            <div className="flex gap-2">
-              <Skeleton className="h-8 w-28" />
-              <Skeleton className="h-8 w-24" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="rounded-xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
-        <Skeleton className="h-4 w-24" />
-        <div className="mt-3 space-y-2">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-5/6" />
-          <Skeleton className="h-4 w-2/3" />
-        </div>
-      </section>
-
-      <section className="rounded-xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
-        <Skeleton className="h-4 w-24" />
-        <HistorySkeleton />
-      </section>
     </div>
   );
 }

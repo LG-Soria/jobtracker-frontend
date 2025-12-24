@@ -26,8 +26,8 @@ export type JobApplication = {
   source: string;
   applicationDate: string;
   status: JobStatus;
-  notes?: string;
-  jobUrl?: string;
+  notes?: string | null;
+  jobUrl?: string | null;
   createdAt: string;
   updatedAt: string;
 };

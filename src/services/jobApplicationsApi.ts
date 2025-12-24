@@ -87,6 +87,26 @@ export async function updateJobApplicationStatus(
   });
 }
 
+export type UpdateJobApplicationPayload = Partial<{
+  company: string;
+  position: string;
+  source: string;
+  applicationDate: string;
+  status: JobStatus;
+  notes: string | null;
+  jobUrl: string | null;
+}>;
+
+export async function updateJobApplication(
+  id: string,
+  payload: UpdateJobApplicationPayload,
+): Promise<JobApplication> {
+  return apiFetch<JobApplication>(`/job-applications/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+}
+
 export async function deleteJobApplication(id: string): Promise<JobApplication> {
   return apiFetch<JobApplication>(`/job-applications/${id}`, { method: 'DELETE' });
 }
