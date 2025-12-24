@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Lucas/Desktop/Proyectos%202/JobTracker/frontend/src/app/layout.tsx"],"sourcesContent":["import './globals.css';\nimport type { Metadata } from 'next';\nimport type { ReactNode } from 'react';\n\nexport const metadata: Metadata = {\n  title: 'JobTracker',\n  description: 'Seguimiento simple de tus postulaciones laborales.',\n};\n\nexport default function RootLayout({ children }: { children: ReactNode }) {\n  return (\n    <html lang=\"es\">\n      <body className=\"font-sans\">{children}</body>\n    </html>\n  );\n}\n"],"names":[],"mappings":";;;;;;;;;AAIO,MAAM,WAAqB;IAChC,OAAO;IACP,aAAa;AACf;AAEe,SAAS,WAAW,EAAE,QAAQ,EAA2B;IACtE,qBACE,8OAAC;QAAK,MAAK;kBACT,cAAA,8OAAC;YAAK,WAAU;sBAAa;;;;;;;;;;;AAGnC"}},
-    {"offset": {"line": 38, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Lucas/Desktop/Proyectos%202/JobTracker/frontend/node_modules/next/src/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = (\n  require('../../module.compiled') as typeof import('../../module.compiled')\n).vendored['react-rsc']!.ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":"AAAAA,OAAOC,OAAO,GACZC,QAAQ,4HACRC,QAAQ,CAAC,YAAY,CAAEC,kBAAkB","ignoreList":[0]}}]
-}
