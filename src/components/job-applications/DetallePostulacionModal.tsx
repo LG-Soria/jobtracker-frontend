@@ -65,7 +65,14 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
     setApplication(null);
     setPendingStatus(null);
 
+    if (!applicationId) {
+ console.log('No application ID provided');
+      setError('ID de postulacion no proporcionado');
+      setLoading(false);
+      return;
+}
     try {
+      if (!applicationId) return;
       const data = await getJobApplication(applicationId);
       if (!isMountedRef.current) return;
       setApplication(data);
