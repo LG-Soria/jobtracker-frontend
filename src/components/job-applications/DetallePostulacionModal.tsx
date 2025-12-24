@@ -4,8 +4,17 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type React from 'react';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
-import { getJobApplication, updateJobApplicationStatus } from '../../services/jobApplicationsApi';
-import { getJobStatusLabel, type JobApplication, JobStatus } from '../../types/jobApplication';
+import {
+  getJobApplication,
+  getJobApplicationHistory,
+  updateJobApplicationStatus,
+} from '../../services/jobApplicationsApi';
+import {
+  getJobStatusLabel,
+  type JobApplication,
+  JobStatus,
+} from '../../types/jobApplication';
+import { type JobApplicationHistoryEntry } from '../../types/jobApplicationHistory';
 import { Skeleton } from '../ui/skeleton';
 import { Button } from '../ui/button';
 import { format } from 'date-fns';
@@ -19,6 +28,9 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
   const router = useRouter();
   const [application, setApplication] = useState<JobApplication | null>(null);
   const [pendingStatus, setPendingStatus] = useState<JobStatus | null>(null);
+  const [history, setHistory] = useState<JobApplicationHistoryEntry[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
+  const [historyError, setHistoryError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [updating, setUpdating] = useState(false);
@@ -70,9 +82,30 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
     }
   }, [applicationId]);
 
+  const fetchHistory = useCallback(async () => {
+    setHistoryLoading(true);
+    setHistoryError(null);
+    setHistory([]);
+    try {
+      const data = await getJobApplicationHistory(applicationId);
+      if (!isMountedRef.current) return;
+      setHistory(data);
+    } catch (err) {
+      if (!isMountedRef.current) return;
+      const message = err instanceof Error ? err.message : 'Error al cargar historial';
+      setHistoryError(message);
+      setHistory([]);
+    } finally {
+      if (isMountedRef.current) {
+        setHistoryLoading(false);
+      }
+    }
+  }, [applicationId]);
+
   useEffect(() => {
     fetchApplication();
-  }, [fetchApplication]);
+    fetchHistory();
+  }, [fetchApplication, fetchHistory]);
 
   useEffect(() => {
     return () => {
@@ -112,6 +145,7 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
       if (!isMountedRef.current) return;
       setApplication(updated);
       setPendingStatus(updated.status);
+      fetchHistory();
       showToast('Estado actualizado');
     } catch (err) {
       if (!isMountedRef.current) return;
@@ -236,6 +270,13 @@ export function DetallePostulacionModal({ applicationId }: DetallePostulacionMod
                   {application.notes?.trim() || 'Sin notas registradas.'}
                 </p>
               </section>
+
+              <HistorySection
+                history={history}
+                loading={historyLoading}
+                error={historyError}
+                onRetry={fetchHistory}
+              />
             </div>
           ) : null}
         </main>
@@ -319,6 +360,105 @@ function StatusUpdater({
   );
 }
 
+type HistorySectionProps = {
+  history: JobApplicationHistoryEntry[];
+  loading: boolean;
+  error: string | null;
+  onRetry: () => void;
+};
+
+function HistorySection({ history, loading, error, onRetry }: HistorySectionProps) {
+  return (
+    <section className="rounded-xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-semibold text-slate-800">Historial</p>
+        <span className="text-xs uppercase tracking-wide text-slate-500">Linea de tiempo</span>
+      </div>
+
+      {loading ? (
+        <HistorySkeleton />
+      ) : error ? (
+        <div className="mt-3 space-y-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+          <div className="flex items-start justify-between gap-3">
+            <span className="font-semibold">No pudimos cargar el historial</span>
+            <Button size="sm" variant="outline" onClick={onRetry}>
+              Reintentar
+            </Button>
+          </div>
+          <p className="text-xs text-red-700">{error}</p>
+        </div>
+      ) : history.length === 0 ? (
+        <p className="mt-3 text-sm text-slate-600">Sin eventos registrados todavia.</p>
+      ) : (
+        <HistoryTimeline history={history} />
+      )}
+    </section>
+  );
+}
+
+function HistoryTimeline({ history }: { history: JobApplicationHistoryEntry[] }) {
+  return (
+    <ol className="mt-3 space-y-4">
+      {history.map((entry, index) => {
+        const { title, description } = describeHistoryEntry(entry);
+        const createdAt = new Date(entry.createdAt);
+        const readableDate = Number.isNaN(createdAt.getTime())
+          ? entry.createdAt
+          : format(createdAt, 'dd/MM/yyyy HH:mm');
+        const isLast = index === history.length - 1;
+
+        return (
+          <li key={entry.id} className="relative pl-8">
+            <span className="absolute left-3 top-1.5 inline-flex h-3 w-3 items-center justify-center">
+              <span className="h-3 w-3 rounded-full bg-slate-400 ring-2 ring-slate-200" />
+            </span>
+            {!isLast && (
+              <span
+                className="absolute left-[17px] top-4 h-full w-px bg-slate-200"
+                aria-hidden="true"
+              />
+            )}
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-slate-900">{title}</p>
+              {description ? <p className="text-xs text-slate-600">{description}</p> : null}
+              <p className="text-xs text-slate-500">{readableDate}</p>
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+function describeHistoryEntry(entry: JobApplicationHistoryEntry) {
+  if (entry.type === 'STATUS_CHANGED') {
+    const from = entry.meta.from ? getJobStatusLabel(entry.meta.from) : 'Sin estado previo';
+    const to = entry.meta.to ? getJobStatusLabel(entry.meta.to) : 'Sin estado';
+    return {
+      title: 'Cambio de estado',
+      description: `${from} -> ${to}`,
+    };
+  }
+
+  return {
+    title: 'Postulacion creada',
+    description: 'Se registro la postulacion en el sistema.',
+  };
+}
+
+function HistorySkeleton() {
+  return (
+    <div className="mt-3 space-y-3">
+      {[0, 1, 2].map((item) => (
+        <div key={item} className="space-y-2">
+          <Skeleton className="h-3 w-32" />
+          <Skeleton className="h-3 w-24" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function DetalleSkeleton() {
   return (
     <div className="space-y-5">
@@ -352,6 +492,11 @@ function DetalleSkeleton() {
           <Skeleton className="h-4 w-5/6" />
           <Skeleton className="h-4 w-2/3" />
         </div>
+      </section>
+
+      <section className="rounded-xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
+        <Skeleton className="h-4 w-24" />
+        <HistorySkeleton />
       </section>
     </div>
   );

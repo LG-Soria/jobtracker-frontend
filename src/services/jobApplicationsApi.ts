@@ -2,6 +2,7 @@
 
 import { apiFetch, API_URL } from '../lib/apiClient';
 import { JobApplication, JobStatus } from '../types/jobApplication';
+import { JobApplicationHistoryEntry } from '../types/jobApplicationHistory';
 
 export type JobApplicationsQuery = {
   status?: JobStatus;
@@ -68,6 +69,12 @@ export async function createJobApplication(
 
 export async function getJobApplication(id: string): Promise<JobApplication> {
   return apiFetch<JobApplication>(`/job-applications/${id}`);
+}
+
+export async function getJobApplicationHistory(
+  id: string,
+): Promise<JobApplicationHistoryEntry[]> {
+  return apiFetch<JobApplicationHistoryEntry[]>(`/job-applications/${id}/history`);
 }
 
 export async function updateJobApplicationStatus(
