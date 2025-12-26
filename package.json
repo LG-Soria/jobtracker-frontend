@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev -p 3001",
+    "type-check": "tsc --noEmit",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

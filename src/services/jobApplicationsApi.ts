@@ -10,7 +10,6 @@ import {
 } from '../types/jobApplication';
 import { JobApplicationHistoryEntry } from '../types/jobApplicationHistory';
 
-export { SalaryCurrency, SalaryPeriod, SalaryType } from '../types/jobApplication';
 
 export type JobApplicationsQuery = {
   status?: JobStatus;

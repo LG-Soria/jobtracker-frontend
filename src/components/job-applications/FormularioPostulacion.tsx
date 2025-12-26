@@ -5,11 +5,10 @@
 
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import {
-  CreateJobApplicationPayload,
   SalaryCurrency,
   SalaryPeriod,
   SalaryType,
-} from '../../services/jobApplicationsApi';
+} from '../../types/jobApplication';
 import { getJobStatusLabel, JobStatus } from '../../types/jobApplication';
 import { SuggestionInput } from './SuggestionInput';
 import { Label } from '../ui/label';
@@ -28,6 +27,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Calendar } from '../ui/calendar';
 import { Calendar as CalendarIcon, X } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
+import { CreateJobApplicationPayload } from '../../services/jobApplicationsApi';
 
 type FormularioPostulacionProps = {
   onSubmit: (payload: CreateJobApplicationPayload) => Promise<void>;
