@@ -6,17 +6,18 @@ import {
   type SetStateAction,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 
 import {
   type UpdateJobApplicationPayload,
   updateJobApplication,
-} from '../services/jobApplicationsApi';
+} from '../../../../services/jobApplicationsApi';
 import {
   type JobApplication,
   type JobStatus,
-} from '../types/jobApplication';
+} from '../../../../types/jobApplication';
 
 type InlineFormValues = {
   company: string;
@@ -29,7 +30,6 @@ type InlineFormValues = {
 type UseInlineApplicationEditOptions = {
   application: JobApplication | null;
   setApplication: Dispatch<SetStateAction<JobApplication | null>>;
-  isMountedRef: MutableRefObject<boolean>;
   setPendingStatus: (status: JobStatus | null) => void;
   showToast: (message: string) => void;
 };
@@ -45,13 +45,15 @@ const EMPTY_FORM: InlineFormValues = {
 export function useInlineApplicationEdit({
   application,
   setApplication,
-  isMountedRef,
   setPendingStatus,
   showToast,
-}: UseInlineApplicationEditOptions) {
+}: Omit<UseInlineApplicationEditOptions, 'isMountedRef'>) {
   const [formValues, setFormValues] = useState<InlineFormValues>(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+
+  const abortRef = useRef<AbortController | null>(null);
+  const requestIdRef = useRef(0);
 
   useEffect(() => {
     if (!application) return;
@@ -95,6 +97,13 @@ export function useInlineApplicationEdit({
   const handleSaveChanges = useCallback(async () => {
     if (!application || !hasFormChanges || saving) return;
 
+    // Cancela request anterior si existía
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    const myRequestId = ++requestIdRef.current;
+
     const company = formValues.company.trim();
     const position = formValues.position.trim();
     const source = formValues.source.trim();
@@ -106,17 +115,16 @@ export function useInlineApplicationEdit({
     }
 
     const payload: UpdateJobApplicationPayload = {};
-
-    if (formValues.company !== application.company) payload.company = company;
-    if (formValues.position !== application.position) payload.position = position;
-    if (formValues.source !== application.source) payload.source = source;
+    if (company !== (application.company ?? '')) payload.company = company;
+    if (position !== (application.position ?? '')) payload.position = position;
+    if (source !== (application.source ?? '')) payload.source = source;
 
     if (formValues.notes !== (application.notes ?? '')) {
       const cleanedNotes = formValues.notes.trim();
       payload.notes = cleanedNotes === '' ? null : formValues.notes;
     }
 
-    if (formValues.jobUrl !== (application.jobUrl ?? '')) {
+    if (jobUrl !== (application.jobUrl ?? '')) {
       payload.jobUrl = jobUrl === '' ? null : jobUrl;
     }
 
@@ -129,37 +137,44 @@ export function useInlineApplicationEdit({
     setSaveError(null);
 
     try {
-      const updated = await updateJobApplication(application.id, payload);
-      if (!isMountedRef.current) return;
+      // Ideal: permitir signal también en updateJobApplication
+      const updated = await updateJobApplication(application.id, payload, {
+        signal: controller.signal,
+      });
+
+      if (controller.signal.aborted) return;
+      if (myRequestId !== requestIdRef.current) return;
 
       setApplication(updated);
       setPendingStatus(updated.status);
-      setSaveError(null);
       showToast('Guardado');
-    } catch (err) {
-      if (!isMountedRef.current) return;
-      const message = err instanceof Error ? err.message : 'No se pudieron guardar los cambios';
+    } catch (err: any) {
+      if (controller.signal.aborted) return;
+      if (myRequestId !== requestIdRef.current) return;
+
+      const message =
+        err instanceof Error ? err.message : 'No se pudieron guardar los cambios';
       setSaveError(message);
     } finally {
-      if (isMountedRef.current) {
-        setSaving(false);
-      }
+      if (controller.signal.aborted) return;
+      if (myRequestId !== requestIdRef.current) return;
+      setSaving(false);
     }
   }, [
     application,
-    formValues.company,
-    formValues.position,
-    formValues.source,
-    formValues.jobUrl,
-    formValues.notes,
+    formValues,
     handleDiscardChanges,
     hasFormChanges,
-    isMountedRef,
     saving,
     setApplication,
     setPendingStatus,
     showToast,
   ]);
+
+  // cleanup: abort en unmount
+  useEffect(() => {
+    return () => abortRef.current?.abort();
+  }, []);
 
   return {
     formValues,

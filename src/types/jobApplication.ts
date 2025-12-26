@@ -19,6 +19,10 @@ export const JOB_STATUS_LABELS: Record<JobStatus, string> = {
 
 export const getJobStatusLabel = (status: JobStatus) => JOB_STATUS_LABELS[status] ?? status;
 
+export type SalaryCurrency = 'ARS' | 'USD' | 'EUR';
+export type SalaryPeriod = 'Mensual' | 'Anual' | 'Hora';
+export type SalaryType = 'Bruto' | 'Neto';
+
 export type JobApplication = {
   id: string;
   company: string;
@@ -28,6 +32,11 @@ export type JobApplication = {
   status: JobStatus;
   notes?: string | null;
   jobUrl?: string | null;
+  salaryMin?: number | null;
+  salaryMax?: number | null;
+  salaryCurrency?: SalaryCurrency | null;
+  salaryPeriod?: SalaryPeriod | null;
+  salaryType?: SalaryType | null;
   createdAt: string;
   updatedAt: string;
 };

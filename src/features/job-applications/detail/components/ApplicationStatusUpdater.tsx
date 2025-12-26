@@ -16,12 +16,14 @@ type StatusUpdaterProps = {
   onConfirm: () => void;
   onCancel: () => void;
   error: string | null;
+  disabled?: boolean;
 };
 
 export function StatusUpdater({
   value,
   current,
   updating,
+  disabled = false,
   onChange,
   onConfirm,
   onCancel,
@@ -29,6 +31,8 @@ export function StatusUpdater({
 }: StatusUpdaterProps) {
   // "Dirty" en el control de estado: habilita botones solo si hay diferencia.
   const isDirty = value !== current;
+  const isBusy = updating || disabled;
+  const helperText = updating ? 'Guardando...' : disabled ? 'Eliminando...' : null;
 
   return (
     <div className="space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm">
@@ -37,10 +41,12 @@ export function StatusUpdater({
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Estado</p>
           <p className="text-xs text-slate-500">Cambiar estado con confirmacion</p>
         </div>
-        {updating && <span className="text-xs font-semibold uppercase text-slate-500">Guardando...</span>}
+        {helperText && (
+          <span className="text-xs font-semibold uppercase text-slate-500">{helperText}</span>
+        )}
       </div>
 
-      <Select value={value} onValueChange={(val) => onChange(val as JobStatus)} disabled={updating}>
+      <Select value={value} onValueChange={(val) => onChange(val as JobStatus)} disabled={isBusy}>
         <SelectTrigger>
           <SelectValue placeholder="Selecciona estado" />
         </SelectTrigger>
@@ -56,10 +62,10 @@ export function StatusUpdater({
       {error && <p className="text-xs text-red-600">{error}</p>}
 
       <div className="flex flex-wrap gap-2">
-        <Button size="sm" disabled={!isDirty || updating} onClick={onConfirm}>
+        <Button size="sm" disabled={!isDirty || isBusy} onClick={onConfirm}>
           Confirmar cambio
         </Button>
-        <Button size="sm" variant="outline" disabled={!isDirty || updating} onClick={onCancel}>
+        <Button size="sm" variant="outline" disabled={!isDirty || isBusy} onClick={onCancel}>
           Cancelar
         </Button>
       </div>

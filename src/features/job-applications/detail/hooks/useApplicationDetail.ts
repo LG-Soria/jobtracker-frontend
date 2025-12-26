@@ -1,71 +1,75 @@
-import { useCallback, useEffect, useRef, useState, type MutableRefObject } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type MutableRefObject,
+} from "react";
 
-import { getJobApplication } from '../../../../services/jobApplicationsApi';
-import { type JobApplication } from '../../../../types/jobApplication';
-
+import { getJobApplication } from "../../../../services/jobApplicationsApi";
+import { type JobApplication } from "../../../../types/jobApplication";
 type UseApplicationDetailOptions = {
   applicationId: string;
-  isMountedRef?: MutableRefObject<boolean>;
   onBeforeFetch?: () => void;
-  onSuccess?: (application: JobApplication) => void;
+  onSuccess?: (data: JobApplication) => void;
 };
 
 export function useApplicationDetail({
   applicationId,
-  isMountedRef,
   onBeforeFetch,
   onSuccess,
-}: UseApplicationDetailOptions) {
-  const fallbackIsMountedRef = useRef(true);
-  const mountedRef = isMountedRef ?? fallbackIsMountedRef;
+}:UseApplicationDetailOptions) {
 
   const [application, setApplication] = useState<JobApplication | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
+  const requestIdRef = useRef(0);
 
   const fetchApplication = useCallback(async () => {
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    const myRequestId = ++requestIdRef.current;
+
     setLoading(true);
     setError(null);
     setApplication(null);
     onBeforeFetch?.();
 
     if (!applicationId) {
-      console.log('No application ID provided');
-      setError('ID de postulacion no proporcionado');
+      setError("ID de postulacion no proporcionado");
       setLoading(false);
       return;
     }
 
     try {
-      if (!applicationId) return;
-
-      const data = await getJobApplication(applicationId);
-
-      if (!mountedRef.current) return;
-
+      const data = await getJobApplication(applicationId, {
+        signal: controller.signal,
+      });
+      if (myRequestId !== requestIdRef.current) return;
       setApplication(data);
       onSuccess?.(data);
-    } catch (err) {
-      if (!mountedRef.current) return;
-      const message = err instanceof Error ? err.message : 'Error al cargar la postulacion';
+    } catch (err: any) {
+      if (controller.signal.aborted) return;
+      if (myRequestId !== requestIdRef.current) return;
+      const message =
+        err instanceof Error ? err.message : "Error al cargar la postulacion";
       setError(message);
       setApplication(null);
     } finally {
-      if (mountedRef.current) {
-        setLoading(false);
-      }
+      if (controller.signal.aborted) return;
+      if (myRequestId !== requestIdRef.current) return;
+      setLoading(false);
     }
-  }, [applicationId, mountedRef, onBeforeFetch, onSuccess]);
-
+  }, [applicationId, onBeforeFetch, onSuccess]);
   useEffect(() => {
     fetchApplication();
-  }, [fetchApplication]);
-
-  useEffect(() => {
     return () => {
-      mountedRef.current = false;
+      abortRef.current?.abort();
     };
-  }, [mountedRef]);
+  }, [fetchApplication]);
 
   return {
     application,

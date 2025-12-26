@@ -1,4 +1,4 @@
-import { DetallePostulacionModal } from '../../../../components/job-applications/DetallePostulacionModal';
+import { DetallePostulacionModal } from '../../../../features/job-applications/detail/components/ApplicationDetailModal';
 
 export default async function ApplicationDetailPage({
   params,

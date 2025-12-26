@@ -10,33 +10,44 @@ type HistorySectionProps = {
   loading: boolean;
   error: string | null;
   onRetry: () => void;
+  className?: string;
 };
 
-export function HistorySection({ history, loading, error, onRetry }: HistorySectionProps) {
+export function HistorySection({
+  history,
+  loading,
+  error,
+  onRetry,
+  className,
+}: HistorySectionProps) {
   return (
-    <section className="rounded-xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
-      <div className="flex items-center justify-between">
+    <section
+      className={`flex h-full flex-col rounded-xl border border-slate-200 bg-white shadow-sm ${className ?? ''}`}
+    >
+      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-100 bg-white px-4 py-3">
         <p className="text-sm font-semibold text-slate-800">Historial</p>
         <span className="text-xs uppercase tracking-wide text-slate-500">Linea de tiempo</span>
       </div>
 
-      {loading ? (
-        <HistorySkeleton />
-      ) : error ? (
-        <div className="mt-3 space-y-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
-          <div className="flex items-start justify-between gap-3">
-            <span className="font-semibold">No pudimos cargar el historial</span>
-            <Button size="sm" variant="outline" onClick={onRetry}>
-              Reintentar
-            </Button>
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
+        {loading ? (
+          <HistorySkeleton />
+        ) : error ? (
+          <div className="mt-1 space-y-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+            <div className="flex items-start justify-between gap-3">
+              <span className="font-semibold">No pudimos cargar el historial</span>
+              <Button size="sm" variant="outline" onClick={onRetry}>
+                Reintentar
+              </Button>
+            </div>
+            <p className="text-xs text-red-700">{error}</p>
           </div>
-          <p className="text-xs text-red-700">{error}</p>
-        </div>
-      ) : history.length === 0 ? (
-        <p className="mt-3 text-sm text-slate-600">Sin eventos registrados todavia.</p>
-      ) : (
-        <HistoryTimeline history={history} />
-      )}
+        ) : history.length === 0 ? (
+          <p className="mt-1 text-sm text-slate-600">Sin eventos registrados todavia.</p>
+        ) : (
+          <HistoryTimeline history={history} />
+        )}
+      </div>
     </section>
   );
 }

@@ -1,8 +1,16 @@
 // HTTP client for job applications API built on the shared fetch helper.
 
 import { apiFetch, API_URL } from '../lib/apiClient';
-import { JobApplication, JobStatus } from '../types/jobApplication';
+import {
+  JobApplication,
+  JobStatus,
+  SalaryCurrency,
+  SalaryPeriod,
+  SalaryType,
+} from '../types/jobApplication';
 import { JobApplicationHistoryEntry } from '../types/jobApplicationHistory';
+
+export { SalaryCurrency, SalaryPeriod, SalaryType } from '../types/jobApplication';
 
 export type JobApplicationsQuery = {
   status?: JobStatus;
@@ -24,10 +32,6 @@ export type PaginatedJobApplicationsResponse = {
   items: JobApplication[];
   meta: PaginationMeta;
 };
-
-export type SalaryCurrency = 'ARS' | 'USD' | 'EUR';
-export type SalaryPeriod = 'Mensual' | 'Anual' | 'Hora';
-export type SalaryType = 'Bruto' | 'Neto';
 
 export type CreateJobApplicationPayload = {
   company: string;
@@ -67,25 +71,36 @@ export async function createJobApplication(
   });
 }
 
-export async function getJobApplication(id: string): Promise<JobApplication> {
-  return apiFetch<JobApplication>(`/job-applications/${id}`);
+export async function getJobApplication(
+  id: string,
+  config?: { signal?: AbortSignal }
+): Promise<JobApplication> {
+  return apiFetch<JobApplication>(`/job-applications/${id}`, {
+    signal: config?.signal,
+  });
 }
 
 export async function getJobApplicationHistory(
   id: string,
+  config?: { signal?: AbortSignal }
 ): Promise<JobApplicationHistoryEntry[]> {
-  return apiFetch<JobApplicationHistoryEntry[]>(`/job-applications/${id}/history`);
+  return apiFetch<JobApplicationHistoryEntry[]>(`/job-applications/${id}/history`, {
+    signal: config?.signal,
+  });
 }
 
 export async function updateJobApplicationStatus(
   id: string,
   status: JobStatus,
+  config?: { signal?: AbortSignal }
 ): Promise<JobApplication> {
   return apiFetch<JobApplication>(`/job-applications/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({ status }),
+    signal: config?.signal,
   });
 }
+
 
 export type UpdateJobApplicationPayload = Partial<{
   company: string;
@@ -95,18 +110,31 @@ export type UpdateJobApplicationPayload = Partial<{
   status: JobStatus;
   notes: string | null;
   jobUrl: string | null;
+  salaryMin: number | null;
+  salaryMax: number | null;
+  salaryCurrency: SalaryCurrency | null;
+  salaryPeriod: SalaryPeriod | null;
+  salaryType: SalaryType | null;
 }>;
 
 export async function updateJobApplication(
   id: string,
   payload: UpdateJobApplicationPayload,
+  config?: { signal?: AbortSignal }
 ): Promise<JobApplication> {
   return apiFetch<JobApplication>(`/job-applications/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(payload),
+    signal: config?.signal,
   });
 }
 
-export async function deleteJobApplication(id: string): Promise<JobApplication> {
-  return apiFetch<JobApplication>(`/job-applications/${id}`, { method: 'DELETE' });
+export async function deleteJobApplication(
+  id: string,
+  config?: { signal?: AbortSignal }
+): Promise<JobApplication> {
+  return apiFetch<JobApplication>(`/job-applications/${id}`, {
+    method: 'DELETE',
+    signal: config?.signal,
+  });
 }

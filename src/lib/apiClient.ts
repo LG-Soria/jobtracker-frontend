@@ -55,6 +55,7 @@ export async function apiFetch<T = unknown>(
     cache: 'no-store',
     headers: mergeHeaders({ 'Content-Type': 'application/json' }, headers),
     ...init,
+    signal: init.signal,
   });
 
   const rawBody = await response.text();

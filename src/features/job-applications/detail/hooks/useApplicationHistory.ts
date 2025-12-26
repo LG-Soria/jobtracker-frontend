@@ -8,50 +8,77 @@ type UseApplicationHistoryOptions = {
   isMountedRef?: MutableRefObject<boolean>;
 };
 
-export function useApplicationHistory({ applicationId, isMountedRef }: UseApplicationHistoryOptions) {
-  const fallbackIsMountedRef = useRef(true);
-  const mountedRef = isMountedRef ?? fallbackIsMountedRef;
+export function useApplicationHistory({ applicationId }: UseApplicationHistoryOptions) {
+const [history, setHistory] = useState<JobApplicationHistoryEntry[]>([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState<string | null>(null);
 
-  const [history, setHistory] = useState<JobApplicationHistoryEntry[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  const fetchHistory = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    setHistory([]);
+const abortRef = useRef<AbortController | null>(null);
+const requestIdRef = useRef(0);
 
-    try {
-      const data = await getJobApplicationHistory(applicationId);
 
-      if (!mountedRef.current) return;
-      setHistory(data);
-    } catch (err) {
-      if (!mountedRef.current) return;
-      const message = err instanceof Error ? err.message : 'Error al cargar historial';
-      setError(message);
-      setHistory([]);
-    } finally {
-      if (mountedRef.current) {
-        setLoading(false);
-      }
-    }
-  }, [applicationId, mountedRef]);
+const fetchHistory = useCallback(async () => {
+// Cancela request previa si existe
+abortRef.current?.abort();
+const controller = new AbortController();
+abortRef.current = controller;
 
-  useEffect(() => {
-    fetchHistory();
-  }, [fetchHistory]);
 
-  useEffect(() => {
-    return () => {
-      mountedRef.current = false;
-    };
-  }, [mountedRef]);
+const myRequestId = ++requestIdRef.current;
 
-  return {
-    history,
-    loading,
-    error,
-    refetch: fetchHistory,
-  };
+
+setLoading(true);
+setError(null);
+setHistory([]);
+
+
+try {
+if (!applicationId) {
+setError('ID de postulacion no proporcionado');
+setLoading(false);
+return;
+}
+
+
+// IMPORTANTE: si tu getJobApplicationHistory no acepta signal, ver nota abajo.
+const data = await getJobApplicationHistory(applicationId, { signal: controller.signal });
+
+
+// Ignorar si llegó tarde
+if (myRequestId !== requestIdRef.current) return;
+
+
+setHistory(Array.isArray(data) ? data : []);
+} catch (err: any) {
+// Si fue abort, no tocar state
+if (controller.signal.aborted) return;
+if (myRequestId !== requestIdRef.current) return;
+
+
+const message = err instanceof Error ? err.message : 'Error al cargar historial';
+setError(message);
+setHistory([]);
+} finally {
+if (controller.signal.aborted) return;
+if (myRequestId !== requestIdRef.current) return;
+setLoading(false);
+}
+}, [applicationId]);
+
+
+useEffect(() => {
+fetchHistory();
+return () => {
+abortRef.current?.abort();
+};
+}, [fetchHistory]);
+
+
+return {
+history,
+loading,
+error,
+refetch: fetchHistory,
+};
 }
