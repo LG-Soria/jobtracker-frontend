@@ -93,8 +93,8 @@ function DashboardContent({
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Progreso en tu busqueda</p>
               <h1 className="text-3xl font-bold text-slate-900">Dashboard de postulaciones</h1>
               <p className="text-sm text-slate-600">
-                Registra tus aplicaciones, monitorea avances y celebra cada paso adelante. Aqui ves
-                tu esfuerzo transformado en progreso concreto.
+                Registra tus aplicaciones, monitorea avances y celebra cada paso adelante. 
+                Aqui ves tu esfuerzo transformado en progreso concreto.
               </p>
             </div>
             <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
