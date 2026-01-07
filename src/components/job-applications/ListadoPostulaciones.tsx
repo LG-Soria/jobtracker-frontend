@@ -1,7 +1,7 @@
 'use client';
 
-// Specification: Table listing job applications with basic filters and actions.
-// Renders list grouped by fecha seleccionada, with status change, delete action, and friendly states.
+// Specification: Table listing job applications with refined UI and stable layout.
+// Focuses on elegance, subtle animations, and consistent positioning of controls.
 
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent, MouseEvent as ReactMouseEvent } from 'react';
@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation';
 import { getJobStatusLabel, JobApplication, JobStatus } from '../../types/jobApplication';
 import { dateKeyUTC, formatDateOnlyUTC, parseDateOnlyUTC } from '../../utils/dateOnly';
 import { ApplicationsTableSkeleton } from './Skeletons';
+import { Badge, type BadgeProps } from '../ui/badge';
+import { Trash2 } from 'lucide-react';
 
 type FiltersProps = {
   status: JobStatus | 'all';
@@ -76,12 +78,12 @@ export function ListadoPostulaciones({
   const router = useRouter();
 
   const isInteractiveTarget = (target: EventTarget | null) => {
-    if (!(target instanceof HTMLElement)) return false;
+    if (!(target instanceof Element)) return false;
     return Boolean(
       target.closest('select') ||
-        target.closest('button') ||
-        target.closest('a') ||
-        target.closest('[data-row-ignore]'),
+      target.closest('button') ||
+      target.closest('a') ||
+      target.closest('[data-row-ignore]'),
     );
   };
 
@@ -102,20 +104,24 @@ export function ListadoPostulaciones({
       [...applications].sort((a, b) => {
         const createdDiff = new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         if (createdDiff !== 0) return createdDiff;
-        return (
-          parseDateOnlyUTC(b.applicationDate).getTime() -
-          parseDateOnlyUTC(a.applicationDate).getTime()
-        );
+        const dateB = parseDateOnlyUTC(b.applicationDate);
+        const dateA = parseDateOnlyUTC(a.applicationDate);
+        return (dateB?.getTime() ?? 0) - (dateA?.getTime() ?? 0);
       }),
     [applications],
   );
 
   const uniqueDates = useMemo(() => {
     const dateSet = new Set<string>();
-    sorted.forEach((app) => dateSet.add(dateKeyUTC(app.applicationDate)));
-    return Array.from(dateSet).sort(
-      (a, b) => parseDateOnlyUTC(b).getTime() - parseDateOnlyUTC(a).getTime(),
-    );
+    sorted.forEach((app) => {
+      const key = dateKeyUTC(app.applicationDate);
+      if (key) dateSet.add(key);
+    });
+    return Array.from(dateSet).sort((a, b) => {
+      const dateB = parseDateOnlyUTC(b);
+      const dateA = parseDateOnlyUTC(a);
+      return (dateB?.getTime() ?? 0) - (dateA?.getTime() ?? 0);
+    });
   }, [sorted]);
 
   const [selectedDate, setSelectedDate] = useState<string | null>(uniqueDates[0] ?? null);
@@ -149,7 +155,8 @@ export function ListadoPostulaciones({
     await onChangeStatus(id, status as JobStatus);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (e: ReactMouseEvent | ReactKeyboardEvent, id: string) => {
+    e.stopPropagation();
     await onDelete(id);
   };
 
@@ -170,7 +177,6 @@ export function ListadoPostulaciones({
   const isPrevDisabled = !selectedDate || uniqueDates.indexOf(selectedDate) === uniqueDates.length - 1;
   const isNextDisabled = !selectedDate || uniqueDates.indexOf(selectedDate) <= 0;
   const byDayView = filters.viewMode === 'byDay';
-  const trimmedSearch = search.term.trim();
   const isPrevPageDisabled = pagination.page <= 1 || loading || pagination.totalPages === 0;
   const isNextPageDisabled =
     loading || pagination.totalPages === 0 || pagination.page >= pagination.totalPages;
@@ -178,102 +184,141 @@ export function ListadoPostulaciones({
   const showInitialSkeleton = loading && !hasResults && !error;
   const showRefetchOverlay = loading && hasResults;
   const showEmptyState = !loading && !error && !hasResults;
-  const emptyState = buildEmptyState({ searchTerm: trimmedSearch, byDayView });
   const safeTotalPages = Math.max(pagination.totalPages || 0, 1);
+  const statusVariant = (status: JobStatus): BadgeProps['variant'] => {
+    if (status === JobStatus.ENVIADA) return 'info';
+    if (status === JobStatus.EN_PROCESO) return 'warning';
+    if (status === JobStatus.RECHAZADA) return 'danger';
+    return 'neutral';
+  };
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-3">
-          <div>
-            <h3 className="text-lg font-semibold text-slate-900">Postulaciones en curso</h3>
-            <p className="text-sm text-slate-600">Seguimiento de tus oportunidades y proximos pasos</p>
+    <div className="space-y-10 rounded-none border border-border/50 bg-white p-10 transition-all duration-500 ease-in-out">
+      <div className="flex flex-col gap-10">
+        {/* Superior Row: Title, Date Nav (if byDay), and View Toggle (Fixed) */}
+        <div className="flex flex-wrap items-start justify-between gap-6">
+          <div className="space-y-2 flex-1 min-w-[250px]">
+            <h3 className="text-3xl font-light tracking-tight text-ink">Postulaciones en curso</h3>
+            <p className="text-sm font-light text-ink-muted leading-relaxed truncate">Seguimiento de tus oportunidades y próximos pasos</p>
           </div>
-          {byDayView && selectedDate && (
-            <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+
+          <div className="flex items-center gap-6">
+            {/* Date Navigator in Row 1 */}
+            <div
+              className={`flex items-center gap-5 transition-all duration-300 ease-in-out ${byDayView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none w-0 overflow-hidden'}`}
+              style={{ width: byDayView ? 'auto' : '0' }}
+            >
+              <div className="flex items-center gap-4 py-1.5 px-5 rounded-full border border-border/20 bg-surface-muted/20">
+                <button
+                  className="text-ink-soft transition-all duration-300 hover:text-ink disabled:opacity-10 transform hover:scale-110 active:scale-90"
+                  onClick={handlePrevDate}
+                  disabled={isPrevDisabled || loading}
+                  type="button"
+                  aria-label="Ver fecha anterior"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                </button>
+                <span className="text-[13px] font-medium tracking-tight text-ink-muted min-w-[85px] text-center">
+                  {selectedDate ? formatDateOnlyUTC(selectedDate) : '-'}
+                </span>
+                <button
+                  className="text-ink-soft transition-all duration-300 hover:text-ink disabled:opacity-10 transform hover:scale-110 active:scale-90"
+                  onClick={handleNextDate}
+                  disabled={isNextDisabled || loading}
+                  type="button"
+                  aria-label="Ver fecha siguiente"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+                </button>
+              </div>
+            </div>
+
+            {/* View Toggle - Stable positioning */}
+            <div className="flex items-center gap-1 rounded-card border border-border/30 bg-surface-muted/30 p-1 text-[10px] font-bold uppercase tracking-widest">
               <button
-                className="rounded-md border border-slate-200 px-2 py-1 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
-                onClick={handlePrevDate}
-                disabled={isPrevDisabled || loading}
+                className={`rounded px-5 py-2.5 transition-all duration-300 ${byDayView
+                  ? 'bg-ink text-white shadow-md'
+                  : 'text-ink-soft hover:text-ink-muted'
+                  }`}
                 type="button"
-                aria-label="Ver fecha anterior"
+                onClick={() => filters.setViewMode('byDay')}
               >
-                &#8592;
+                Ver por día
               </button>
-              <span className="font-semibold">{formatDateOnlyUTC(selectedDate)}</span>
               <button
-                className="rounded-md border border-slate-200 px-2 py-1 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
-                onClick={handleNextDate}
-                disabled={isNextDisabled || loading}
+                className={`rounded px-5 py-2.5 transition-all duration-300 ${!byDayView
+                  ? 'bg-ink text-white shadow-md'
+                  : 'text-ink-soft hover:text-ink-muted'
+                  }`}
                 type="button"
-                aria-label="Ver fecha siguiente"
+                onClick={() => filters.setViewMode('all')}
               >
-                &#8594;
+                Todas las publicaciones
               </button>
             </div>
-          )}
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <input
-            type="search"
-            value={search.term}
-            onChange={(e) => search.setTerm(e.target.value)}
-            placeholder="Buscar por empresa o puesto"
-            className="w-64 rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
-          />
-          <div className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 p-1 text-xs font-semibold text-slate-700">
-            <button
-              className={`rounded-md px-3 py-1 transition ${
-                byDayView
-                  ? 'bg-slate-900 text-white shadow-sm'
-                  : 'bg-white text-slate-700 hover:bg-slate-100'
-              }`}
-              type="button"
-              onClick={() => filters.setViewMode('byDay')}
-            >
-              Ver por dia
-            </button>
-            <button
-              className={`rounded-md px-3 py-1 transition ${
-                !byDayView
-                  ? 'bg-slate-900 text-white shadow-sm'
-                  : 'bg-white text-slate-700 hover:bg-slate-100'
-              }`}
-              type="button"
-              onClick={() => filters.setViewMode('all')}
-            >
-              Todas las publicaciones
-            </button>
           </div>
-          <select
-            className="rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-slate-400 focus:outline-none"
-            value={filters.status}
-            onChange={(e) => filters.setStatus(e.target.value as JobStatus | 'all')}
-          >
-            {statusOptions.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt === 'all' ? 'Todos los estados' : getJobStatusLabel(opt)}
-              </option>
-            ))}
-          </select>
-          {!byDayView && (
-            <select
-              className="rounded-lg border border-slate-200 px-3 pr-8 py-2 text-sm focus:border-slate-400 focus:outline-none"
-              value={filters.dateRange}
-              onChange={(e) => filters.setDateRange(e.target.value as 'all' | '7d' | '30d')}
-            >
-              {dateRangeOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-          )}
+        </div>
+
+        {/* Filter Bar: Search (Left) and Selects (Right) */}
+        <div className="flex flex-wrap items-center justify-between gap-8 border-b border-border/10 pb-6">
+          <div className="flex-1 min-w-[350px] group transition-all duration-300">
+            <div className="relative">
+              <input
+                type="search"
+                value={search.term}
+                onChange={(e) => search.setTerm(e.target.value)}
+                placeholder="Buscar por empresa o puesto"
+                className="w-full bg-transparent py-3 text-base font-light text-ink placeholder:text-ink-soft/40 focus:outline-none transition-all duration-300 border-b border-transparent focus:border-ink/20"
+              />
+              <div className="absolute bottom-[-1px] left-0 h-[1px] w-0 bg-ink transition-all duration-700 group-focus-within:w-full" />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-8">
+            {/* Select Filters (Horizontal) */}
+            <div className="flex items-center gap-4">
+              <div className="relative group">
+                <select
+                  className="appearance-none rounded border border-border/20 bg-white px-5 py-2.5 text-[11px] font-bold uppercase tracking-widest text-ink transition-all duration-300 hover:border-border/60 focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink/5 pr-10"
+                  value={filters.status}
+                  onChange={(e) => filters.setStatus(e.target.value as JobStatus | 'all')}
+                >
+                  {statusOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt === 'all' ? 'Todos los estados' : getJobStatusLabel(opt)}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-ink-soft group-hover:text-ink transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                </div>
+              </div>
+
+              {!byDayView && (
+                <div className="relative group animate-in fade-in slide-in-from-right-2">
+                  <select
+                    className="appearance-none rounded border border-border/20 bg-white px-5 py-2.5 text-[11px] font-bold uppercase tracking-widest text-ink transition-all duration-300 hover:border-border/60 focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink/5 pr-10"
+                    value={filters.dateRange}
+                    onChange={(e) => filters.setDateRange(e.target.value as 'all' | '7d' | '30d')}
+                  >
+                    {dateRangeOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-ink-soft group-hover:text-ink transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
       {success && (
-        <div className="mt-3 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+        <div className="mt-6 rounded border border-border/10 bg-surface-muted/10 px-6 py-4 text-sm text-ink animate-in fade-in duration-500">
           {success}
         </div>
       )}
@@ -283,43 +328,55 @@ export function ListadoPostulaciones({
       {showInitialSkeleton ? (
         <ApplicationsTableSkeleton />
       ) : showEmptyState ? (
-        <EmptyState title={emptyState.title} description={emptyState.description} />
+        <EmptyState
+          title={buildEmptyState({ searchTerm: search.term.trim(), byDayView }).title}
+          description={buildEmptyState({ searchTerm: search.term.trim(), byDayView }).description}
+        />
       ) : hasResults ? (
         <>
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm text-slate-700">
-            <div>
-              Mostrando {applications.length} de {pagination.total} postulaciones
+          <div className="mt-12 flex flex-wrap items-center justify-between gap-6 text-sm text-ink-muted animate-in fade-in duration-700">
+            <div className="font-light tracking-tight">
+              Mostrando <span className="text-ink font-medium">{applications.length}</span> de <span className="text-ink font-medium">{pagination.total}</span> postulaciones
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-700">
-              <label className="flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-1">
-                <span>Por pagina</span>
-                <select
-                  className="rounded-md border border-slate-200 px-2 py-1 text-xs focus:border-slate-400 focus:outline-none"
-                  value={pagination.limit}
-                  onChange={(e) => pagination.setLimit(Number(e.target.value))}
-                  disabled={loading}
-                >
-                  {[20, 50].map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-slate-50 px-2 py-1">
+
+            <div className="flex items-center gap-8">
+              <div className="flex items-center gap-4">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-ink-soft">Por página</span>
+                <div className="relative group">
+                  <select
+                    className="appearance-none rounded border border-border/20 bg-white px-5 pr-10 py-2.5 text-[11px] font-bold text-ink transition-all duration-300 hover:border-border/60 focus:border-ink focus:outline-none"
+                    value={pagination.limit}
+                    onChange={(e) => pagination.setLimit(Number(e.target.value))}
+                    disabled={loading}
+                  >
+                    {[20, 50].map((value) => (
+                      <option key={value} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-ink-soft group-hover:text-ink transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center rounded border border-border/20 overflow-hidden bg-white shadow-sm ring-1 ring-border/5">
                 <button
-                  className="rounded-md border border-slate-300 px-2 py-1 text-xs transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-ink-muted transition-all duration-300 hover:bg-surface-muted hover:text-ink disabled:opacity-10 disabled:hover:bg-transparent"
                   onClick={() => pagination.setPage(Math.max(1, pagination.page - 1))}
                   disabled={isPrevPageDisabled}
                   type="button"
                 >
                   Anterior
                 </button>
-                <span className="px-1 text-xs">
-                  Pagina {pagination.page} de {safeTotalPages}
+                <div className="h-4 w-[1px] bg-border/20" />
+                <span className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-ink-soft/60 bg-surface-muted/10">
+                  {pagination.page} <span className="text-border mx-2">/</span> {safeTotalPages}
                 </span>
+                <div className="h-4 w-[1px] bg-border/20" />
                 <button
-                  className="rounded-md border border-slate-300 px-2 py-1 text-xs transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-ink-muted transition-all duration-300 hover:bg-surface-muted hover:text-ink disabled:opacity-10 disabled:hover:bg-transparent"
                   onClick={() => pagination.setPage(pagination.page + 1)}
                   disabled={isNextPageDisabled}
                   type="button"
@@ -330,18 +387,17 @@ export function ListadoPostulaciones({
             </div>
           </div>
 
-          <div className="mt-2 overflow-x-auto">
-            <div className="relative overflow-hidden rounded-lg border border-slate-200">
+          <div className="mt-8 overflow-hidden rounded-card border border-border/20 bg-white shadow-xl shadow-ink/5">
+            <div className="relative overflow-hidden">
               {showRefetchOverlay ? <TableLoadingOverlay /> : null}
-              <table className="min-w-full text-left text-sm">
-                <thead className="bg-white">
-                  <tr className="border-b border-slate-200 text-xs uppercase text-slate-500">
-                    <th className="px-3 py-2">Empresa</th>
-                    <th className="px-3 py-2">Puesto</th>
-                    <th className="px-3 py-2">Estado</th>
-                    <th className="px-3 py-2">Fuente</th>
-                    <th className="px-3 py-2 text-right">Acciones</th>
-                    <th className="w-12 px-3 py-2"></th>
+              <table className="min-w-full text-left text-sm border-separate border-spacing-0">
+                <thead>
+                  <tr className="border-b border-border text-[9px] uppercase font-bold tracking-[0.2em] text-ink-soft bg-surface-muted/10">
+                    <th className="px-10 py-6 border-b border-border/10">Empresa</th>
+                    <th className="px-10 py-6 border-b border-border/10">Puesto</th>
+                    <th className="px-10 py-6 border-b border-border/10">Estado</th>
+                    <th className="px-10 py-6 border-b border-border/10">Fuente</th>
+                    <th colSpan={2} className="px-10 py-6 border-b border-border/10 text-right pr-20">Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white">
@@ -350,7 +406,7 @@ export function ListadoPostulaciones({
                       <tr>
                         <td
                           colSpan={6}
-                          className="bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700"
+                          className="px-10 py-5 text-[11px] font-bold uppercase tracking-[0.2em] text-ink/40 bg-surface-muted/40 border-b border-border/5"
                         >
                           {formatDateOnlyUTC(selectedDate)}
                         </td>
@@ -358,59 +414,59 @@ export function ListadoPostulaciones({
                       {appsForSelectedDate.map((app) => (
                         <tr
                           key={app.id}
-                          className="border-b border-slate-100 text-slate-800 transition hover:bg-slate-50 focus-within:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200 cursor-pointer"
+                          className="text-ink transition-all duration-500 ease-out hover:bg-surface-muted/20 group border-b border-border/10 last:border-0 cursor-pointer animate-in fade-in slide-in-from-left-1"
                           onClick={(event) => navigateToDetail(event, app.id)}
                           onKeyDown={(event) => navigateToDetail(event, app.id)}
                           role="button"
                           tabIndex={0}
                           aria-label={`Ver detalle de ${app.company} - ${app.position}`}
                         >
-                          <td className="px-3 py-2">{app.company}</td>
-                          <td className="px-3 py-2">{app.position}</td>
-                          <td className="px-3 py-2">{getJobStatusLabel(app.status)}</td>
-                          <td className="px-3 py-2">{app.source}</td>
-                          <td className="px-3 py-2 text-right">
-                            <select
-                              className="rounded-md border border-slate-200 px-2 py-1 text-sm focus:border-slate-400 focus:outline-none"
-                              value={app.status}
-                              onChange={(e) => handleStatusChange(app.id, e.target.value)}
-                              disabled={loading}
-                              data-row-ignore
-                            >
-                              {Object.values(JobStatus).map((status) => (
-                                <option key={status} value={status}>
-                                  {getJobStatusLabel(status)}
-                                </option>
-                              ))}
-                            </select>
+                          <td className="px-10 py-7">
+                            <div className="flex flex-col gap-0.5">
+                              <span className="font-semibold tracking-tight text-[15px] text-ink">{app.company}</span>
+                            </div>
                           </td>
-                          <td className="px-3 py-2 text-center">
-                            <button
-                              className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-red-200 text-red-700 transition hover:border-red-300 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
-                              onClick={() => handleDelete(app.id)}
-                              disabled={loading}
-                              type="button"
-                              aria-label="Eliminar postulacion"
-                              data-row-ignore
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-4 w-4"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                aria-hidden="true"
+                          <td className="px-10 py-7">
+                            <span className="font-normal text-ink-muted text-[14px]">{app.position}</span>
+                          </td>
+                          <td className="px-10 py-7">
+                            <Badge variant={statusVariant(app.status)}>
+                              {getJobStatusLabel(app.status)}
+                            </Badge>
+                          </td>
+                          <td className="px-10 py-7 text-ink-soft/70 font-normal text-[13px]">{app.source}</td>
+                          <td className="px-10 py-7 text-right" colSpan={2}>
+                            <div className="flex items-center justify-end gap-3 pr-4">
+                              <div className="relative group/select">
+                                <select
+                                  className="appearance-none rounded border border-border/40 bg-white px-4 pr-10 py-2 text-[12px] font-medium text-ink-muted transition-all duration-300 hover:border-ink-soft/30 hover:bg-surface-muted/30 focus:outline-none cursor-pointer"
+                                  value={app.status}
+                                  onChange={(e) => handleStatusChange(app.id, e.target.value)}
+                                  onClick={(e) => e.stopPropagation()}
+                                  disabled={loading}
+                                  data-row-ignore
+                                >
+                                  {Object.values(JobStatus).map((status) => (
+                                    <option key={status} value={status} className="bg-white text-ink font-sans">
+                                      {getJobStatusLabel(status)}
+                                    </option>
+                                  ))}
+                                </select>
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-ink-soft/50 group-hover/select:text-ink-soft transition-colors">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                                </div>
+                              </div>
+                              <button
+                                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-danger/10 bg-danger-soft/5 text-danger transition-all duration-300 hover:bg-danger-soft/20 hover:border-danger/30 focus-visible:outline-none disabled:opacity-10 active:scale-90"
+                                onClick={(e) => handleDelete(e, app.id)}
+                                disabled={loading}
+                                type="button"
+                                aria-label="Eliminar postulacion"
+                                data-row-ignore
                               >
-                                <path d="M3 6h18" />
-                                <path d="M8 6V4h8v2" />
-                                <path d="M10 11v6" />
-                                <path d="M14 11v6" />
-                                <path d="M5 6l1 14h12l1-14" />
-                              </svg>
-                            </button>
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -422,7 +478,7 @@ export function ListadoPostulaciones({
                         <tr>
                           <td
                             colSpan={6}
-                            className="bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700"
+                            className="px-10 py-5 text-[11px] font-bold uppercase tracking-[0.25em] text-ink/40 bg-surface-muted/60 border-y border-border/20 shadow-inner"
                           >
                             {formatDateOnlyUTC(dateKey)}
                           </td>
@@ -430,59 +486,59 @@ export function ListadoPostulaciones({
                         {(appsByDate.get(dateKey) ?? []).map((app) => (
                           <tr
                             key={app.id}
-                            className="border-b border-slate-100 text-slate-800 transition hover:bg-slate-50 focus-within:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200 cursor-pointer"
+                            className="text-ink transition-all duration-500 ease-out hover:bg-surface-muted/20 group border-b border-border/10 last:border-0 cursor-pointer animate-in fade-in slide-in-from-left-1"
                             onClick={(event) => navigateToDetail(event, app.id)}
                             onKeyDown={(event) => navigateToDetail(event, app.id)}
                             role="button"
                             tabIndex={0}
                             aria-label={`Ver detalle de ${app.company} - ${app.position}`}
                           >
-                            <td className="px-3 py-2">{app.company}</td>
-                            <td className="px-3 py-2">{app.position}</td>
-                            <td className="px-3 py-2">{getJobStatusLabel(app.status)}</td>
-                            <td className="px-3 py-2">{app.source}</td>
-                            <td className="px-3 py-2 text-right">
-                              <select
-                                className="rounded-md border border-slate-200 px-2 py-1 text-sm focus:border-slate-400 focus:outline-none"
-                                value={app.status}
-                                onChange={(e) => handleStatusChange(app.id, e.target.value)}
-                                disabled={loading}
-                                data-row-ignore
-                              >
-                                {Object.values(JobStatus).map((status) => (
-                                  <option key={status} value={status}>
-                                    {getJobStatusLabel(status)}
-                                  </option>
-                                ))}
-                              </select>
+                            <td className="px-10 py-7">
+                              <div className="flex flex-col gap-0.5">
+                                <span className="font-semibold tracking-tight text-[15px] text-ink">{app.company}</span>
+                              </div>
                             </td>
-                            <td className="px-3 py-2 text-center">
-                              <button
-                                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-red-200 text-red-700 transition hover:border-red-300 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
-                                onClick={() => handleDelete(app.id)}
-                                disabled={loading}
-                                type="button"
-                                aria-label="Eliminar postulacion"
-                                data-row-ignore
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-4 w-4"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  aria-hidden="true"
+                            <td className="px-10 py-7">
+                              <span className="font-normal text-ink-muted text-[14px]">{app.position}</span>
+                            </td>
+                            <td className="px-10 py-7">
+                              <Badge variant={statusVariant(app.status)}>
+                                {getJobStatusLabel(app.status)}
+                              </Badge>
+                            </td>
+                            <td className="px-10 py-7 text-ink-soft/70 font-normal text-[13px]">{app.source}</td>
+                            <td className="px-10 py-7 text-right" colSpan={2}>
+                              <div className="flex items-center justify-end gap-3 pr-4">
+                                <div className="relative group/select">
+                                  <select
+                                    className="appearance-none rounded border border-border/40 bg-white px-4 pr-10 py-2 text-[12px] font-medium text-ink-muted transition-all duration-300 hover:border-ink-soft/30 hover:bg-surface-muted/30 focus:outline-none cursor-pointer"
+                                    value={app.status}
+                                    onChange={(e) => handleStatusChange(app.id, e.target.value)}
+                                    onClick={(e) => e.stopPropagation()}
+                                    disabled={loading}
+                                    data-row-ignore
+                                  >
+                                    {Object.values(JobStatus).map((status) => (
+                                      <option key={status} value={status} className="bg-white text-ink font-sans">
+                                        {getJobStatusLabel(status)}
+                                      </option>
+                                    ))}
+                                  </select>
+                                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-ink-soft/50 group-hover/select:text-ink-soft transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                                  </div>
+                                </div>
+                                <button
+                                  className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-danger/10 bg-danger-soft/5 text-danger transition-all duration-300 hover:bg-danger-soft/20 hover:border-danger/30 focus-visible:outline-none disabled:opacity-10 active:scale-90"
+                                  onClick={(e) => handleDelete(e, app.id)}
+                                  disabled={loading}
+                                  type="button"
+                                  aria-label="Eliminar postulacion"
+                                  data-row-ignore
                                 >
-                                  <path d="M3 6h18" />
-                                  <path d="M8 6V4h8v2" />
-                                  <path d="M10 11v6" />
-                                  <path d="M14 11v6" />
-                                  <path d="M5 6l1 14h12l1-14" />
-                                </svg>
-                              </button>
+                                  <Trash2 className="h-4 w-4" />
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))}
@@ -500,11 +556,11 @@ export function ListadoPostulaciones({
 
 function ErrorCallout({ message, onRetry }: { message: string; onRetry?: () => void }) {
   return (
-    <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+    <div className="mt-8 rounded border border-danger/20 bg-danger-soft/10 px-6 py-4 text-sm text-primary animate-in fade-in slide-in-from-top-1 duration-500">
       <div>{message}</div>
       {onRetry ? (
         <button
-          className="mt-2 rounded-md bg-red-600 px-3 py-1 text-xs font-semibold text-white"
+          className="mt-4 rounded bg-danger px-6 py-2 text-[10px] font-bold uppercase tracking-widest text-white transition-all duration-300 hover:bg-primary-hover active:scale-95 shadow-lg shadow-danger/20"
           onClick={onRetry}
           type="button"
         >
@@ -517,9 +573,9 @@ function ErrorCallout({ message, onRetry }: { message: string; onRetry?: () => v
 
 function EmptyState({ title, description }: { title: string; description: string }) {
   return (
-    <div className="mt-4 rounded-lg border border-dashed border-slate-200 bg-slate-50 px-4 py-5">
-      <p className="text-sm font-semibold text-slate-800">{title}</p>
-      <p className="mt-1 text-sm text-slate-600">{description}</p>
+    <div className="mt-12 rounded-card border border-dashed border-border/30 bg-surface-muted/10 px-10 py-16 text-center animate-in fade-in duration-700">
+      <p className="text-xl font-light text-ink tracking-tight">{title}</p>
+      <p className="mt-4 text-sm font-light text-ink-muted leading-relaxed max-w-sm mx-auto">{description}</p>
     </div>
   );
 }
@@ -534,7 +590,7 @@ function buildEmptyState({
   if (searchTerm) {
     return {
       title: 'Sin resultados por busqueda',
-      description: `No encontramos coincidencias para "${searchTerm}". Ajusta la palabra clave o quita filtros.`,
+      description: `No encontramos coincidencias para "${searchTerm}". Ajusta la palabra clave o quita filtros para ampliar la búsqueda.`,
     };
   }
 
@@ -542,21 +598,23 @@ function buildEmptyState({
     return {
       title: 'Sin datos en el dia seleccionado',
       description:
-        'Todavia no registraste postulaciones para esta fecha. Proba cambiar la vista o agregar una nueva.',
+        'Todavía no registraste postulaciones para esta fecha. Probá cambiar la vista o agregar una nueva para empezar el seguimiento.',
     };
   }
 
   return {
     title: 'Aun no hay postulaciones',
     description:
-      'Registra tu primera postulacion para empezar a medir tu avance y ver las metricas arriba.',
+      'Registra tu primera postulación para empezar a medir tu avance y ver las métricas de tu carrera.',
   };
 }
 
 function TableLoadingOverlay() {
   return (
-    <div className="pointer-events-none absolute inset-0 z-10 bg-white/70 backdrop-blur-sm">
-      <div className="absolute inset-x-0 top-0 h-1 animate-pulse bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+    <div className="pointer-events-none absolute inset-0 z-10 bg-white/60 backdrop-blur-[2px] transition-all duration-500">
+      <div className="absolute inset-x-0 top-0 h-1 overflow-hidden">
+        <div className="h-full w-full bg-gradient-to-r from-transparent via-ink/20 to-transparent animate-shimmer" />
+      </div>
     </div>
   );
 }

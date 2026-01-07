@@ -25,7 +25,7 @@ import {
 } from '../ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Calendar } from '../ui/calendar';
-import { Calendar as CalendarIcon, X } from 'lucide-react';
+import { Calendar as CalendarIcon, ChevronDown, X } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { CreateJobApplicationPayload } from '../../services/jobApplicationsApi';
 
@@ -64,6 +64,7 @@ export function FormularioPostulacion({
   success = null,
   suggestions = { positions: [], sources: [] },
 }: FormularioPostulacionProps) {
+  const [open, setOpen] = useState(true);
   const [form, setForm] = useState<CreateJobApplicationPayload>(initialState());
   const [localError, setLocalError] = useState<string | null>(null);
   const [isSuccessDismissed, setIsSuccessDismissed] = useState(false);
@@ -118,12 +119,12 @@ export function FormularioPostulacion({
         ...(includeSalaryRange
           ? {}
           : {
-              salaryMin: undefined,
-              salaryMax: undefined,
-              salaryCurrency: undefined,
-              salaryPeriod: undefined,
-              salaryType: undefined,
-            }),
+            salaryMin: undefined,
+            salaryMax: undefined,
+            salaryCurrency: undefined,
+            salaryPeriod: undefined,
+            salaryType: undefined,
+          }),
       });
       setForm(initialState());
       setSalaryInputs({ min: '', max: '' });
@@ -262,274 +263,328 @@ export function FormularioPostulacion({
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit}
-        onKeyDown={handleKeyDown}
-        className="space-y-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
-      >
-      <div className="space-y-1">
-        <h2 className="text-lg font-semibold text-slate-900">Registrar nueva postulacion</h2>
-        <p className="text-sm text-slate-600">Suma tu siguiente paso y mantene tu progreso visible.</p>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <SuggestionInput
-          label="Puesto"
-          value={form.position}
-          onChange={handleValueChange('position')}
-          options={suggestions.positions}
-          persistKey="suggestions-positions-removed"
-          required
-           inputRef={firstInputRef as unknown as React.RefObject<HTMLInputElement>}
-        />
-        <div className="space-y-1">
-          <Label>Empresa *</Label>
-          <Input
-            type="text"
-            value={form.company}
-            onChange={handleChange('company')}
-            required
-          />
-        </div>
-        <SuggestionInput
-          label="Fuente"
-          value={form.source}
-          onChange={handleValueChange('source')}
-          options={suggestions.sources}
-          persistKey="suggestions-sources-removed"
-          required
-        />
-        <div className="space-y-1">
-          <Label>Fecha de postulacion *</Label>
-          <Popover open={dateOpen} onOpenChange={setDateOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className="w-full justify-start text-left font-normal"
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : 'Elegir una fecha'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start" side="bottom" sideOffset={8}>
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={(date) => {
-                  if (!date) return;
-                  const value = format(date, 'yyyy-MM-dd');
-                  handleValueChange('applicationDate')(value);
-                  setDateOpen(false);
-                }}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div className="space-y-1">
-          <Label>Estado *</Label>
-          <Select
-            value={form.status}
-            onValueChange={(value) => handleValueChange('status')(value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Selecciona estado" />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.values(JobStatus).map((status) => (
-                <SelectItem key={status} value={status}>
-                  {getJobStatusLabel(status)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="space-y-1">
-          <Label>URL de la oferta</Label>
-          <Input
-            type="url"
-            value={form.jobUrl}
-            onChange={handleChange('jobUrl')}
-            placeholder="https://..."
-          />
-        </div>
-      </div>
-
-      <div className="space-y-1">
-        <Label>Notas</Label>
-        <Textarea
-          value={form.notes}
-          onChange={handleChange('notes')}
-          rows={3}
-          placeholder="Detalles, proximos pasos o recordatorios"
-        />
-      </div>
-
-      <div
-        className="overflow-hidden transition-[height] duration-200 ease-out"
-        style={{ height: showSalaryBlock ? salaryContainerHeight : 0 }}
-      >
-        {showSalaryBlock && (
-          <div
-            ref={salaryContentRef}
-            className="space-y-4 rounded-lg border border-slate-200 bg-slate-50 p-4"
-            style={{
-              animation: `${salaryAnimatingOut ? 'fadeSlideOut' : 'fadeSlideIn'} 220ms ease-out`,
-            }}
-          >
-            <div className="flex items-center justify-between gap-2">
-              <div className="space-y-0.5">
-                <p className="text-sm font-semibold text-slate-900">Rango salarial</p>
-                <p className="text-xs text-slate-600">Completa solo si lo tenes disponible.</p>
-              </div>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-1">
-                <Label>Salario minimo</Label>
-                <Input
-                  type="text"
-                  inputMode="numeric"
-                  value={salaryInputs.min}
-                  onChange={handleNumberChange('salaryMin')}
-                  placeholder="0"
-                />
-              </div>
-              <div className="space-y-1">
-                <Label>Salario maximo</Label>
-                <Input
-                  type="text"
-                  inputMode="numeric"
-                  value={salaryInputs.max}
-                  onChange={handleNumberChange('salaryMax')}
-                  placeholder="0"
-                />
-              </div>
-            </div>
-            <div className="flex flex-wrap items-end gap-3">
-              <div className="space-y-1">
-                <Label>Moneda</Label>
-                <Select
-                  value={form.salaryCurrency ?? DEFAULT_SALARY_CURRENCY}
-                  onValueChange={(value) => handleValueChange('salaryCurrency')(value as SalaryCurrency)}
-                >
-                  <SelectTrigger className="w-24">
-                    <SelectValue placeholder="Selecciona moneda" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ARS">ARS</SelectItem>
-                    <SelectItem value="USD">USD</SelectItem>
-                    <SelectItem value="EUR">EUR</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-1">
-                <Label>Periodo</Label>
-                <Select
-                  value={form.salaryPeriod ?? DEFAULT_SALARY_PERIOD}
-                  onValueChange={(value) => handleValueChange('salaryPeriod')(value as SalaryPeriod)}
-                >
-                  <SelectTrigger className="w-32">
-                    <SelectValue placeholder="Selecciona periodo" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Mensual">Mensual</SelectItem>
-                    <SelectItem value="Anual">Anual</SelectItem>
-                    <SelectItem value="Hora">Hora</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-1">
-                <Label>Tipo (opcional)</Label>
-                <Select
-                  value={form.salaryType ?? undefined}
-                  onValueChange={(value) => handleValueChange('salaryType')(value as SalaryType)}
-                >
-                  <SelectTrigger className="w-28">
-                    <SelectValue placeholder="Selec. tipo" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Bruto">Bruto</SelectItem>
-                    <SelectItem value="Neto">Neto</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {(localError || error) && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-          {localError || error}
-        </div>
-      )}
-      {success && !localError && !error && !isSuccessDismissed && (
-        <div className="relative rounded-lg border border-green-200 bg-green-50 px-3 py-3 text-sm text-green-800">
-          <div className="space-y-1 pr-6">
-            <p className="font-medium text-green-900">{success.message}</p>
-            <p className="text-xs text-green-800">
-              Ultima empresa: <span className="font-semibold">{success.company}</span>
-              {success.position ? ` - Puesto: ${success.position}` : ''}
+      <div className="rounded-none border border-border bg-surface transition-all duration-300 hover:border-ink-soft/30 shadow-sm">
+        <button
+          type="button"
+          onClick={() => setOpen((prev) => !prev)}
+          className="group flex w-full items-start justify-between gap-3 px-6 py-5 text-left"
+          aria-expanded={open}
+          aria-controls="registro-postulacion-body"
+        >
+          <div className="space-y-1.5">
+            <h2 className="text-[1.1rem] font-semibold tracking-tight text-ink">
+              Registrar nueva postulacion
+            </h2>
+            <p className="max-w-md text-sm leading-relaxed text-ink-muted/70">
+              Suma tu siguiente paso y mantene tu progreso visible.
             </p>
           </div>
-          <button
-            type="button"
-            className="absolute right-2 top-2 inline-flex h-6 w-6 items-center justify-center rounded-md text-slate-400 transition hover:bg-white hover:text-slate-600"
-            onClick={() => setIsSuccessDismissed(true)}
-            aria-label="Cerrar mensaje de exito"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-      )}
+          <ChevronDown
+            className={`mt-1 h-5 w-5 text-ink-soft transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${open ? 'rotate-180' : ''}`}
+            aria-hidden="true"
+          />
+        </button>
 
-        <div className="flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-end">
-          <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-slate-700">Agregar rango salarial</span>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={includeSalaryRange}
-              onClick={toggleSalaryRange}
-              className={`relative h-6 w-11 flex-shrink-0 rounded-full transition ${
-                includeSalaryRange ? 'bg-slate-900' : 'bg-slate-200'
-              }`}
+        <div
+          className={`grid transition-[grid-template-rows,opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
+            }`}
+        >
+          <div className="overflow-hidden">
+            <div className="mx-6 h-[1px] bg-border/40" />
+            <form
+              id="registro-postulacion-body"
+              onSubmit={handleSubmit}
+              onKeyDown={handleKeyDown}
+              className={`space-y-8 px-6 py-8 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${open ? 'translate-y-0' : '-translate-y-4'
+                }`}
             >
-              <span
-                className="absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200"
-                style={{
-                  transform: includeSalaryRange ? 'translateX(1.25rem)' : 'translateX(0)',
-                }}
-              />
-              <span className="sr-only">Toggle salary range</span>
-            </button>
+              <div className="grid gap-x-8 gap-y-6 lg:grid-cols-2">
+                {[
+                  <SuggestionInput
+                    key="puesto"
+                    label="Puesto"
+                    value={form.position}
+                    onChange={handleValueChange('position')}
+                    options={suggestions.positions}
+                    persistKey="suggestions-positions-removed"
+                    required
+                    inputRef={firstInputRef as unknown as React.RefObject<HTMLInputElement>}
+                  />,
+                  <div key="empresa" className="space-y-2">
+                    <Label className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted/70">
+                      Empresa *
+                    </Label>
+                    <Input
+                      type="text"
+                      className="border-border/60 bg-surface/50 transition-all duration-200 focus:bg-surface focus:shadow-sm"
+                      value={form.company}
+                      onChange={handleChange('company')}
+                      placeholder="Ej. Acme Corp"
+                      required
+                    />
+                  </div>,
+                  <SuggestionInput
+                    key="fuente"
+                    label="Fuente"
+                    value={form.source}
+                    onChange={handleValueChange('source')}
+                    options={suggestions.sources}
+                    persistKey="suggestions-sources-removed"
+                    required
+                  />,
+                  <div key="fecha" className="space-y-2">
+                    <Label className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted/70">
+                      Fecha de postulacion *
+                    </Label>
+                    <Popover open={dateOpen} onOpenChange={setDateOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start border-border/60 bg-surface/50 text-left font-normal transition-all duration-200 hover:border-ink-soft/40 hover:bg-surface"
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4 text-ink-soft" />
+                          {selectedDate ? format(selectedDate, 'dd/MM/yyyy') : 'Elegir una fecha'}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start" side="bottom" sideOffset={8}>
+                        <Calendar
+                          mode="single"
+                          selected={selectedDate}
+                          onSelect={(date) => {
+                            if (!date) return;
+                            const value = format(date, 'yyyy-MM-dd');
+                            setForm((prev) => ({ ...prev, applicationDate: value }));
+                            setDateOpen(false);
+                          }}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>,
+                  <div key="estado" className="space-y-2">
+                    <Label className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted/70">
+                      Estado *
+                    </Label>
+                    <Select
+                      value={form.status}
+                      onValueChange={(value) => setForm((prev) => ({ ...prev, status: value as JobStatus }))}
+                    >
+                      <SelectTrigger id="status" className="border-border/60 bg-surface/50 transition-all duration-200 hover:border-ink-soft/40 hover:bg-surface" aria-label="Estado de la postulacion">
+                        <SelectValue placeholder="Selecciona un estado" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.values(JobStatus).map((status) => (
+                          <SelectItem key={status} value={status}>
+                            {getJobStatusLabel(status)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>,
+                  <div key="url" className="space-y-2">
+                    <Label className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted/70">
+                      URL de la oferta
+                    </Label>
+                    <Input
+                      type="url"
+                      className="border-border/60 bg-surface/50 transition-all duration-200 focus:bg-surface"
+                      value={form.jobUrl}
+                      onChange={handleChange('jobUrl')}
+                      placeholder="https://..."
+                    />
+                  </div>,
+                  <div key="notas" className="space-y-2 lg:col-span-2">
+                    <Label className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted/70">
+                      Notas
+                    </Label>
+                    <Textarea
+                      className="min-h-[100px] border-border/60 bg-surface/50 transition-all duration-200 focus:bg-surface"
+                      value={form.notes}
+                      onChange={handleChange('notes')}
+                      rows={3}
+                      placeholder="Detalles, proximos pasos o recordatorios"
+                    />
+                  </div>
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className="stagger-item relative"
+                    style={{
+                      '--delay': `${(i + 1) * 40}ms`,
+                      zIndex: 50 - i,
+                    } as React.CSSProperties}
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+
+              {(localError || error) && (
+                <div className="animate-in fade-in slide-in-from-top-1 rounded-card border border-danger/20 bg-danger/5 px-4 py-3 text-sm text-primary shadow-sm duration-300">
+                  <div className="flex items-center gap-2">
+                    <div className="h-1 w-1 rounded-full bg-primary" />
+                    {localError || error}
+                  </div>
+                </div>
+              )}
+              {success && !localError && !error && !isSuccessDismissed && (
+                <div className="animate-in fade-in slide-in-from-top-2 relative overflow-hidden rounded-card border border-border bg-surface-muted/50 px-4 py-4 text-sm text-ink shadow-sm duration-500 ease-out">
+                  <div className="absolute left-0 top-0 h-full w-0.5 bg-ink opacity-20" />
+                  <div className="space-y-1 pr-8">
+                    <p className="font-semibold text-ink">{success.message}</p>
+                    <p className="text-xs text-ink-muted/80">
+                      Ultima empresa: <span className="font-medium text-ink">{success.company}</span>
+                      {success.position ? ` · Puesto: ${success.position}` : ''}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="absolute right-3 top-4 inline-flex h-6 w-6 items-center justify-center rounded-md text-ink-soft transition-all duration-200 hover:bg-surface hover:text-ink hover:shadow-sm"
+                    onClick={() => setIsSuccessDismissed(true)}
+                    aria-label="Cerrar mensaje de exito"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+
+              <div className="flex flex-col items-end pt-8 pb-2">
+                <div
+                  className="flex items-center gap-4 group cursor-pointer"
+                  onClick={toggleSalaryRange}
+                >
+                  <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted/50 transition-colors group-hover:text-ink">
+                    Agregar rango salarial
+                  </span>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={includeSalaryRange}
+                    className={`relative flex h-[18px] w-9 items-center rounded-[3px] border transition-all duration-300 ease-out ${includeSalaryRange ? 'border-ink bg-ink' : 'border-border bg-surface'
+                      }`}
+                  >
+                    <span
+                      className={`absolute left-[2px] h-3 w-3 rounded-[1px] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${includeSalaryRange
+                        ? 'translate-x-[19px] bg-white'
+                        : 'translate-x-0 bg-ink-soft/30 group-hover:bg-ink-soft/50'
+                        }`}
+                    />
+                    <span className="sr-only">Toggle salary range</span>
+                  </button>
+                </div>
+              </div>
+
+              <div
+                className={`grid transition-[grid-template-rows,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${includeSalaryRange ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                  }`}
+              >
+                <div className="overflow-hidden">
+                  <div className={`space-y-6 pt-2 pb-6 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${includeSalaryRange ? 'translate-y-0' : '-translate-y-4'}`}>
+                    <div className="grid gap-6 md:grid-cols-4">
+                      {[
+                        <div key="min" className="space-y-2">
+                          <Label className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted/70">
+                            Salario minimo
+                          </Label>
+                          <Input
+                            type="text"
+                            inputMode="numeric"
+                            className="border-border/60 bg-surface/50 focus:bg-surface"
+                            value={salaryInputs.min}
+                            onChange={handleNumberChange('salaryMin')}
+                            placeholder="0"
+                          />
+                        </div>,
+                        <div key="max" className="space-y-2">
+                          <Label className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted/70">
+                            Salario maximo
+                          </Label>
+                          <Input
+                            type="text"
+                            inputMode="numeric"
+                            className="border-border/60 bg-surface/50 focus:bg-surface"
+                            value={salaryInputs.max}
+                            onChange={handleNumberChange('salaryMax')}
+                            placeholder="0"
+                          />
+                        </div>,
+                        <div key="curr" className="space-y-2">
+                          <Label className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted/70">
+                            Moneda
+                          </Label>
+                          <Select
+                            value={form.salaryCurrency ?? DEFAULT_SALARY_CURRENCY}
+                            onValueChange={(value) => handleValueChange('salaryCurrency')(value as SalaryCurrency)}
+                          >
+                            <SelectTrigger className="border-border/60 bg-surface/50 hover:bg-surface">
+                              <SelectValue placeholder="Selecciona moneda" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="ARS">ARS</SelectItem>
+                              <SelectItem value="USD">USD</SelectItem>
+                              <SelectItem value="EUR">EUR</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>,
+                        <div key="per" className="space-y-2">
+                          <Label className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted/70">
+                            Periodo
+                          </Label>
+                          <Select
+                            value={form.salaryPeriod ?? DEFAULT_SALARY_PERIOD}
+                            onValueChange={(value) => handleValueChange('salaryPeriod')(value as SalaryPeriod)}
+                          >
+                            <SelectTrigger className="border-border/60 bg-surface/50 hover:bg-surface">
+                              <SelectValue placeholder="Selecciona periodo" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Mensual">Mensual</SelectItem>
+                              <SelectItem value="Anual">Anual</SelectItem>
+                              <SelectItem value="Hora">Hora</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      ]}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-0">
+                <div className="h-[1px] w-full bg-border/40" />
+                <div className="mt-8 flex justify-end">
+                  <Button
+                    type="submit"
+                    disabled={loading}
+                    className="group w-full px-8 py-6 lg:w-auto shadow-sm active:scale-[0.98] transition-all duration-200"
+                  >
+                    <span className="flex items-center justify-center gap-2 font-semibold tracking-wide">
+                      {loading ? 'Guardando...' : 'Registrar postulacion'}
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            </form>
           </div>
-          <Button type="submit" disabled={loading}>
-            {loading ? 'Guardando...' : 'Registrar postulacion'}
-          </Button>
         </div>
-      </form>
+      </div>
       <style jsx global>{`
-        @keyframes fadeSlideIn {
-          from {
-            opacity: 0;
-            transform: translateY(8px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+        .stagger-item {
+          opacity: 0;
+          transform: translateY(10px);
+          transition: all 500ms cubic-bezier(0.16, 1, 0.3, 1);
+          transition-delay: var(--delay);
         }
-        @keyframes fadeSlideOut {
-          from {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          to {
-            opacity: 0;
-            transform: translateY(8px);
-          }
+        [aria-expanded="true"] + div .stagger-item {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        
+        [aria-expanded="false"] + div .stagger-item {
+          transition: all 250ms ease-in-out;
+          transition-delay: 0ms !important;
+          opacity: 0;
+          transform: translateY(-5px);
         }
       `}</style>
     </>

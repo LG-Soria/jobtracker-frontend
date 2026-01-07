@@ -64,58 +64,58 @@ function LoginPageContent() {
 
   if (isLoadingSession) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-        <div className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-          <p className="text-base font-semibold text-slate-800">Verificando sesion...</p>
-          <p className="text-sm text-slate-600">Comprobamos tu cookie para evitar parpadeos.</p>
+      <main className="flex min-h-screen items-center justify-center bg-bg px-4">
+        <div className="w-full max-w-md rounded-card border border-border bg-surface p-6">
+          <p className="text-base font-semibold text-ink">Verificando sesion...</p>
+          <p className="text-sm text-ink-muted">Comprobamos tu cookie para evitar parpadeos.</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="flex min-h-screen items-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 px-4 py-12">
-      <div className="mx-auto grid w-full max-w-5xl gap-8 rounded-3xl bg-white/5 p-6 shadow-2xl backdrop-blur lg:grid-cols-[1.1fr_0.9fr] lg:p-10">
-        <div className="space-y-6 text-white">
+    <main className="flex min-h-screen items-center bg-bg px-4 py-12">
+      <div className="mx-auto grid w-full max-w-5xl gap-10 rounded-card border border-border bg-surface p-6 lg:grid-cols-[1.1fr_0.9fr] lg:p-10">
+        <div className="space-y-6">
           <div className="space-y-2">
-            <p className="text-sm font-semibold uppercase tracking-wide text-slate-300">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-soft">
               JobTracker
             </p>
-            <h1 className="text-3xl font-bold">Inicia sesion para seguir tu busqueda</h1>
-            <p className="text-sm text-slate-200">
+            <h1 className="text-[1.75rem] font-semibold text-ink">Inicia sesion para seguir tu busqueda</h1>
+            <p className="text-sm text-ink-muted leading-relaxed">
               Usamos cookies httpOnly. No guardamos tokens en el navegador, solo verificamos tu
               sesion contra el backend.
             </p>
           </div>
 
-          <div className="space-y-3 rounded-2xl border border-white/15 bg-white/10 p-4">
+          <div className="space-y-3 rounded-card border border-border bg-surface-muted p-4">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-soft">
                   Credenciales demo
                 </p>
-                <p className="text-sm text-slate-100">
+                <p className="text-sm text-ink">
                   Usa este usuario para probar el flujo completo.
                 </p>
               </div>
               <Button
                 variant="outline"
                 size="sm"
-                className="border-white/30 bg-white/20 text-white hover:bg-white/30"
+                className="border-border bg-surface text-ink hover:bg-surface-muted"
                 type="button"
                 onClick={handleAutofill}
               >
                 Autocompletar demo
               </Button>
             </div>
-            <div className="space-y-2 rounded-lg bg-black/20 p-3 text-sm">
+            <div className="space-y-2 rounded-card border border-border bg-surface p-3 text-sm">
               <div className="flex items-center justify-between">
-                <span className="text-slate-200">Email</span>
-                <span className="font-semibold text-white">{DEMO_EMAIL}</span>
+                <span className="text-ink-muted">Email</span>
+                <span className="font-semibold text-ink">{DEMO_EMAIL}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-slate-200">Password</span>
-                <span className="font-semibold text-white">{DEMO_PASSWORD}</span>
+                <span className="text-ink-muted">Password</span>
+                <span className="font-semibold text-ink">{DEMO_PASSWORD}</span>
               </div>
             </div>
           </div>
@@ -123,11 +123,11 @@ function LoginPageContent() {
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-lg"
+          className="space-y-6 rounded-card border border-border bg-surface p-6"
         >
           <div className="space-y-1">
-            <h2 className="text-2xl font-bold text-slate-900">Iniciar sesion</h2>
-            <p className="text-sm text-slate-600">
+            <h2 className="text-[1.5rem] font-semibold text-ink">Iniciar sesion</h2>
+            <p className="text-sm text-ink-muted">
               Ingresa tus datos para acceder al dashboard privado.
             </p>
           </div>
@@ -161,7 +161,7 @@ function LoginPageContent() {
           </div>
 
           {error ? (
-            <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            <div className="rounded-card border border-danger/50 bg-danger-soft px-3 py-2 text-sm text-primary">
               {error}
             </div>
           ) : null}
@@ -170,7 +170,7 @@ function LoginPageContent() {
             {isSubmitting ? 'Ingresando...' : 'Iniciar sesion'}
           </Button>
 
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-ink-soft">
             Todas las peticiones usan cookies con credenciales incluidas. Si cerro tu sesion, te
             llevamos de regreso a esta pantalla.
           </p>
@@ -182,10 +182,10 @@ function LoginPageContent() {
 
 function SuspenseFallback() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-base font-semibold text-slate-800">Cargando login...</p>
-        <p className="text-sm text-slate-600">Preparando los parametros de la URL.</p>
+    <main className="flex min-h-screen items-center justify-center bg-bg px-4">
+      <div className="w-full max-w-md rounded-card border border-border bg-surface p-6">
+        <p className="text-base font-semibold text-ink">Cargando login...</p>
+        <p className="text-sm text-ink-muted">Preparando los parametros de la URL.</p>
       </div>
     </main>
   );

@@ -18,44 +18,44 @@ function Calendar({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn("p-3 ", className)}
-      classNames={{
-        months: "flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0",
-        month: "space-y-4",
+    classNames={{
+      months: "flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0",
+      month: "space-y-4",
 
-        // v9 renames
-        month_caption: "flex  w-32 mx-auto justify-center pt-1 relative items-center",
-        caption_label: "text-sm  font-medium",
+      // v9 renames
+      month_caption: "flex  w-32 mx-auto justify-center pt-1 relative items-center",
+      caption_label: "text-sm  font-medium",
 
         nav: "space-x-1 flex items-center",
 
         button_previous: cn(
-          "absolute top-3 left-1 h-8 w-8 bg-white p-0 inline-flex items-center justify-center rounded-md border border-slate-200",
-          "transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200"
+          "absolute top-3 left-1 h-8 w-8 bg-surface p-0 inline-flex items-center justify-center rounded-input border border-border",
+          "transition-colors duration-150 ease-out hover:bg-surface-muted focus:outline-none focus-visible:ring-0 focus-visible:border-primary"
         ),
         button_next: cn(
-          "absolute top-3 right-1 h-8 w-8 bg-white p-0 inline-flex items-center justify-center rounded-md border border-slate-200",
-          "transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-200"
+          "absolute top-3 right-1 h-8 w-8 bg-surface p-0 inline-flex items-center justify-center rounded-input border border-border",
+          "transition-colors duration-150 ease-out hover:bg-surface-muted focus:outline-none focus-visible:ring-0 focus-visible:border-primary"
         ),
 
         month_grid: "w-full border-collapse space-y-1",
 
         weekdays: "flex",
-        weekday: "text-slate-500 rounded-md w-9 font-normal text-[0.8rem]",
+        weekday: "text-ink-soft rounded-md w-9 font-normal text-[0.8rem]",
 
         week: "flex w-full mt-2",
         day: "text-center text-sm p-0 relative focus-within:relative focus-within:z-20",
 
         day_button: cn(
           "flex h-9 w-9 items-center justify-center p-0 font-normal",
-          "rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200",
-          "hover:bg-slate-100 hover:text-slate-900 transition-colors"
+          "rounded-input focus-visible:outline-none focus-visible:ring-0 focus-visible:border-primary",
+          "hover:bg-surface-muted hover:text-ink transition-colors duration-150 ease-out"
         ),
 
-        selected: "bg-slate-900 rounded text-white hover:bg-slate-900 hover:text-white",
-        today: "bg-slate-100 rounded text-slate-900",
-        outside: "text-slate-400 opacity-50",
-        disabled: "text-slate-400 opacity-50",
-        range_middle: "aria-selected:bg-slate-100 aria-selected:text-slate-900",
+        selected: "bg-primary rounded text-white hover:bg-primary hover:text-white",
+        today: "bg-surface-muted rounded text-ink",
+        outside: "text-ink-soft opacity-50",
+        disabled: "text-ink-soft opacity-50",
+        range_middle: "aria-selected:bg-surface-muted aria-selected:text-ink",
         hidden: "invisible",
 
         ...classNames,

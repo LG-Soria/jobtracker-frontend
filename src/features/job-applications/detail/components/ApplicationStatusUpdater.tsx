@@ -35,14 +35,16 @@ export function StatusUpdater({
   const helperText = updating ? 'Guardando...' : disabled ? 'Eliminando...' : null;
 
   return (
-    <div className="space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm">
+    <div className="space-y-2 rounded-card border border-border bg-surface px-3 py-3">
       <div className="flex items-start justify-between gap-2">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Estado</p>
-          <p className="text-xs text-slate-500">Cambiar estado con confirmacion</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.05em] text-ink-soft">Estado</p>
+          <p className="text-xs text-ink-soft">Cambiar estado con confirmacion</p>
         </div>
         {helperText && (
-          <span className="text-xs font-semibold uppercase text-slate-500">{helperText}</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.05em] text-ink-soft">
+            {helperText}
+          </span>
         )}
       </div>
 
@@ -59,7 +61,7 @@ export function StatusUpdater({
         </SelectContent>
       </Select>
 
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {error && <p className="text-xs text-primary">{error}</p>}
 
       <div className="flex flex-wrap gap-2">
         <Button size="sm" disabled={!isDirty || isBusy} onClick={onConfirm}>

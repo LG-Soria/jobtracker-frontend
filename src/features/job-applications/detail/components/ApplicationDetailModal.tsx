@@ -322,16 +322,16 @@ useEffect(() => {
   // ----------------------
   return (
     <div
-      className="fixed inset-0 z-40 flex items-stretch justify-center bg-slate-900/60 px-3 py-6 backdrop-blur-sm sm:px-6"
+      className="fixed inset-0 z-40 flex items-stretch justify-center bg-ink/20 px-3 py-6 sm:px-6"
       onClick={handleModalBackdropClick}
       role="dialog"
       aria-modal="true"
       aria-label={`Detalle de postulacion ${applicationId}`}
     >
-      <div className="relative flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/5">
-        <header className="sticky top-0 z-10 flex items-start justify-between border-b border-slate-200 bg-white/95 px-5 py-4 backdrop-blur">
+      <div className="relative flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-card border border-border bg-surface">
+        <header className="sticky top-0 z-10 flex items-start justify-between border-b border-border bg-surface px-5 py-4">
           <div className="space-y-1">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-soft">
               Postulacion
             </p>
 
@@ -342,10 +342,10 @@ useEffect(() => {
               </div>
             ) : (
               <>
-                <h2 className="text-2xl font-bold text-slate-900">
+                <h2 className="text-[1.5rem] font-semibold text-ink">
                   {application?.position || `Detalle #${applicationId}`}
                 </h2>
-                <p className="text-sm text-slate-600">
+                <p className="text-sm text-ink-muted">
                   {application
                     ? `${application.company} - ${application.source}`
                     : 'Vista superpuesta sobre el dashboard'}
@@ -378,7 +378,7 @@ useEffect(() => {
               type="button"
               onClick={handleCloseClick}
               disabled={isDeleting}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:bg-slate-50 hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-200 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-ink-soft transition-colors duration-150 ease-out hover:bg-surface-muted hover:text-ink focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
               aria-label="Cerrar detalle"
             >
               <X className="h-5 w-5" />
@@ -392,10 +392,10 @@ useEffect(() => {
               <DetalleSkeleton />
             </div>
           ) : error ? (
-            <div className="flex h-full flex-col items-center justify-center gap-4 overflow-y-auto rounded-xl border border-red-200 bg-red-50 px-4 py-6 text-center">
+            <div className="flex h-full flex-col items-center justify-center gap-4 overflow-y-auto rounded-card border border-danger/50 bg-danger-soft px-4 py-6 text-center">
               <div className="space-y-1">
-                <p className="text-sm font-semibold text-red-900">No pudimos cargar la postulacion</p>
-                <p className="text-sm text-red-800">{error}</p>
+                <p className="text-sm font-semibold text-ink">No pudimos cargar la postulacion</p>
+                <p className="text-sm text-primary">{error}</p>
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={refetchApplication}>
@@ -406,9 +406,9 @@ useEffect(() => {
           ) : application ? (
             <div className="grid min-h-0 grid-cols-1 gap-5 lg:h-full lg:min-h-0 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
               <div className="space-y-5 lg:min-h-0 lg:overflow-y-auto lg:pr-1">
-                <section className="rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-4">
+                <section className="rounded-card border border-border bg-surface px-4 py-4">
                   <div className="flex items-start gap-3">
-                    <p className="text-sm font-semibold text-slate-800">Resumen</p>
+                    <p className="text-sm font-semibold text-ink">Resumen</p>
                     <div className="ml-auto flex flex-col items-end gap-1">
                       <div className="flex flex-wrap justify-end gap-2">
                         <Button
@@ -429,9 +429,9 @@ useEffect(() => {
                       </div>
                       <div className="min-h-[16px] text-right">
                         {saveError ? (
-                          <span className="text-xs text-red-600">{saveError}</span>
+                          <span className="text-xs text-primary">{saveError}</span>
                         ) : saving ? (
-                          <span className="text-xs uppercase tracking-wide text-slate-500">
+                          <span className="text-xs uppercase tracking-[0.1em] text-ink-soft">
                             Sincronizando
                           </span>
                         ) : null}
@@ -486,31 +486,31 @@ useEffect(() => {
                             href={formValues.jobUrl.trim()}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-xs text-slate-700 underline underline-offset-4 hover:text-slate-900"
+                            className="text-xs text-ink underline underline-offset-4 hover:text-ink"
                           >
                             Abrir enlace
                           </a>
                         ) : (
-                          <span className="text-xs text-slate-500">Sin URL</span>
+                          <span className="text-xs text-ink-soft">Sin URL</span>
                         )
                       }
                     />
                     <div className="sm:col-span-2">
-                      <div className="space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <div className="space-y-2 rounded-card border border-border bg-surface px-3 py-3">
+                        <p className="text-xs font-semibold uppercase tracking-[0.05em] text-ink-soft">
                           Rango salarial
                         </p>
                         {hasSalaryData ? (
-                          <div className="space-y-1 text-sm text-slate-900">
+                          <div className="space-y-1 text-sm text-ink">
                             {salaryMeta ? (
-                              <p className="font-semibold text-slate-800">{salaryMeta}</p>
+                              <p className="font-semibold text-ink">{salaryMeta}</p>
                             ) : null}
                             {salaryAmountLine ? (
-                              <p className="text-slate-700">{salaryAmountLine}</p>
+                              <p className="text-ink-muted">{salaryAmountLine}</p>
                             ) : null}
                           </div>
                         ) : (
-                          <p className="text-sm text-slate-500">Sin datos</p>
+                          <p className="text-sm text-ink-soft">Sin datos</p>
                         )}
                       </div>
                     </div>
@@ -527,11 +527,11 @@ useEffect(() => {
                   className="max-h-[320px] overflow-hidden lg:max-h-[35vh]"
                 />
 
-                <section className="flex flex-1 min-h-[180px] flex-col rounded-xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
+                <section className="flex flex-1 min-h-[180px] flex-col rounded-card border border-border bg-surface px-4 py-4">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold text-slate-800">Notas</p>
+                    <p className="text-sm font-semibold text-ink">Notas</p>
                     {saving ? (
-                      <span className="text-xs uppercase tracking-wide text-slate-500">Guardando...</span>
+                      <span className="text-xs uppercase tracking-[0.1em] text-ink-soft">Guardando...</span>
                     ) : null}
                   </div>
                   <Textarea
@@ -551,7 +551,7 @@ useEffect(() => {
 
       {confirmOpen ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/20 px-4"
           role="presentation"
           onClick={() => {
             if (isDeleting) return;
@@ -563,18 +563,18 @@ useEffect(() => {
             aria-modal="true"
             aria-labelledby="delete-confirm-title"
             aria-describedby="delete-confirm-description"
-            className="w-full max-w-md rounded-xl border border-red-100 bg-white p-5 shadow-2xl"
+            className="w-full max-w-md rounded-card border border-border bg-surface p-5"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-red-700">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-danger-soft text-primary">
                 <Trash2 className="h-5 w-5" />
               </div>
               <div className="space-y-1">
-                <p id="delete-confirm-title" className="text-base font-semibold text-slate-900">
+                <p id="delete-confirm-title" className="text-base font-semibold text-ink">
                   Eliminar postulacion
                 </p>
-                <p id="delete-confirm-description" className="text-sm text-slate-600">
+                <p id="delete-confirm-description" className="text-sm text-ink-muted">
                   Esta accion no se puede deshacer. Seguro que queres eliminarla?
                 </p>
               </div>
@@ -612,10 +612,8 @@ useEffect(() => {
             role="status"
             aria-live="polite"
             className={cn(
-              'flex items-start gap-3 rounded-lg bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-2xl transition-all duration-300 ease-out',
-              isToastVisible
-                ? 'pointer-events-auto translate-y-0 opacity-100'
-                : 'pointer-events-none translate-y-2 opacity-0'
+              'flex items-start gap-3 rounded-card border border-border bg-surface px-4 py-3 text-sm font-medium text-ink transition-opacity duration-200 ease-out',
+              isToastVisible ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
             )}
           >
             <span className="leading-5">{toastMessage}</span>
@@ -623,7 +621,7 @@ useEffect(() => {
               type="button"
               aria-label="Cerrar notificacion"
               onClick={clearToast}
-              className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full text-slate-200 transition hover:bg-slate-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full text-ink-soft transition-colors duration-150 ease-out hover:bg-surface-muted hover:text-ink focus:outline-none"
             >
               <X className="h-4 w-4" />
             </button>

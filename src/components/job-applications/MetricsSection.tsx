@@ -1,6 +1,7 @@
 // Specification: Metrics section aggregating MetricCard components.
 // Receives precomputed metrics to avoid depending on paginated datasets.
 
+import { Briefcase, Calendar, Clock } from 'lucide-react';
 import { MetricCard } from './MetricCard';
 import { MetricsSkeleton } from './Skeletons';
 
@@ -19,14 +20,25 @@ export function MetricsSection({ metrics, loading = false }: MetricsSectionProps
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <MetricCard
         title="Total postulaciones"
         value={metrics.total}
         hint="Todo tu esfuerzo acumulado"
+        icon={<Briefcase className="h-4 w-4" />}
       />
-      <MetricCard title="Ultimos 7 dias" value={metrics.last7Days} hint="Actividad reciente" />
-      <MetricCard title="Hoy" value={metrics.today} hint="Postulaciones en la fecha de hoy" />
+      <MetricCard
+        title="Ultimos 7 dias"
+        value={metrics.last7Days}
+        hint="Actividad reciente"
+        icon={<Clock className="h-4 w-4" />}
+      />
+      <MetricCard
+        title="Hoy"
+        value={metrics.today}
+        hint="Postulaciones en la fecha de hoy"
+        icon={<Calendar className="h-4 w-4" />}
+      />
     </div>
   );
 }

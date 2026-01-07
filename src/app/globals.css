@@ -5,16 +5,220 @@
 /* Base layout polish for the initial pass */
 :root {
   color-scheme: light;
+  /* Monocromático base */
+  --bg: 248 249 250;
+  /* #f8f9fa */
+  --surface: 255 255 255;
+  /* #ffffff */
+  --surface-muted: 248 249 250;
+  /* #f8f9fa */
+  --border: 222 226 230;
+  /* #dee2e6 */
+  --text: 33 37 41;
+  /* #212529 */
+  --text-muted: 108 117 125;
+  /* #6c757d */
+  --text-soft: 173 181 189;
+  /* #adb5bd */
+
+  /* Acento único (rojo carmesí) */
+  --primary: 220 38 38;
+  /* #dc2626 */
+  --primary-hover: 185 28 28;
+  /* #b91c1c */
+  --danger: 220 38 38;
+  /* mismo acento para estados críticos */
+
+  /* Tonos de soporte para estados/bordes sutiles */
+  --info-bg: 186 230 253;
+  /* #bae6fd */
+  --info-text: 14 165 233;
+  /* #0ea5e9 */
+  --warning-bg: 241 243 245;
+  /* #f1f3f5 */
+  --warning-text: 108 117 125;
+  /* #6c757d */
+  --success-bg: 187 247 208;
+  /* #bbf7d0 */
+  --success-text: 22 163 74;
+  /* #16a34a */
+  --danger-soft: 254 202 202;
+  /* #fecaca */
+
+  /* Geometría y relieve */
+  --radius-card: 8px;
+  --radius-input: 6px;
+  --shadow-card: none;
 }
 
 body {
-  @apply bg-slate-50 text-slate-900 antialiased;
+  @apply bg-bg text-ink antialiased;
+  font-family: "system-ui", -apple-system, sans-serif;
+  line-height: 1.6;
 }
 
 a {
-  @apply text-brand-600 hover:text-brand-700;
+  @apply text-primary hover:text-primary-hover;
 }
 
 table {
   @apply border-collapse;
+}
+
+@layer utilities {
+  .animate-in {
+    animation-duration: 500ms;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fade-in {
+    animation-name: fadeIn;
+  }
+
+  .slide-in-from-top-1 {
+    animation-name: slideInFromTop1;
+  }
+
+  .slide-in-from-top-2 {
+    animation-name: slideInFromTop2;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromTop1 {
+  from {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromTop2 {
+  from {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Custom Scrollbar for Japanese Minimalist precision */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--border));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--text-soft));
+}
+
+@layer utilities {
+  .animate-in {
+    animation-duration: 500ms;
+    animation-fill-mode: both;
+  }
+
+  .fade-in {
+    animation-name: fadeIn;
+  }
+
+  .slide-in-from-right-2 {
+    animation-name: slideInFromRight;
+  }
+
+  .slide-in-from-top-1 {
+    animation-name: slideInFromTop;
+  }
+
+  .slide-in-from-left-1 {
+    animation-name: slideInFromLeft;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s infinite linear;
+    background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.05) 50%, transparent 100%);
+    background-size: 200% 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(10px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-8px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
 }

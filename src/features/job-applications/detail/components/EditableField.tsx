@@ -20,8 +20,8 @@ export function EditableField({
   helper?: React.ReactNode;
 }) {
   return (
-    <div className="space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-3 shadow-sm">
-      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
+    <div className="space-y-2 rounded-card border border-border bg-surface px-3 py-3">
+      <p className="text-xs font-semibold uppercase tracking-[0.05em] text-ink-soft">{label}</p>
       <Input
         type={type}
         value={value}

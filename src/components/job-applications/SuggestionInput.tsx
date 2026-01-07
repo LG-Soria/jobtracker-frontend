@@ -159,27 +159,27 @@ export function SuggestionInput({
   }, []);
 
   return (
-    <div className="space-y-1" ref={containerRef}>
-      <Label>
+    <div className="space-y-2" ref={containerRef}>
+      <Label className="text-[10px] font-bold uppercase tracking-[0.15em] text-ink-muted/70">
         {label}
         {required ? ' *' : ''}
       </Label>
-      <div className="relative">
+      <div className="relative group/input">
         <Input
           ref={inputRef}
           name={name}
           type="text"
-          className={cn(open ? 'border-slate-300' : '')}
+          className={cn(
+            "border-border/60 bg-surface/50 transition-all duration-300 focus:bg-surface focus:shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)]",
+            open ? "border-ink-soft/60 ring-0" : ""
+          )}
           value={value}
           onChange={(e) => {
             onChange(e.target.value);
             if (normalizedOptions.length) openList();
           }}
-          onFocus={() => {
-            if (normalizedOptions.length) openList();
-          }}
           onBlur={() => {
-            window.setTimeout(() => closeList(), 100);
+            window.setTimeout(() => closeList(), 150);
           }}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
@@ -187,57 +187,79 @@ export function SuggestionInput({
           autoComplete="off"
         />
 
-        {open && (
-          <div className="absolute left-0 right-0 z-10 mt-1 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg">
-            {filteredOptions.map((opt, idx) => (
-              <div
-                key={opt}
-                className={cn(
-                  "flex items-center transition",
-                  highlightedIndex === idx ? "bg-slate-100" : "hover:bg-slate-50",
-                )}
-                onMouseEnter={() => setHighlightedIndex(idx)}
-              >
-                <button
-                  type="button"
-                  className="flex w-full flex-1 items-center justify-between px-3 py-2 text-left text-sm"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => handleSelect(opt)}
+        <div
+          className={cn(
+            "absolute left-0 right-0 z-20 mt-2 overflow-hidden rounded-card border border-border bg-surface shadow-[0_12px_24px_-10px_rgba(0,0,0,0.1)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-top",
+            open ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+          )}
+        >
+          <div className="max-h-[280px] overflow-y-auto py-1.5 px-1.5 scrollbar-thin scrollbar-thumb-border">
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map((opt, idx) => (
+                <div
+                  key={opt}
+                  className={cn(
+                    "flex items-center rounded-input transition-all duration-200 ease-out mb-0.5 last:mb-0",
+                    highlightedIndex === idx ? "bg-surface-muted translate-x-1" : "hover:bg-surface-muted/60",
+                  )}
+                  onMouseEnter={() => setHighlightedIndex(idx)}
                 >
-                  <span className="truncate">{opt}</span>
-                  <span className="text-xs text-slate-500">Seleccionar</span>
-                </button>
-                <button
-                  type="button"
-                  className="mx-2 inline-flex h-8 w-8 items-center justify-center rounded-md text-slate-400 transition hover:text-red-600 hover:bg-red-50"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleRemoveOption(opt);
-                  }}
-                  aria-label={`Eliminar "${opt}"`}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
+                  <button
+                    type="button"
+                    className="flex w-full flex-1 items-center justify-between px-3 py-2.5 text-left text-sm"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => handleSelect(opt)}
+                  >
+                    <span className="truncate font-medium text-ink">{opt}</span>
+                    <span className={cn(
+                      "text-[10px] font-bold uppercase tracking-wider transition-opacity duration-300",
+                      highlightedIndex === idx ? "opacity-100 text-ink-soft" : "opacity-0"
+                    )}>
+                      Seleccionar
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    className="mx-1 inline-flex h-8 w-8 items-center justify-center rounded-full text-ink-soft/40 transition-all duration-200 hover:bg-danger/10 hover:text-primary"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRemoveOption(opt);
+                    }}
+                    aria-label={`Eliminar "${opt}"`}
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              ))
+            ) : (
+              <div className="px-4 py-6 text-center">
+                <p className="text-xs text-ink-soft/60 italic">Sin sugerencias previas</p>
               </div>
-            ))}
-
-            <div className="border-t border-slate-100">
-              <button
-                type="button"
-                className={`flex w-full items-center justify-between px-3 py-2 text-left text-sm font-medium text-slate-700 transition ${
-                  highlightedIndex === filteredOptions.length ? 'bg-slate-100' : 'hover:bg-slate-50'
-                }`}
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={handleAddNew}
-                onMouseEnter={() => setHighlightedIndex(filteredOptions.length)}
-              >
-                <span>Agregar nuevo</span>
-                <span className="text-xs font-normal text-slate-500">Segui escribiendo</span>
-              </button>
-            </div>
+            )}
           </div>
-        )}
+
+          <div className="border-t border-border/50 bg-surface-muted/30 p-1.5">
+            <button
+              type="button"
+              className={cn(
+                "group flex w-full items-center justify-between rounded-input px-3 py-2.5 text-left text-[13px] font-semibold text-ink transition-all duration-200",
+                highlightedIndex === filteredOptions.length ? "bg-white shadow-sm ring-1 ring-border/40" : "hover:bg-white/60"
+              )}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={handleAddNew}
+              onMouseEnter={() => setHighlightedIndex(filteredOptions.length)}
+            >
+              <div className="flex items-center gap-2">
+                <div className="h-1 w-1 rounded-full bg-primary" />
+                <span>Agregar nuevo</span>
+              </div>
+              <span className="text-[10px] font-medium text-ink-soft/70 opacity-0 transition-opacity group-hover:opacity-100">
+                Segui escribiendo
+              </span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

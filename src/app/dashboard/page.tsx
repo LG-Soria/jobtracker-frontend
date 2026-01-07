@@ -1,9 +1,10 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
-import { LogOut } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '../../components/ui/button';
+import { DashboardHeader } from '../../components/layout/DashboardHeader';
+import { DashboardHero } from '../../components/layout/DashboardHero';
 import { FormularioPostulacion } from '../../components/job-applications/FormularioPostulacion';
 import { ListadoPostulaciones } from '../../components/job-applications/ListadoPostulaciones';
 import { MetricsSection } from '../../components/job-applications/MetricsSection';
@@ -16,10 +17,10 @@ export default function DashboardPage() {
 
   if (isLoadingSession) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50">
-        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-          <p className="text-sm font-medium text-slate-700">Verificando sesion...</p>
-          <p className="text-xs text-slate-500">Validamos tu sesion para evitar parpadeos.</p>
+      <main className="flex min-h-screen items-center justify-center bg-bg">
+        <div className="rounded-card border border-border bg-surface p-6">
+          <p className="text-sm font-semibold text-ink">Verificando sesion...</p>
+          <p className="text-xs text-ink-muted">Validamos tu sesion para evitar parpadeos.</p>
         </div>
       </main>
     );
@@ -27,10 +28,10 @@ export default function DashboardPage() {
 
   if (!isAuthenticated) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-        <div className="max-w-md space-y-4 rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm">
-          <p className="text-lg font-semibold text-slate-800">Sesion no disponible</p>
-          <p className="text-sm text-slate-600">
+      <main className="flex min-h-screen items-center justify-center bg-bg px-4">
+        <div className="max-w-md space-y-4 rounded-card border border-border bg-surface p-6 text-center">
+          <p className="text-lg font-semibold text-ink">Sesion no disponible</p>
+          <p className="text-sm text-ink-muted">
             Tu sesion expiro o no iniciaste sesion todavia. Volve a ingresar para ver tu panel.
           </p>
           <Button asChild>
@@ -85,37 +86,14 @@ function DashboardContent({
   } = useJobApplications();
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-100 to-white">
-      <div className="mx-auto max-w-6xl space-y-6 px-4 py-10">
-        <header className="space-y-4 rounded-2xl border border-slate-200 bg-white/70 p-6 shadow-sm backdrop-blur">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Progreso en tu busqueda</p>
-              <h1 className="text-3xl font-bold text-slate-900">Dashboard de postulaciones</h1>
-              <p className="text-sm text-slate-600">
-                Registra tus aplicaciones, monitorea avances y celebra cada paso adelante. 
-                Aqui ves tu esfuerzo transformado en progreso concreto.
-              </p>
-            </div>
-            <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <div className="text-right">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  Sesion activa
-                </p>
-                <p className="text-sm font-semibold text-slate-800">{userEmail}</p>
-              </div>
-              <Button
-                variant="outline"
-                className="gap-2"
-                onClick={() => void onLogout()}
-                disabled={loggingOut}
-              >
-                <LogOut className="h-4 w-4" />
-                {loggingOut ? 'Saliendo...' : 'Cerrar sesion'}
-              </Button>
-            </div>
-          </div>
-        </header>
+    <main className="min-h-screen bg-bg">
+      <DashboardHeader userEmail={userEmail} onLogout={onLogout} loggingOut={loggingOut} />
+      <div className="mx-auto max-w-6xl space-y-12 px-4 py-12">
+        <DashboardHero
+          eyebrow="Progreso en tu busqueda"
+          title="Dashboard de postulaciones"
+          subtitle="Registra tus aplicaciones, monitorea avances y celebra cada paso adelante. Aqui ves tu esfuerzo transformado en progreso concreto."
+        />
 
         <MetricsSection metrics={metrics} loading={metricsLoading} />
 
