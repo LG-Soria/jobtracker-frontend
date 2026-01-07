@@ -26,6 +26,7 @@ module.exports = {
         primary: 'rgb(var(--primary) / <alpha-value>)',
         'primary-hover': 'rgb(var(--primary-hover) / <alpha-value>)',
         danger: 'rgb(var(--danger) / <alpha-value>)',
+        'danger-hover': 'rgb(var(--danger-hover) / <alpha-value>)',
         'danger-soft': 'rgb(var(--danger-soft) / <alpha-value>)',
         'info-bg': 'rgb(var(--info-bg) / <alpha-value>)',
         'info-text': 'rgb(var(--info-text) / <alpha-value>)',

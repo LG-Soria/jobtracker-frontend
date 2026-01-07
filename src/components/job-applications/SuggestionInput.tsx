@@ -16,6 +16,8 @@ type SuggestionInputProps = {
   required?: boolean;
   persistKey?: string;
   inputRef?: RefObject<HTMLInputElement>;
+  onEnter?: () => void;
+  onTab?: () => void;
 };
 
 export function SuggestionInput({
@@ -28,6 +30,8 @@ export function SuggestionInput({
   required = false,
   persistKey,
   inputRef: inputRefProp,
+  onEnter,
+  onTab,
 }: SuggestionInputProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const internalInputRef = useRef<HTMLInputElement>(null);
@@ -136,13 +140,21 @@ export function SuggestionInput({
         return Math.max(prev - 1, 0);
       });
     } else if (e.key === 'Enter') {
-      if (highlightedIndex === null) return;
       e.preventDefault();
+      if (highlightedIndex === null) {
+        onEnter?.();
+        return;
+      }
       if (highlightedIndex < filteredOptions.length) {
         handleSelect(filteredOptions[highlightedIndex]);
+        onEnter?.();
       } else {
         handleAddNew();
+        onEnter?.();
       }
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      onTab?.();
     } else if (e.key === 'Escape') {
       closeList();
     }

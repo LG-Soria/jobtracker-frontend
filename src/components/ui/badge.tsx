@@ -9,7 +9,7 @@ const badgeVariants = cva(
         info: "text-ink border-ink",
         warning: "text-[#854d0e] border-[#fef08a] bg-[#fef9c3]",
         neutral: "text-ink-soft border-border",
-        danger: "text-primary border-primary",
+        danger: "text-danger border-danger",
       },
     },
     defaultVariants: {

@@ -76,6 +76,7 @@ export function FormularioPostulacion({
   const [salaryContainerHeight, setSalaryContainerHeight] = useState(0);
   const salaryContentRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
+  const companyInputRef = useRef<HTMLInputElement>(null);
 
   const formatNumber = (value?: number) => {
     if (value === undefined || Number.isNaN(value)) return '';
@@ -309,6 +310,8 @@ export function FormularioPostulacion({
                     persistKey="suggestions-positions-removed"
                     required
                     inputRef={firstInputRef as unknown as React.RefObject<HTMLInputElement>}
+                    onEnter={() => companyInputRef.current?.focus()}
+                    onTab={() => companyInputRef.current?.focus()}
                   />,
                   <div key="empresa" className="space-y-2">
                     <Label className="text-[10px] font-bold uppercase tracking-[0.12em] text-ink-muted/70">
@@ -321,6 +324,7 @@ export function FormularioPostulacion({
                       onChange={handleChange('company')}
                       placeholder="Ej. Acme Corp"
                       required
+                      ref={companyInputRef}
                     />
                   </div>,
                   <SuggestionInput
@@ -428,10 +432,10 @@ export function FormularioPostulacion({
                 </div>
               )}
               {success && !localError && !error && !isSuccessDismissed && (
-                <div className="animate-in fade-in slide-in-from-top-2 relative overflow-hidden rounded-card border border-border bg-surface-muted/50 px-4 py-4 text-sm text-ink shadow-sm duration-500 ease-out">
-                  <div className="absolute left-0 top-0 h-full w-0.5 bg-ink opacity-20" />
+                <div className="animate-in fade-in slide-in-from-top-2 relative overflow-hidden rounded-card border border-success-text/10 bg-success-bg/20 px-4 py-4 text-sm text-success-text shadow-sm duration-500 ease-out">
+                  <div className="absolute left-0 top-0 h-full w-0.5 bg-success-text opacity-40" />
                   <div className="space-y-1 pr-8">
-                    <p className="font-semibold text-ink">{success.message}</p>
+                    <p className="font-semibold text-success-text">{success.message}</p>
                     <p className="text-xs text-ink-muted/80">
                       Ultima empresa: <span className="font-medium text-ink">{success.company}</span>
                       {success.position ? ` · Puesto: ${success.position}` : ''}

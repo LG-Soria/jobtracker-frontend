@@ -318,7 +318,7 @@ export function ListadoPostulaciones({
       </div>
 
       {success && (
-        <div className="mt-6 rounded border border-border/10 bg-surface-muted/10 px-6 py-4 text-sm text-ink animate-in fade-in duration-500">
+        <div className="mt-6 rounded border border-success-text/10 bg-success-bg/20 px-6 py-4 text-sm text-success-text animate-in fade-in duration-500">
           {success}
         </div>
       )}

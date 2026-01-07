@@ -12,36 +12,38 @@
   /* #ffffff */
   --surface-muted: 248 249 250;
   /* #f8f9fa */
-  --border: 222 226 230;
-  /* #dee2e6 */
+  --border: 209 213 219;
+  /* #d1d5db (Gray 300) */
   --text: 33 37 41;
   /* #212529 */
-  --text-muted: 108 117 125;
-  /* #6c757d */
-  --text-soft: 173 181 189;
-  /* #adb5bd */
+  --text-muted: 75 85 99;
+  /* #4b5563 (Gray 600) */
+  --text-soft: 107 114 128;
+  /* #6b7280 (Gray 500) */
 
-  /* Acento único (rojo carmesí) */
-  --primary: 220 38 38;
-  /* #dc2626 */
-  --primary-hover: 185 28 28;
-  /* #b91c1c */
-  --danger: 220 38 38;
-  /* mismo acento para estados críticos */
+  /* Acento único (Naranja vibrante) */
+  --primary: 234 88 12;
+  /* #ea580c (Orange 600) */
+  --primary-hover: 194 65 12;
+  /* #c2410c (Orange 700) */
+  --danger: 239 68 68;
+  /* #ef4444 (Red 500) para estados críticos */
+  --danger-hover: 220 38 38;
+  /* #dc2626 (Red 600) */
 
   /* Tonos de soporte para estados/bordes sutiles */
   --info-bg: 186 230 253;
   /* #bae6fd */
-  --info-text: 14 165 233;
-  /* #0ea5e9 */
-  --warning-bg: 241 243 245;
-  /* #f1f3f5 */
-  --warning-text: 108 117 125;
-  /* #6c757d */
-  --success-bg: 187 247 208;
-  /* #bbf7d0 */
-  --success-text: 22 163 74;
-  /* #16a34a */
+  --info-text: 3 105 161;
+  /* #0369a1 (Sky 700) */
+  --warning-bg: 254 249 195;
+  /* #fef9c3 (Yellow 100) - Lighter for Better contrast with text */
+  --warning-text: 161 98 7;
+  /* #a16207 (Yellow 700) */
+  --success-bg: 209 250 229;
+  /* #d1fae5 (Emerald 100) */
+  --success-text: 4 120 87;
+  /* #047857 (Emerald 700) */
   --danger-soft: 254 202 202;
   /* #fecaca */
 
