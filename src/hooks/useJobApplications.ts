@@ -161,9 +161,12 @@ export function useJobApplications() {
   }, [statusFilter, dateRange, viewMode]);
 
   const load = useCallback(
-    async (override: Partial<{ page: number; limit: number; q: string }> = {}) => {
+    async (override: Partial<{ page: number; limit: number; q: string; forceMetricsRefresh?: boolean }> = {}) => {
       setLoading(true);
       setError(null);
+      if (override.forceMetricsRefresh) {
+        metricsKeyRef.current = '';
+      }
       const nextPage = override.page ?? page;
       const nextLimit = override.limit ?? limit;
       const status = statusFilter === 'all' ? undefined : statusFilter;
@@ -232,19 +235,19 @@ export function useJobApplications() {
       setLoading(true);
       setError(null);
       setFormSuccess(null);
-    setListSuccess(null);
-    try {
-      await createJobApplication(payload);
-      setFormSuccess({
-        message: 'Postulacion registrada. Seguimos midiendo tu progreso!',
-        company: payload.company.trim(),
-        position: payload.position.trim() || undefined,
-      });
-      setPage(1);
-      await load({ page: 1 });
-    } catch (err) {
-      setError(toMessage(err, 'No pudimos guardar la postulacion. Intenta otra vez.'));
-      throw err;
+      setListSuccess(null);
+      try {
+        await createJobApplication(payload);
+        setFormSuccess({
+          message: 'Postulacion registrada. Seguimos midiendo tu progreso!',
+          company: payload.company.trim(),
+          position: payload.position.trim() || undefined,
+        });
+        setPage(1);
+        await load({ page: 1, forceMetricsRefresh: true });
+      } catch (err) {
+        setError(toMessage(err, 'No pudimos guardar la postulacion. Intenta otra vez.'));
+        throw err;
       } finally {
         setLoading(false);
       }
@@ -261,7 +264,7 @@ export function useJobApplications() {
       try {
         await updateJobApplicationStatus(id, status);
         setListSuccess('Estado actualizado. Progreso al dia.');
-        await load();
+        await load({ forceMetricsRefresh: true });
       } catch (err) {
         setError(toMessage(err, 'No pudimos actualizar el estado. Reintenta en unos segundos.'));
         throw err;
@@ -281,7 +284,7 @@ export function useJobApplications() {
       try {
         await deleteJobApplication(id);
         setListSuccess('Postulacion eliminada.');
-        await load();
+        await load({ forceMetricsRefresh: true });
       } catch (err) {
         setError(toMessage(err, 'No pudimos eliminar la postulacion. Intenta de nuevo.'));
         throw err;
