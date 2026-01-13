@@ -136,6 +136,8 @@ export function ListadoPostulaciones({
     return map;
   }, [sorted]);
 
+  const todayKey = dateKeyUTC(new Date().toISOString().slice(0, 10));
+
   useEffect(() => {
     if (!uniqueDates.length) {
       setSelectedDate(null);
@@ -174,8 +176,17 @@ export function ListadoPostulaciones({
     setSelectedDate(uniqueDates[idx - 1]);
   };
 
+  const handleGoToToday = () => {
+    if (uniqueDates.includes(todayKey)) {
+      setSelectedDate(todayKey);
+    } else if (uniqueDates.length > 0) {
+      setSelectedDate(uniqueDates[0]);
+    }
+  };
+
   const isPrevDisabled = !selectedDate || uniqueDates.indexOf(selectedDate) === uniqueDates.length - 1;
   const isNextDisabled = !selectedDate || uniqueDates.indexOf(selectedDate) <= 0;
+  const isTodaySelected = selectedDate === todayKey;
   const byDayView = filters.viewMode === 'byDay';
   const isPrevPageDisabled = pagination.page <= 1 || loading || pagination.totalPages === 0;
   const isNextPageDisabled =
@@ -231,6 +242,16 @@ export function ListadoPostulaciones({
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
                 </button>
               </div>
+
+              {!isTodaySelected && (
+                <button
+                  onClick={handleGoToToday}
+                  className="px-3 py-1.5 rounded-full border border-ink/10 bg-white text-[11px] font-bold uppercase tracking-widest text-ink/60 hover:text-ink hover:border-ink/20 transition-all duration-300 active:scale-95 shadow-sm"
+                  type="button"
+                >
+                  Hoy
+                </button>
+              )}
             </div>
 
             {/* View Toggle - Stable positioning */}

@@ -296,10 +296,10 @@ export function FormularioPostulacion({
               id="registro-postulacion-body"
               onSubmit={handleSubmit}
               onKeyDown={handleKeyDown}
-              className={`space-y-8 px-6 py-8 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${open ? 'translate-y-0' : '-translate-y-4'
+              className={`space-y-8 px-6 py-8 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${open ? 'translate-y-0' : '-translate-y-4'
                 }`}
             >
-              <div className="grid gap-x-8 gap-y-6 lg:grid-cols-2">
+              <div className={`grid gap-x-8 gap-y-6 lg:grid-cols-2 transition-all duration-500 ${loading ? 'opacity-50 grayscale-[0.5] pointer-events-none cursor-not-allowed' : ''}`}>
                 {[
                   <SuggestionInput
                     key="puesto"

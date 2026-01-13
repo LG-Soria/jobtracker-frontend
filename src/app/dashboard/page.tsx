@@ -8,6 +8,7 @@ import { DashboardHero } from '../../components/layout/DashboardHero';
 import { FormularioPostulacion } from '../../components/job-applications/FormularioPostulacion';
 import { ListadoPostulaciones } from '../../components/job-applications/ListadoPostulaciones';
 import { MetricsSection } from '../../components/job-applications/MetricsSection';
+import { QuickLinks } from '../../components/job-applications/QuickLinks';
 import { useAuth } from '../../contexts/AuthContext';
 import { useJobApplications } from '../../hooks/useJobApplications';
 
@@ -96,6 +97,8 @@ function DashboardContent({
         />
 
         <MetricsSection metrics={metrics} loading={metricsLoading} />
+
+        <QuickLinks />
 
         <FormularioPostulacion
           onSubmit={create}
