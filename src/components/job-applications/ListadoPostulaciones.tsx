@@ -165,18 +165,38 @@ export function ListadoPostulaciones({
   const handlePrevDate = () => {
     if (!selectedDate) return;
     const idx = uniqueDates.indexOf(selectedDate);
-    if (idx === -1 || idx === uniqueDates.length - 1) return;
+    if (idx === -1) return;
+
+    if (idx === uniqueDates.length - 1) {
+      if (pagination.page < pagination.totalPages) {
+        pagination.setPage(pagination.page + 1);
+        // El useEffect se encargará de seleccionar la primera fecha de la nueva página
+      }
+      return;
+    }
     setSelectedDate(uniqueDates[idx + 1]);
   };
 
   const handleNextDate = () => {
     if (!selectedDate) return;
     const idx = uniqueDates.indexOf(selectedDate);
-    if (idx <= 0) return;
+    if (idx === -1) return;
+
+    if (idx <= 0) {
+      if (pagination.page > 1) {
+        pagination.setPage(pagination.page - 1);
+        // Para que se sienta natural, idealmente querríamos la ÚLTIMA fecha de la pág anterior,
+        // pero por ahora el useEffect elegirá la primera (la más nueva).
+      }
+      return;
+    }
     setSelectedDate(uniqueDates[idx - 1]);
   };
 
   const handleGoToToday = () => {
+    if (pagination.page !== 1) {
+      pagination.setPage(1);
+    }
     if (uniqueDates.includes(todayKey)) {
       setSelectedDate(todayKey);
     } else if (uniqueDates.length > 0) {
@@ -184,8 +204,8 @@ export function ListadoPostulaciones({
     }
   };
 
-  const isPrevDisabled = !selectedDate || uniqueDates.indexOf(selectedDate) === uniqueDates.length - 1;
-  const isNextDisabled = !selectedDate || uniqueDates.indexOf(selectedDate) <= 0;
+  const isPrevDisabled = !selectedDate || (uniqueDates.indexOf(selectedDate) === uniqueDates.length - 1 && pagination.page >= pagination.totalPages);
+  const isNextDisabled = !selectedDate || (uniqueDates.indexOf(selectedDate) <= 0 && pagination.page <= 1);
   const isTodaySelected = selectedDate === todayKey;
   const byDayView = filters.viewMode === 'byDay';
   const isPrevPageDisabled = pagination.page <= 1 || loading || pagination.totalPages === 0;
@@ -204,22 +224,22 @@ export function ListadoPostulaciones({
   };
 
   return (
-    <div className="space-y-10 rounded-none border border-border/50 bg-white p-10 transition-all duration-500 ease-in-out">
+    <div className="space-y-10 rounded-none border border-border/50 bg-white p-4 sm:p-6 md:p-10 transition-all duration-500 ease-in-out">
       <div className="flex flex-col gap-10">
         {/* Superior Row: Title, Date Nav (if byDay), and View Toggle (Fixed) */}
         <div className="flex flex-wrap items-start justify-between gap-6">
-          <div className="space-y-2 flex-1 min-w-[250px]">
-            <h3 className="text-3xl font-light tracking-tight text-ink">Postulaciones en curso</h3>
-            <p className="text-sm font-light text-ink-muted leading-relaxed truncate">Seguimiento de tus oportunidades y próximos pasos</p>
+          <div className="space-y-2 flex-1 min-w-0">
+            <h3 className="text-2xl md:text-3xl font-light tracking-tight text-ink">Postulaciones en curso</h3>
+            <p className="text-xs md:text-sm font-light text-ink-muted leading-relaxed truncate">Seguimiento de tus oportunidades y próximos pasos</p>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 w-full md:w-auto">
             {/* Date Navigator in Row 1 */}
             <div
               className={`flex items-center gap-5 transition-all duration-300 ease-in-out ${byDayView ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none w-0 overflow-hidden'}`}
               style={{ width: byDayView ? 'auto' : '0' }}
             >
-              <div className="flex items-center gap-4 py-1.5 px-5 rounded-full border border-border/20 bg-surface-muted/20">
+              <div className="flex items-center gap-3 md:gap-4 py-1.5 px-3 md:px-5 rounded-full border border-border/20 bg-surface-muted/20">
                 <button
                   className="text-ink-soft transition-all duration-300 hover:text-ink disabled:opacity-10 transform hover:scale-110 active:scale-90"
                   onClick={handlePrevDate}
@@ -229,7 +249,7 @@ export function ListadoPostulaciones({
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
                 </button>
-                <span className="text-[13px] font-medium tracking-tight text-ink-muted min-w-[85px] text-center">
+                <span className="text-[11px] md:text-[13px] font-medium tracking-tight text-ink-muted min-w-[75px] md:min-w-[85px] text-center">
                   {selectedDate ? formatDateOnlyUTC(selectedDate) : '-'}
                 </span>
                 <button
@@ -243,38 +263,37 @@ export function ListadoPostulaciones({
                 </button>
               </div>
 
-              {!isTodaySelected && (
-                <button
-                  onClick={handleGoToToday}
-                  className="px-3 py-1.5 rounded-full border border-ink/10 bg-white text-[11px] font-bold uppercase tracking-widest text-ink/60 hover:text-ink hover:border-ink/20 transition-all duration-300 active:scale-95 shadow-sm"
-                  type="button"
-                >
-                  Hoy
-                </button>
-              )}
+              <button
+                onClick={handleGoToToday}
+                className={`px-3 py-1.5 rounded-full border border-ink/10 bg-white text-[11px] font-bold uppercase tracking-widest text-ink/60 hover:text-ink hover:border-ink/20 transition-all duration-500 active:scale-95 shadow-sm ${isTodaySelected ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                  }`}
+                type="button"
+              >
+                Hoy
+              </button>
             </div>
 
             {/* View Toggle - Stable positioning */}
-            <div className="flex items-center gap-1 rounded-card border border-border/30 bg-surface-muted/30 p-1 text-[10px] font-bold uppercase tracking-widest">
+            <div className="flex items-center gap-1 rounded-card border border-border/30 bg-surface-muted/30 p-1 text-[9px] md:text-[10px] font-bold uppercase tracking-widest w-full sm:w-auto">
               <button
-                className={`rounded px-5 py-2.5 transition-all duration-300 ${byDayView
+                className={`flex-1 sm:flex-none rounded px-3 md:px-5 py-2 md:py-2.5 transition-all duration-300 ${byDayView
                   ? 'bg-ink text-white shadow-md'
                   : 'text-ink-soft hover:text-ink-muted'
                   }`}
                 type="button"
                 onClick={() => filters.setViewMode('byDay')}
               >
-                Ver por día
+                Día
               </button>
               <button
-                className={`rounded px-5 py-2.5 transition-all duration-300 ${!byDayView
+                className={`flex-1 sm:flex-none rounded px-3 md:px-5 py-2 md:py-2.5 transition-all duration-300 ${!byDayView
                   ? 'bg-ink text-white shadow-md'
                   : 'text-ink-soft hover:text-ink-muted'
                   }`}
                 type="button"
                 onClick={() => filters.setViewMode('all')}
               >
-                Todas las publicaciones
+                Todas
               </button>
             </div>
           </div>
@@ -282,7 +301,7 @@ export function ListadoPostulaciones({
 
         {/* Filter Bar: Search (Left) and Selects (Right) */}
         <div className="flex flex-wrap items-center justify-between gap-8 border-b border-border/10 pb-6">
-          <div className="flex-1 min-w-[350px] group transition-all duration-300">
+          <div className="flex-1 min-w-0 w-full group transition-all duration-300">
             <div className="relative">
               <input
                 type="search"
@@ -295,7 +314,7 @@ export function ListadoPostulaciones({
             </div>
           </div>
 
-          <div className="flex items-center gap-8">
+          <div className="flex flex-wrap items-center gap-4 md:gap-8 w-full md:w-auto">
             {/* Select Filters (Horizontal) */}
             <div className="flex items-center gap-4">
               <div className="relative group">
@@ -355,49 +374,49 @@ export function ListadoPostulaciones({
         />
       ) : hasResults ? (
         <>
-          <div className="mt-12 flex flex-wrap items-center justify-between gap-6 text-sm text-ink-muted animate-in fade-in duration-700">
-            <div className="font-light tracking-tight">
-              Mostrando <span className="text-ink font-medium">{applications.length}</span> de <span className="text-ink font-medium">{pagination.total}</span> postulaciones
+          <div className="mt-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 text-sm text-ink-muted animate-in fade-in duration-700">
+            <div className="font-light tracking-tight order-2 md:order-1 self-center md:self-auto">
+              Mostrando <span className="text-ink font-medium">{applications.length}</span> de <span className="text-ink font-medium">{pagination.total}</span> <span className="hidden sm:inline">postulaciones</span>
             </div>
 
-            <div className="flex items-center gap-8">
-              <div className="flex items-center gap-4">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-ink-soft">Por página</span>
+            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 w-full md:w-auto order-1 md:order-2">
+              <div className="flex items-center gap-3 md:gap-4 ml-auto sm:ml-0">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-ink-soft hidden xs:inline">Por página</span>
                 <div className="relative group">
                   <select
-                    className="appearance-none rounded border border-border/20 bg-white px-5 pr-10 py-2.5 text-[11px] font-bold text-ink transition-all duration-300 hover:border-border/60 focus:border-ink focus:outline-none"
+                    className="appearance-none rounded border border-border/20 bg-white px-3 md:px-5 pr-8 md:pr-10 py-1.5 md:py-2.5 text-[11px] font-bold text-ink transition-all duration-300 hover:border-border/60 focus:border-ink focus:outline-none"
                     value={pagination.limit}
                     onChange={(e) => pagination.setLimit(Number(e.target.value))}
                     disabled={loading}
                   >
-                    {[20, 50].map((value) => (
+                    {[50, 100].map((value) => (
                       <option key={value} value={value}>
                         {value}
                       </option>
                     ))}
                   </select>
-                  <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-ink-soft group-hover:text-ink transition-colors">
+                  <div className="absolute right-2.5 md:right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-ink-soft group-hover:text-ink transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center rounded border border-border/20 overflow-hidden bg-white shadow-sm ring-1 ring-border/5">
+              <div className="flex items-center rounded border border-border/20 overflow-hidden bg-white shadow-sm ring-1 ring-border/5 w-full sm:w-auto overflow-x-auto selection:none">
                 <button
-                  className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-ink-muted transition-all duration-300 hover:bg-surface-muted hover:text-ink disabled:opacity-10 disabled:hover:bg-transparent"
+                  className="flex-1 sm:flex-none px-4 md:px-6 py-2 md:py-3 text-[10px] font-bold uppercase tracking-widest text-ink-muted transition-all duration-300 hover:bg-surface-muted hover:text-ink disabled:opacity-10 disabled:hover:bg-transparent whitespace-nowrap"
                   onClick={() => pagination.setPage(Math.max(1, pagination.page - 1))}
                   disabled={isPrevPageDisabled}
                   type="button"
                 >
                   Anterior
                 </button>
-                <div className="h-4 w-[1px] bg-border/20" />
-                <span className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-ink-soft/60 bg-surface-muted/10">
-                  {pagination.page} <span className="text-border mx-2">/</span> {safeTotalPages}
+                <div className="h-4 w-[1px] bg-border/20 flex-shrink-0" />
+                <span className="flex-1 sm:flex-none px-4 md:px-6 py-2 md:py-3 text-[10px] font-bold uppercase tracking-widest text-ink-soft/60 bg-surface-muted/10 text-center whitespace-nowrap">
+                  {pagination.page} <span className="text-border mx-1 md:mx-2">/</span> {safeTotalPages}
                 </span>
-                <div className="h-4 w-[1px] bg-border/20" />
+                <div className="h-4 w-[1px] bg-border/20 flex-shrink-0" />
                 <button
-                  className="px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-ink-muted transition-all duration-300 hover:bg-surface-muted hover:text-ink disabled:opacity-10 disabled:hover:bg-transparent"
+                  className="flex-1 sm:flex-none px-4 md:px-6 py-2 md:py-3 text-[10px] font-bold uppercase tracking-widest text-ink-muted transition-all duration-300 hover:bg-surface-muted hover:text-ink disabled:opacity-10 disabled:hover:bg-transparent whitespace-nowrap"
                   onClick={() => pagination.setPage(pagination.page + 1)}
                   disabled={isNextPageDisabled}
                   type="button"
@@ -409,16 +428,16 @@ export function ListadoPostulaciones({
           </div>
 
           <div className="mt-8 overflow-hidden rounded-card border border-border/20 bg-white shadow-xl shadow-ink/5">
-            <div className="relative overflow-hidden">
+            <div className="relative overflow-x-auto scrollbar-thin scrollbar-thumb-border/20 scrollbar-track-transparent">
               {showRefetchOverlay ? <TableLoadingOverlay /> : null}
               <table className="min-w-full text-left text-sm border-separate border-spacing-0">
                 <thead>
-                  <tr className="border-b border-border text-[9px] uppercase font-bold tracking-[0.2em] text-ink-soft bg-surface-muted/10">
-                    <th className="px-10 py-6 border-b border-border/10">Empresa</th>
-                    <th className="px-10 py-6 border-b border-border/10">Puesto</th>
-                    <th className="px-10 py-6 border-b border-border/10">Estado</th>
-                    <th className="px-10 py-6 border-b border-border/10">Fuente</th>
-                    <th colSpan={2} className="px-10 py-6 border-b border-border/10 text-right pr-20">Acciones</th>
+                  <tr className="border-b border-border text-[9px] md:text-[10px] uppercase font-bold tracking-[0.2em] text-ink-soft bg-surface-muted/10">
+                    <th className="px-4 md:px-10 py-4 md:py-6 border-b border-border/10 whitespace-nowrap">Empresa</th>
+                    <th className="px-4 md:px-10 py-4 md:py-6 border-b border-border/10 whitespace-nowrap">Puesto</th>
+                    <th className="px-4 md:px-10 py-4 md:py-6 border-b border-border/10 whitespace-nowrap">Estado</th>
+                    <th className="px-4 md:px-10 py-4 md:py-6 border-b border-border/10 whitespace-nowrap">Fuente</th>
+                    <th colSpan={2} className="px-4 md:px-10 py-4 md:py-6 border-b border-border/10 text-right md:pr-20 whitespace-nowrap">Acciones</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white">
@@ -427,7 +446,7 @@ export function ListadoPostulaciones({
                       <tr>
                         <td
                           colSpan={6}
-                          className="px-10 py-5 text-[11px] font-bold uppercase tracking-[0.2em] text-ink/40 bg-surface-muted/40 border-b border-border/5"
+                          className="px-4 md:px-10 py-3 md:py-5 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-ink/40 bg-surface-muted/40 border-b border-border/5"
                         >
                           {formatDateOnlyUTC(selectedDate)}
                         </td>
@@ -442,25 +461,25 @@ export function ListadoPostulaciones({
                           tabIndex={0}
                           aria-label={`Ver detalle de ${app.company} - ${app.position}`}
                         >
-                          <td className="px-10 py-7">
-                            <div className="flex flex-col gap-0.5">
-                              <span className="font-semibold tracking-tight text-[15px] text-ink">{app.company}</span>
+                          <td className="px-4 md:px-10 py-5 md:py-7">
+                            <div className="flex flex-col gap-0.5 min-w-[120px]">
+                              <span className="font-semibold tracking-tight text-[14px] md:text-[15px] text-ink line-clamp-1">{app.company}</span>
                             </div>
                           </td>
-                          <td className="px-10 py-7">
-                            <span className="font-normal text-ink-muted text-[14px]">{app.position}</span>
+                          <td className="px-4 md:px-10 py-5 md:py-7">
+                            <span className="font-normal text-ink-muted text-[13px] md:text-[14px] line-clamp-1 min-w-[150px]">{app.position}</span>
                           </td>
-                          <td className="px-10 py-7">
-                            <Badge variant={statusVariant(app.status)}>
+                          <td className="px-4 md:px-10 py-5 md:py-7">
+                            <Badge variant={statusVariant(app.status)} className="whitespace-nowrap">
                               {getJobStatusLabel(app.status)}
                             </Badge>
                           </td>
-                          <td className="px-10 py-7 text-ink-soft/70 font-normal text-[13px]">{app.source}</td>
-                          <td className="px-10 py-7 text-right" colSpan={2}>
-                            <div className="flex items-center justify-end gap-3 pr-4">
+                          <td className="px-4 md:px-10 py-5 md:py-7 text-ink-soft/70 font-normal text-[12px] md:text-[13px] whitespace-nowrap">{app.source}</td>
+                          <td className="px-4 md:px-10 py-5 md:py-7 text-right" colSpan={2}>
+                            <div className="flex items-center justify-end gap-2 md:gap-3 md:pr-4">
                               <div className="relative group/select">
                                 <select
-                                  className="appearance-none rounded border border-border/40 bg-white px-4 pr-10 py-2 text-[12px] font-medium text-ink-muted transition-all duration-300 hover:border-ink-soft/30 hover:bg-surface-muted/30 focus:outline-none cursor-pointer"
+                                  className="appearance-none rounded border border-border/40 bg-white px-3 md:px-4 pr-7 md:pr-10 py-1.5 md:py-2 text-[11px] md:text-[12px] font-medium text-ink-muted transition-all duration-300 hover:border-ink-soft/30 hover:bg-surface-muted/30 focus:outline-none cursor-pointer"
                                   value={app.status}
                                   onChange={(e) => handleStatusChange(app.id, e.target.value)}
                                   onClick={(e) => e.stopPropagation()}
@@ -473,19 +492,19 @@ export function ListadoPostulaciones({
                                     </option>
                                   ))}
                                 </select>
-                                <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-ink-soft/50 group-hover/select:text-ink-soft transition-colors">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+                                <div className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 pointer-events-none text-ink-soft/50 group-hover/select:text-ink-soft transition-colors">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
                                 </div>
                               </div>
                               <button
-                                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-danger/10 bg-danger-soft/5 text-danger transition-all duration-300 hover:bg-danger-soft/20 hover:border-danger/30 focus-visible:outline-none disabled:opacity-10 active:scale-90"
+                                className="inline-flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-md border border-danger/10 bg-danger-soft/5 text-danger transition-all duration-300 hover:bg-danger-soft/20 hover:border-danger/30 focus-visible:outline-none disabled:opacity-10 active:scale-90"
                                 onClick={(e) => handleDelete(e, app.id)}
                                 disabled={loading}
                                 type="button"
                                 aria-label="Eliminar postulacion"
                                 data-row-ignore
                               >
-                                <Trash2 className="h-4 w-4" />
+                                <Trash2 className="h-3.5 w-3.5 md:h-4 md:w-4" />
                               </button>
                             </div>
                           </td>

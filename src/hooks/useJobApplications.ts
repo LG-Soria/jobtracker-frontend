@@ -23,7 +23,7 @@ export type FormSuccessState = {
 type DateRangePreset = 'all' | '7d' | '30d';
 type ViewMode = 'byDay' | 'all';
 
-const DEFAULT_PAGINATION: PaginationMeta = { page: 1, limit: 20, total: 0, totalPages: 0 };
+const DEFAULT_PAGINATION: PaginationMeta = { page: 1, limit: 50, total: 0, totalPages: 0 };
 const SEARCH_DEBOUNCE_MS = 350;
 
 export function useJobApplications() {
